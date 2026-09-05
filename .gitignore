@@ -1,0 +1,12 @@
+# Throwaway output from scripts/candidates.mjs — stock-image options pulled for
+# eyeballing, not part of the site.
+assets/img/_candidates/
+
+# Secrets never belong in this repo; the image scripts read the Pexels key from
+# the environment or from the shared ClientWorks .env outside this folder.
+.env
+.env.*
+
+node_modules/
+.DS_Store
+Thumbs.db

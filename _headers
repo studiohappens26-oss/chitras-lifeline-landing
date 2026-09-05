@@ -1,0 +1,33 @@
+# Cloudflare Pages headers
+# Security first, then long-lived caching for fingerprint-able static assets.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# HTML must stay fresh — ad copy and prices change.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+/index.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Images are content-stable; bust by filename when they're replaced.
+/assets/img/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# CSS/JS: a month, revalidating in the background. Rename on major changes.
+/assets/css/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+/assets/js/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=86400
+
+# Self-hosted fonts never change under the same filename — cache them for a year.
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+/api/*
+  Cache-Control: no-store

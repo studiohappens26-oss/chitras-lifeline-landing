@@ -1,0 +1,610 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Type directions — Chitra's Lifeline Clinic</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&family=Jost:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=Marcellus&family=Karla:wght@300;400;500&family=Manrope:wght@300;400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Quicksand:wght@400;500;600;700&family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,500&family=Nunito:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600&family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Fontshare honours only ONE f[] per request — each family needs its own link. -->
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=gambetta@400,500&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=melodrama@400,500,600&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=nippo@400,500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#fff; --bone:#FDF8FA; --blush:#F9E9F1;
+    --accent:#AD1E87; --accent-hi:#E24BA6; --accent-deep:#7C1361;
+    --lux:#E3C39F; --lux-deep:#8C6538; --cyan:#28C2DA;
+    --tx:#1F0E1A; --tx-mute:#6E5766; --line:#EFE1E9;
+  }
+  *,*::before,*::after{box-sizing:border-box} *{margin:0}
+  body{background:var(--bone);color:var(--tx);font-family:"Inter",system-ui,sans-serif;
+       line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{width:min(1180px,100% - 48px);margin-inline:auto}
+
+  header.top{padding:56px 0 40px;border-bottom:1px solid var(--line);margin-bottom:8px}
+  header.top h1{font-family:"Inter",sans-serif;font-size:1.5rem;font-weight:600;letter-spacing:-.02em}
+  header.top p{color:var(--tx-mute);max-width:70ch;margin-top:10px;font-size:.95rem}
+  .legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .legend a{font-size:.8rem;padding:8px 15px;border-radius:100px;text-decoration:none;color:var(--tx);
+            background:var(--paper);border:1px solid var(--line);transition:.25s}
+  .legend a:hover{border-color:var(--accent);color:var(--accent-deep)}
+
+  /* ── one specimen ─────────────────────────────────────────────── */
+  .spec{padding:60px 0;border-bottom:1px solid var(--line)}
+  .spec:nth-child(even){background:var(--paper)}
+  .spec__bar{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;margin-bottom:34px}
+  .spec__num{font-family:"Inter",sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.14em;
+             text-transform:uppercase;color:#fff;background:var(--accent);padding:5px 11px;border-radius:100px}
+  .spec__name{font-family:"Inter",sans-serif;font-size:1.15rem;font-weight:600;letter-spacing:-.01em}
+  .spec__fonts{font-family:"Inter",sans-serif;font-size:.8rem;color:var(--tx-mute)}
+  .spec__why{font-family:"Inter",sans-serif;font-size:.9rem;color:var(--tx-mute);max-width:78ch;margin-bottom:34px}
+  .spec__why b{color:var(--tx)}
+  .spec__why .risk{color:#A32F26}
+
+  /* the actual hero block, rendered in each pairing */
+  .demo{display:grid;grid-template-columns:1.25fr .75fr;gap:44px;align-items:center;
+        background:linear-gradient(170deg,var(--blush),var(--bone) 70%);
+        border:1px solid var(--line);border-radius:26px;padding:44px}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:.72rem;letter-spacing:.15em;
+           text-transform:uppercase;color:var(--accent-deep);margin-bottom:20px}
+  .eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--cyan);display:block}
+  .h1{font-size:clamp(2rem,4.2vw,3.5rem);line-height:1.03;letter-spacing:-.03em;margin-bottom:20px}
+  .h1 em{font-style:italic;color:var(--accent)}
+  .sub{font-size:1.03rem;color:var(--tx-mute);max-width:48ch;margin-bottom:26px}
+  .sub b{color:var(--tx);font-weight:500}
+  .btns{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:30px}
+  .btn{padding:14px 26px;border-radius:100px;font-size:.95rem;font-weight:500;
+       background:linear-gradient(135deg,var(--accent-hi),var(--accent) 55%,var(--accent-deep));color:#fff}
+  .btn.ghost{background:transparent;color:var(--tx);box-shadow:inset 0 0 0 1px rgba(31,14,26,.18)}
+  .trust{display:flex;flex-wrap:wrap;gap:30px;padding-top:22px;border-top:1px solid var(--line)}
+  .trust div{display:flex;align-items:baseline;gap:9px}
+  .trust strong{font-size:1.9rem;color:var(--accent-deep);font-weight:400;letter-spacing:-.03em}
+  .trust span{font-size:.74rem;color:var(--tx-mute);line-height:1.35}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:26px}
+  .card h3{font-size:1.5rem;margin-bottom:8px}
+  .card p{font-size:.9rem;color:var(--tx-mute)}
+  .card .n{font-size:.78rem;color:var(--lux-deep);letter-spacing:.1em;margin-bottom:10px}
+
+  /* alphabet strip so the letterforms can be judged directly */
+  .alpha{margin-top:26px;padding-top:22px;border-top:1px dashed var(--line)}
+  .alpha .row{font-size:1.5rem;letter-spacing:-.01em;line-height:1.5;word-break:break-word}
+  .alpha .lbl{font-family:"Inter",sans-serif;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;
+              color:var(--tx-mute);margin-bottom:6px}
+
+  @media (max-width:860px){ .demo{grid-template-columns:1fr;padding:28px} .card{display:none} }
+
+  /* ── the five directions ──────────────────────────────────────── */
+  .o1 .h1,.o1 .card h3,.o1 .trust strong{font-family:"Bodoni Moda",serif;font-weight:500}
+  .o1 .eyebrow,.o1 .sub,.o1 .btn,.o1 .trust span,.o1 .card p,.o1 .card .n{font-family:"Jost",sans-serif}
+  .o1 .alpha .row{font-family:"Bodoni Moda",serif}
+
+  .o2 .h1,.o2 .card h3,.o2 .trust strong{font-family:"Instrument Serif",serif;font-weight:400}
+  .o2 .eyebrow,.o2 .sub,.o2 .btn,.o2 .trust span,.o2 .card p,.o2 .card .n{font-family:"DM Sans",sans-serif}
+  .o2 .alpha .row{font-family:"Instrument Serif",serif}
+
+  .o3 .h1,.o3 .card h3,.o3 .trust strong{font-family:"Marcellus",serif;font-weight:400}
+  .o3 .eyebrow,.o3 .sub,.o3 .btn,.o3 .trust span,.o3 .card p,.o3 .card .n{font-family:"Karla",sans-serif}
+  .o3 .alpha .row{font-family:"Marcellus",serif}
+  .o3 .h1 em{font-style:normal;letter-spacing:.01em}
+
+  .o4 .h1,.o4 .card h3,.o4 .trust strong{font-family:"Manrope",sans-serif;font-weight:600;letter-spacing:-.045em}
+  .o4 .eyebrow,.o4 .sub,.o4 .btn,.o4 .trust span,.o4 .card p,.o4 .card .n{font-family:"Manrope",sans-serif}
+  .o4 .alpha .row{font-family:"Manrope",sans-serif;font-weight:600}
+  .o4 .h1 em{font-style:normal}
+
+  .o5 .h1,.o5 .card h3,.o5 .trust strong{font-family:"Clash Display",sans-serif;font-weight:500;letter-spacing:-.03em}
+  .o5 .eyebrow,.o5 .sub,.o5 .btn,.o5 .trust span,.o5 .card p,.o5 .card .n{font-family:"Satoshi",sans-serif}
+  .o5 .alpha .row{font-family:"Clash Display",sans-serif;font-weight:500}
+  /* Gambetta ships upright only — no italic in the family. */
+  .o5 .h1 em{font-family:"Gambetta",serif;font-style:normal;font-weight:500}
+
+  .o0 .h1,.o0 .card h3,.o0 .trust strong{font-family:"Fraunces",serif;font-weight:400}
+  .o0 .eyebrow,.o0 .sub,.o0 .btn,.o0 .trust span,.o0 .card p,.o0 .card .n{font-family:"Inter",sans-serif}
+  .o0 .alpha .row{font-family:"Fraunces",serif}
+
+  /* ── rounded directions ───────────────────────────────────────── */
+  .o6 .h1,.o6 .card h3,.o6 .trust strong{font-family:"Poppins",sans-serif;font-weight:500;letter-spacing:-.035em}
+  .o6 .eyebrow,.o6 .sub,.o6 .btn,.o6 .trust span,.o6 .card p,.o6 .card .n{font-family:"Poppins",sans-serif;font-weight:300}
+  .o6 .alpha .row{font-family:"Poppins",sans-serif;font-weight:500}
+  .o6 .h1 em{font-style:normal;font-weight:600}
+
+  .o7 .h1,.o7 .card h3,.o7 .trust strong{font-family:"Quicksand",sans-serif;font-weight:600;letter-spacing:-.03em}
+  .o7 .eyebrow,.o7 .sub,.o7 .btn,.o7 .trust span,.o7 .card p,.o7 .card .n{font-family:"Nunito Sans",sans-serif}
+  .o7 .alpha .row{font-family:"Quicksand",sans-serif;font-weight:600}
+  .o7 .h1 em{font-style:normal;font-weight:700}
+
+  .o8 .h1,.o8 .card h3,.o8 .trust strong{font-family:"Melodrama",serif;font-weight:500;letter-spacing:-.02em}
+  .o8 .eyebrow,.o8 .sub,.o8 .btn,.o8 .trust span,.o8 .card p,.o8 .card .n{font-family:"Satoshi",sans-serif}
+  .o8 .alpha .row{font-family:"Melodrama",serif;font-weight:500}
+  .o8 .h1 em{font-style:normal;font-weight:600}
+
+  .o9 .h1,.o9 .card h3,.o9 .trust strong{font-family:"Plus Jakarta Sans",sans-serif;font-weight:600;letter-spacing:-.04em}
+  .o9 .eyebrow,.o9 .sub,.o9 .btn,.o9 .trust span,.o9 .card p,.o9 .card .n{font-family:"Plus Jakarta Sans",sans-serif;font-weight:400}
+  .o9 .alpha .row{font-family:"Plus Jakarta Sans",sans-serif;font-weight:600}
+  .o9 .h1 em{font-style:normal;font-weight:700}
+
+  .o10 .h1,.o10 .card h3,.o10 .trust strong{font-family:"Nippo",sans-serif;font-weight:500;letter-spacing:-.02em}
+  .o10 .eyebrow,.o10 .sub,.o10 .btn,.o10 .trust span,.o10 .card p,.o10 .card .n{font-family:"Rubik",sans-serif;font-weight:300}
+  .o10 .alpha .row{font-family:"Nippo",sans-serif;font-weight:500}
+  .o10 .h1 em{font-style:normal}
+
+  .o11 .h1,.o11 .card h3,.o11 .trust strong{font-family:"Comfortaa",cursive;font-weight:600;letter-spacing:-.035em}
+  .o11 .eyebrow,.o11 .sub,.o11 .btn,.o11 .trust span,.o11 .card p,.o11 .card .n{font-family:"Nunito",sans-serif}
+  .o11 .alpha .row{font-family:"Comfortaa",cursive;font-weight:600}
+  .o11 .h1 em{font-style:normal;font-weight:700}
+
+  .divider{padding:52px 0 8px}
+  .divider h2{font-family:"Inter",sans-serif;font-size:1.35rem;font-weight:600;letter-spacing:-.02em}
+  .divider p{font-family:"Inter",sans-serif;color:var(--tx-mute);font-size:.95rem;max-width:78ch;margin-top:8px}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Type directions — Chitra's Lifeline Clinic</h1>
+    <p>The same hero block rendered in five pairings, plus the current one at the bottom for comparison.
+       Judge them on the headline: that's where the personality lives. Every option below is free for
+       commercial use and self-hostable, so there are no licensing costs either way.</p>
+    <nav class="legend">
+      <a href="#o1">01 · Vogue</a>
+      <a href="#o2">02 · Quiet Modern</a>
+      <a href="#o3">03 · Apothecary</a>
+      <a href="#o4">04 · Clinical Sans</a>
+      <a href="#o5">05 · New Luxury</a>
+      <a href="#o6">06 · Rounded Geometric</a>
+      <a href="#o7">07 · Soft Spa</a>
+      <a href="#o8">08 · Soft Luxury</a>
+      <a href="#o9">09 · Modern Friendly</a>
+      <a href="#o10">10 · Rounded Editorial</a>
+      <a href="#o11">11 · Softest</a>
+      <a href="#o0">Current</a>
+    </nav>
+  </header>
+</div>
+
+<!-- 01 ─────────────────────────────────────────────────────────────── -->
+<section class="spec o1" id="o1">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">01</span>
+      <span class="spec__name">Vogue</span>
+      <span class="spec__fonts">Bodoni Moda · Jost</span>
+    </div>
+    <p class="spec__why"><b>The fashion-magazine choice.</b> A Didone — extreme thick/thin contrast, hairline
+      serifs. This is the letterform language of Vogue, Harper's Bazaar and every luxury beauty campaign of the
+      last century, so it reads "premium aesthetics" instantly and without effort.
+      <span class="risk">Risk:</span> those hairlines get fragile on low-end Android screens, so it only works
+      when the headline is genuinely large.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- 02 ─────────────────────────────────────────────────────────────── -->
+<section class="spec o2" id="o2">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">02</span>
+      <span class="spec__name">Quiet Modern</span>
+      <span class="spec__fonts">Instrument Serif · DM Sans</span>
+    </div>
+    <p class="spec__why"><b>The restrained one.</b> High contrast but tight and economical, with short
+      descenders — it sets big without shouting. This is the current house style of well-funded health and
+      beauty startups, and it makes medical copy feel calm and confident rather than salesy.
+      <span class="risk">Risk:</span> only one weight available, so hierarchy has to come from size, not boldness.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 ─────────────────────────────────────────────────────────────── -->
+<section class="spec o3" id="o3">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">03</span>
+      <span class="spec__name">Apothecary</span>
+      <span class="spec__fonts">Marcellus · Karla</span>
+    </div>
+    <p class="spec__why"><b>The spa choice.</b> Roman proportions drawn from carved inscriptions — open,
+      generous, softly classical. Feels like an expensive skincare label rather than a clinic, and it's the
+      warmest and least intimidating of the five for a first-time botox patient.
+      <span class="risk">Risk:</span> leans traditional; if the clinic wants to read as high-tech, this fights it.
+      Note the italic is faked here — Marcellus has no true italic, so the accent word is set upright.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ─────────────────────────────────────────────────────────────── -->
+<section class="spec o4" id="o4">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">04</span>
+      <span class="spec__name">Clinical Sans</span>
+      <span class="spec__fonts">Manrope (single family)</span>
+    </div>
+    <p class="spec__why"><b>No serif at all.</b> One family, tightly tracked, doing everything. Reads as modern,
+      clean and medical — the Aesop/Glossier register. It also loads fastest of the five and is the safest at
+      small sizes on cheap phones, which is most of your ad traffic.
+      <span class="risk">Risk:</span> the least distinctive. Without a serif, the "luxury" has to come entirely
+      from the pink, the champagne and the photography.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- 05 ─────────────────────────────────────────────────────────────── -->
+<section class="spec o5" id="o5">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">05</span>
+      <span class="spec__name">New Luxury</span>
+      <span class="spec__fonts">Clash Display · Satoshi · Gambetta — Indian Type Foundry</span>
+    </div>
+    <p class="spec__why"><b>My recommendation.</b> A contemporary display sans with slightly flared stems —
+      confident and expensive without being a period costume — and the accent word dropped into Gambetta, a
+      high-contrast calligraphic serif, for a moment of drama. All three are from Indian Type Foundry, so
+      they're free, commercially licensed, and noticeably less common than Google Fonts, which is what stops
+      the page looking templated.
+      <span class="risk">Risk:</span> served from Fontshare rather than Google, so we self-host the files for
+      speed and reliability. Note Gambetta has no italic, so the accent word sits upright — which reads
+      cleaner here anyway.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+
+<div class="wrap divider">
+  <h2>Rounded directions</h2>
+  <p>Ordered from most conventional to softest. Roundness is a spectrum: some faces are round in their
+     <i>shapes</i> (circular o and e), others are round at their <i>stroke ends</i> (literal rounded caps).
+     The second kind reads warmer. 08 is the one I would actually ship.</p>
+</div>
+
+<!-- 06 ───────────────────────────────────────────────────────────── -->
+<section class="spec o6" id="o6">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">06</span>
+      <span class="spec__name">Rounded Geometric</span>
+      <span class="spec__fonts">Poppins (single family)</span>
+    </div>
+    <p class="spec__why"><b>Perfect circles.</b> Poppins is built on a geometric skeleton — the o, e and a are near-true circles, which is the most legible kind of roundness. It is friendly and unpretentious, and it renders reliably on every Android phone in the country. <span class="risk">Risk:</span> it is the single most-used font in Indian digital design. Your page will look competent, but you will see the same face on a hundred other clinic sites.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- 07 ───────────────────────────────────────────────────────────── -->
+<section class="spec o7" id="o7">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">07</span>
+      <span class="spec__name">Soft Spa</span>
+      <span class="spec__fonts">Quicksand · Nunito Sans</span>
+    </div>
+    <p class="spec__why"><b>Genuinely rounded terminals.</b> Where Poppins is circular in its shapes, Quicksand is circular at the <i>stroke ends</i> — every stem finishes in a literal round cap. That is what makes it feel gentle rather than merely geometric, and it is the softest option here that still holds authority. <span class="risk">Risk:</span> it is light-hearted by nature; at very large sizes it can drift toward wellness café rather than medical clinic.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- 08 ───────────────────────────────────────────────────────────── -->
+<section class="spec o8" id="o8">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">08</span>
+      <span class="spec__name">Soft Luxury</span>
+      <span class="spec__fonts">Melodrama · Satoshi — Indian Type Foundry</span>
+    </div>
+    <p class="spec__why"><b>My pick of the rounded set.</b> Melodrama is a contrast serif with soft, swelling curves — it is rounded and expensive at the same time, which is a genuinely rare combination and exactly what you asked for. Satoshi underneath keeps the body text sober. Both from Indian Type Foundry, both free and commercially licensed. <span class="risk">Risk:</span> Melodrama is a display face only, so it must never be used below about 24px.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- 09 ───────────────────────────────────────────────────────────── -->
+<section class="spec o9" id="o9">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">09</span>
+      <span class="spec__name">Modern Friendly</span>
+      <span class="spec__fonts">Plus Jakarta Sans (single family)</span>
+    </div>
+    <p class="spec__why"><b>Rounded, but grown up.</b> Geometric bones with softened corners and a slight humanist lean. This is the register of well-made product and healthcare brands — warm, current, and it will not date in two years. One family covers everything, so it is also the second-fastest option to load. <span class="risk">Risk:</span> the roundness is subtle. If you want obviously, visibly round, this will not scratch that itch.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- 10 ───────────────────────────────────────────────────────────── -->
+<section class="spec o10" id="o10">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">10</span>
+      <span class="spec__name">Rounded Editorial</span>
+      <span class="spec__fonts">Nippo · Rubik — Indian Type Foundry + Google</span>
+    </div>
+    <p class="spec__why"><b>Round with a bit of character.</b> Nippo has soft, slightly unusual geometry that gives headlines personality without the wonk you disliked in Fraunces, and Rubik carries literal rounded corners on its stems for the body copy. Distinctive without being childish. <span class="risk">Risk:</span> Nippo is a display face with opinions — worth checking against the longest headings before committing.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- 11 ───────────────────────────────────────────────────────────── -->
+<section class="spec o11" id="o11">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num">11</span>
+      <span class="spec__name">Softest</span>
+      <span class="spec__fonts">Comfortaa · Nunito</span>
+    </div>
+    <p class="spec__why"><b>The far end of the scale.</b> Comfortaa is about as round as type gets — every terminal is a circle and the counters are wide open. Included so you can see where the limit sits, rather than because I would recommend it. <span class="risk">Risk:</span> it reads young and playful, and for a clinic performing injectables that can quietly undercut the authority the rest of the page is working to build.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<!-- current ────────────────────────────────────────────────────────── -->
+<section class="spec o0" id="o0">
+  <div class="wrap">
+    <div class="spec__bar">
+      <span class="spec__num" style="background:var(--tx-mute)">Now</span>
+      <span class="spec__name">Current</span>
+      <span class="spec__fonts">Fraunces · Inter</span>
+    </div>
+    <p class="spec__why">For comparison. Fraunces carries a "wonk" axis — deliberately irregular, slightly
+      hand-drawn curves. Look at the <b>a</b>, <b>o</b> and <b>g</b> in "dermatologist": they wobble. Charming
+      for a bakery or a magazine, less so for a clinic where you're asking someone to trust you with a needle.</p>
+
+    <div class="demo">
+      <div>
+        <p class="eyebrow"><i></i> Yelahanka New Town · Opposite Rail Wheel Factory</p>
+        <h2 class="h1">Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</h2>
+        <p class="sub">At most chains, a technician holds the device. Here, <b>Dr. Bindiya G P</b> examines your
+           skin and performs the procedure herself.</p>
+        <div class="btns"><span class="btn">Book a consultation</span><span class="btn ghost">WhatsApp us</span></div>
+        <div class="trust">
+          <div><strong>4.8</strong><span>★ on Justdial<br>160+ ratings</span></div>
+          <div><strong>7</strong><span>+ years<br>in aesthetics</span></div>
+        </div>
+      </div>
+      <div class="card"><p class="n">01</p><h3>Botox</h3>
+        <p>Expression lines softened without losing your expression.</p></div>
+    </div>
+
+    <div class="alpha">
+      <p class="lbl">Letterforms</p>
+      <p class="row">dermatologist · Medi-Facials · ABCDEFGHIJKLM · abcdefghijklm · 0123456789 · ₹4,500</p>
+    </div>
+  </div>
+</section>
+
+<div class="wrap" style="padding:44px 0 80px">
+  <p style="font-size:.9rem;color:var(--tx-mute);max-width:70ch">
+    Tell me a number and I'll apply it across the whole site — headings, body, buttons, the lot — and
+    self-host the files so there's no third-party request on load.
+  </p>
+</div>
+
+</body>
+</html>

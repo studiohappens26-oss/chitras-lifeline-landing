@@ -1,0 +1,276 @@
+{
+  "note": "Placeholder stock only. Replace with the clinic's own photography — see BRIEF.md §4.",
+  "license": "Pexels License — free for commercial use, attribution not required.",
+  "images": {
+    "hero-doctor": {
+      "brief": "1.1",
+      "query": "confident female doctor white coat standing",
+      "photographer": "Tran Nhu Tuan",
+      "photographerUrl": "https://www.pexels.com/@kooldark",
+      "sourceUrl": "https://www.pexels.com/photo/doctor-in-scrubs-and-a-stethoscope-around-her-neck-15962796/",
+      "pexelsId": 15962796,
+      "alt": "Professional female doctor in scrubs and lab coat smiling confidently on white background."
+    },
+    "doctor-consult": {
+      "brief": "1.2",
+      "query": "doctor talking with patient office",
+      "photographer": "RDNE Stock project",
+      "photographerUrl": "https://www.pexels.com/@rdne",
+      "sourceUrl": "https://www.pexels.com/photo/male-doctor-talking-to-a-patient-6129441/",
+      "pexelsId": 6129441,
+      "alt": "Healthcare professional consults patient in clinical setting. Medical discussion and diagnosis."
+    },
+    "doctor-procedure": {
+      "brief": "1.3",
+      "query": "dermatologist skin treatment gloves",
+      "photographer": "ANVA Marketing",
+      "photographerUrl": "https://www.pexels.com/@anva-marketing-366538229",
+      "sourceUrl": "https://www.pexels.com/photo/aesthetic-procedure-on-a-face-14438367/",
+      "pexelsId": 14438367,
+      "alt": "Close-up of a cosmetic treatment being performed in a clinical environment."
+    },
+    "laser-machine": {
+      "brief": "1.4",
+      "query": "laser treatment machine clinic",
+      "photographer": "Dmitriy Ganin",
+      "photographerUrl": "https://www.pexels.com/@ganinph",
+      "sourceUrl": "https://www.pexels.com/photo/unrecognizable-woman-under-weight-loss-machine-in-clinic-7772648/",
+      "pexelsId": 7772648,
+      "alt": "Crop anonymous female client lying under lasers of contemporary machine with heads during fat loss treatment in light modern medical clinic"
+    },
+    "laser-handpiece": {
+      "brief": "1.5",
+      "query": "laser hair removal treatment",
+      "photographer": "Gustavo Fring",
+      "photographerUrl": "https://www.pexels.com/@gustavo-fring",
+      "sourceUrl": "https://www.pexels.com/photo/crop-faceless-beautician-conducting-laser-hair-removal-to-young-lady-in-safety-glasses-in-clinic-3985354/",
+      "pexelsId": 3985354,
+      "alt": "From above of unrecognizable cosmetologist in uniform and latex gloves using modern equipment for cosmetic services in contemporary salon"
+    },
+    "botox-injection": {
+      "brief": "1.6",
+      "query": "botox injection forehead",
+      "photographer": "cottonbro studio",
+      "photographerUrl": "https://www.pexels.com/@cottonbro",
+      "sourceUrl": "https://www.pexels.com/photo/dermatologist-injecting-botox-on-client-s-forehead-7581583/",
+      "pexelsId": 7581583,
+      "alt": "Close-up of a cosmetic procedure using injectables on a woman's forehead in a clinic setting."
+    },
+    "medifacial": {
+      "brief": "1.7",
+      "query": "facial treatment mask spa woman",
+      "photographer": "Gustavo Fring",
+      "photographerUrl": "https://www.pexels.com/@gustavo-fring",
+      "sourceUrl": "https://www.pexels.com/photo/crop-female-cosmetologist-removing-purifying-mask-from-face-of-relaxed-woman-in-contemporary-clinic-3985361/",
+      "pexelsId": 3985361,
+      "alt": "From above of dermatologist in medical coat and latex gloves doing face cleansing and wiping mask from face of female lying in towel in modern salon"
+    },
+    "treatment-room": {
+      "brief": "1.8",
+      "query": "modern clinic treatment room interior",
+      "photographer": "Ivan Babydov",
+      "photographerUrl": "https://www.pexels.com/@babydov",
+      "sourceUrl": "https://www.pexels.com/photo/special-medical-bed-in-medical-cabinet-7789601/",
+      "pexelsId": 7789601,
+      "alt": "Clean and modern medical examination room with equipment ready for use."
+    },
+    "reception": {
+      "brief": "1.9",
+      "query": "clinic reception waiting area modern",
+      "photographer": "Pavel Danilyuk",
+      "photographerUrl": "https://www.pexels.com/@pavel-danilyuk",
+      "sourceUrl": "https://www.pexels.com/photo/man-talking-to-assistant-at-reception-of-dentist-clinic-6809658/",
+      "pexelsId": 6809658,
+      "alt": "A man consults a receptionist in a modern clinic setting with contemporary design."
+    },
+    "exterior": {
+      "brief": "1.10",
+      "query": "medical clinic building entrance",
+      "photographer": "Erik Mclean",
+      "photographerUrl": "https://www.pexels.com/@introspectivedsgn",
+      "sourceUrl": "https://www.pexels.com/photo/signage-of-a-medical-clinic-9538593/",
+      "pexelsId": 9538593,
+      "alt": "Bright neon medical clinic signage at night, creating a vivid street scene."
+    },
+    "ba-botox-before": {
+      "brief": "2.1a",
+      "query": "woman face portrait no makeup studio",
+      "photographer": "Darina Belonogova",
+      "photographerUrl": "https://www.pexels.com/@darina-belonogova",
+      "sourceUrl": "https://www.pexels.com/photo/close-up-photo-of-woman-s-face-8384894/",
+      "pexelsId": 8384894,
+      "alt": "Detailed close-up portrait of a black woman against a plain background."
+    },
+    "ba-botox-after": {
+      "brief": "2.1b",
+      "query": "woman glowing skin portrait studio",
+      "photographer": "Heyy  Kazz",
+      "photographerUrl": "https://www.pexels.com/@heyy-kazz-705792",
+      "sourceUrl": "https://www.pexels.com/photo/portrait-of-woman-wearing-makeup-16658734/",
+      "pexelsId": 16658734,
+      "alt": "Stunning high-key portrait of a woman with vibrant makeup and short hair, exuding confidence."
+    },
+    "ba-laser-before": {
+      "brief": "2.1c",
+      "query": "woman legs skin close up",
+      "photographer": "Alina  Rossoshanska",
+      "photographerUrl": "https://www.pexels.com/@alina-rossoshanska-338724645",
+      "sourceUrl": "https://www.pexels.com/photo/legs-of-sitting-woman-17040773/",
+      "pexelsId": 17040773,
+      "alt": "Detailed close-up of burn scars on a woman's legs, highlighting skin texture and healing."
+    },
+    "ba-laser-after": {
+      "brief": "2.1d",
+      "query": "smooth legs skin woman",
+      "photographer": "Thirdman",
+      "photographerUrl": "https://www.pexels.com/@thirdman",
+      "sourceUrl": "https://www.pexels.com/photo/person-seated-on-a-wooden-stool-8062972/",
+      "pexelsId": 8062972,
+      "alt": "A woman's legs in a flowing pink dress, seated on a wooden stool, with a calm, minimalist background."
+    },
+    "doctor-env": {
+      "brief": "2.2",
+      "query": "female doctor standing clinic arms",
+      "photographer": "https://kaboompics.com/",
+      "photographerUrl": "https://www.pexels.com/@karola-g",
+      "sourceUrl": "https://www.pexels.com/photo/health-worker-in-a-teal-scrub-suit-6627919/",
+      "pexelsId": 6627919,
+      "alt": "A healthcare worker in scrubs and mask stands confidently in a modern medical facility."
+    },
+    "detail-gloves": {
+      "brief": "2.3a",
+      "query": "medical gloves hands close up",
+      "photographer": "Castorly Stock",
+      "photographerUrl": "https://www.pexels.com/@castorlystock",
+      "sourceUrl": "https://www.pexels.com/photo/person-holding-blue-pills-4058365/",
+      "pexelsId": 4058365,
+      "alt": "Close-up of gloved hands pouring blue pills from a bottle, illustrating medication and healthcare."
+    },
+    "detail-serum": {
+      "brief": "2.3b",
+      "query": "serum dropper skincare bottle",
+      "photographer": "https://kaboompics.com/",
+      "photographerUrl": "https://www.pexels.com/@karola-g",
+      "sourceUrl": "https://www.pexels.com/photo/colored-liquid-in-serum-bottle-7321710/",
+      "pexelsId": 7321710,
+      "alt": "Close-up of hands with manicured nails holding a dropper over a green serum bottle."
+    },
+    "detail-tools": {
+      "brief": "2.3c",
+      "query": "medical equipment detail clean",
+      "photographer": "Mikhail Nilov",
+      "photographerUrl": "https://www.pexels.com/@mikhail-nilov",
+      "sourceUrl": "https://www.pexels.com/photo/medical-equipment-in-an-ambulance-8943270/",
+      "pexelsId": 8943270,
+      "alt": "Detailed view of medical goggles or equipment in a healthcare setting, highlighting technological detail."
+    },
+    "skin-macro": {
+      "brief": "2.4",
+      "query": "skin texture macro face beauty",
+      "photographer": "melanfolia меланфолія",
+      "photographerUrl": "https://www.pexels.com/@melanfolia",
+      "sourceUrl": "https://www.pexels.com/photo/close-up-portrait-of-natural-beauty-woman-34217562/",
+      "pexelsId": 34217562,
+      "alt": "Detailed close-up portrait featuring the natural beauty of a woman's face and hair."
+    },
+    "model-1": {
+      "brief": "2.5a",
+      "query": "indian woman smiling portrait natural",
+      "photographer": "Dhrupal Shiyal",
+      "photographerUrl": "https://www.pexels.com/@dhrupal-shiyal-2155843159",
+      "sourceUrl": "https://www.pexels.com/photo/close-up-of-woman-wearing-traditional-earrings-37601638/",
+      "pexelsId": 37601638,
+      "alt": "Detailed close-up of a woman's face showcasing intricate traditional earrings and a beaming smile."
+    },
+    "model-2": {
+      "brief": "2.5b",
+      "query": "indian woman portrait beauty clean",
+      "photographer": "Greg Contreras",
+      "photographerUrl": "https://www.pexels.com/@gregcontreras",
+      "sourceUrl": "https://www.pexels.com/photo/close-up-photo-of-woman-2878431/",
+      "pexelsId": 2878431,
+      "alt": "Close-up portrait of a woman with bold red lips and a natural leaf, showcasing natural beauty and elegance."
+    },
+    "model-3": {
+      "brief": "2.5c",
+      "query": "young indian woman happy portrait",
+      "photographer": "freedom pratzz",
+      "photographerUrl": "https://www.pexels.com/@freedom-pratzz-1723256",
+      "sourceUrl": "https://www.pexels.com/photo/colorful-holi-celebration-portrait-of-a-woman-31217825/",
+      "pexelsId": 31217825,
+      "alt": "Vibrant portrait of a woman with Holi colors in traditional attire."
+    },
+    "team": {
+      "brief": "2.7",
+      "query": "medical team staff clinic uniform",
+      "photographer": "RDNE Stock project",
+      "photographerUrl": "https://www.pexels.com/@rdne",
+      "sourceUrl": "https://www.pexels.com/photo/doctors-and-nurses-in-a-hospital-6129502/",
+      "pexelsId": 6129502,
+      "alt": "A diverse group of healthcare professionals in hospital uniforms, showcasing teamwork and diversity."
+    },
+    "consult-room": {
+      "brief": "2.8",
+      "query": "doctor consultation room desk",
+      "photographer": "Ivan Babydov",
+      "photographerUrl": "https://www.pexels.com/@babydov",
+      "sourceUrl": "https://www.pexels.com/photo/white-wooden-table-with-chairs-7789610/",
+      "pexelsId": 7789610,
+      "alt": "Minimalist office interior featuring a desk with chairs, suitable for healthcare or office settings."
+    },
+    "texture-silk": {
+      "brief": "3.4a",
+      "query": "gold silk fabric texture abstract",
+      "photographer": "Artem Podrez",
+      "photographerUrl": "https://www.pexels.com/@artempodrez",
+      "sourceUrl": "https://www.pexels.com/photo/close-up-photograph-of-a-brown-textile-7232404/",
+      "pexelsId": 7232404,
+      "alt": "Close-up of smooth and shiny gold satin fabric with a wavy texture."
+    },
+    "texture-water": {
+      "brief": "3.4b",
+      "query": "water droplets macro abstract",
+      "photographer": "Benhur Emmanuel",
+      "photographerUrl": "https://www.pexels.com/@benhur-emmanuel-83498627",
+      "sourceUrl": "https://www.pexels.com/photo/droplets-on-white-background-17210496/",
+      "pexelsId": 17210496,
+      "alt": "Captivating monochrome water droplets arranged on a white background, showcasing minimalistic beauty."
+    },
+    "reel-1": {
+      "brief": "4.1",
+      "query": "woman doctor talking to camera",
+      "photographer": "Tima Miroshnichenko",
+      "photographerUrl": "https://www.pexels.com/@tima-miroshnichenko",
+      "sourceUrl": "https://www.pexels.com/photo/a-woman-sitting-at-the-table-8376333/",
+      "pexelsId": 8376333,
+      "alt": "A professional young female doctor in a white coat, smiling and gesturing indoors."
+    },
+    "reel-2": {
+      "brief": "4.2",
+      "query": "dermatologist explaining skincare",
+      "photographer": "Kevin Barillas",
+      "photographerUrl": "https://www.pexels.com/@kevin-barillas-2157892848",
+      "sourceUrl": "https://www.pexels.com/photo/soothing-facial-spa-treatment-with-steam-35029555/",
+      "pexelsId": 35029555,
+      "alt": "Relaxing spa facial with steam therapy for rejuvenated skin and stress relief."
+    },
+    "reel-3": {
+      "brief": "4.3",
+      "query": "woman skincare routine mirror",
+      "photographer": "Ron Lach",
+      "photographerUrl": "https://www.pexels.com/@ron-lach",
+      "sourceUrl": "https://www.pexels.com/photo/elderly-woman-holding-skincare-product-10222451/",
+      "pexelsId": 10222451,
+      "alt": "Elderly woman in pajamas using skincare serum while looking at her reflection in a modern bathroom."
+    },
+    "reel-4": {
+      "brief": "4.4",
+      "query": "beauty clinic treatment woman",
+      "photographer": "Anna Shvets",
+      "photographerUrl": "https://www.pexels.com/@shvetsa",
+      "sourceUrl": "https://www.pexels.com/photo/cosmetologist-in-pink-gloves-making-injection-in-woman-face-4586711/",
+      "pexelsId": 4586711,
+      "alt": "Close-up of a beautician administering facial injection treatment to a woman in a clinical setting."
+    }
+  }
+}
