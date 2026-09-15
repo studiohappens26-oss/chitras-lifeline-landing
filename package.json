@@ -1,0 +1,14 @@
+{
+  "name": "chitras-lifeline-landing",
+  "private": true,
+  "description": "Dev tooling only — the site itself is static and ships no dependencies.",
+  "scripts": {
+    "images": "node scripts/build-images.mjs",
+    "trace-logo": "node scripts/trace-logo.cjs",
+    "serve": "node scripts/serve.mjs"
+  },
+  "devDependencies": {
+    "potrace": "^2.1.8",
+    "sharp": "^0.35.4"
+  }
+}

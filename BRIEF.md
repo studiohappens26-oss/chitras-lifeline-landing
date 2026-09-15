@@ -69,12 +69,14 @@ Each Google ad group points at its own parameter. Result: near-perfect message m
 The page uses the layered scroll treatment you asked for, modelled on
 truekindskincare.com. Three things carry it:
 
-- **A loader** — a blush curtain that parts to reveal the page, with a rolling
-  counter and the clinic mark. It is capped at **1.1 seconds** and shows **once
-  per session**. That cap is deliberate and worth understanding: this page is
-  paid traffic, so a visitor who waits is a visitor already paid for. It never
-  blocks the page from rendering underneath, so it does not slow the score
-  Google measures.
+- **A preloader** — the clinic's logo builds itself piece by piece, in the
+  manner of the Just Dent site, while a meter tracks the fonts and the hero
+  photograph actually loading. It lifts once both the logo and those assets are
+  ready — never sooner than **1.8 seconds**, never later than **4.5** — and
+  shows **once per session**. That ceiling is deliberate and worth
+  understanding: this page is paid traffic, so a visitor who waits is a visitor
+  already paid for. It never blocks the page from rendering underneath, so it
+  does not slow the score Google measures.
 - **Multi-speed parallax** — inside each treatment section, the photograph, the
   frame around it and two accent images all travel at different rates as you
   scroll, and the frame drifts *against* the layers on top of it. That mismatch
@@ -101,7 +103,7 @@ Section by section, with the animation treatment for each.
 | # | Section | Purpose | Motion / effect |
 |---|---|---|---|
 | 1 | **Sticky nav** | Always-visible Call + WhatsApp | Transparent over hero, frosts to solid glass on scroll. Logo shrinks. Mobile: bottom bar with Call / WhatsApp / Book. |
-| 2 | **Hero** | Promise + proof + CTA in one screen | Headline reveals character-by-character behind a mask. Image scales down from 1.15 as it fades in. Slow-drifting pink/champagne gradient mesh + film grain behind. Cursor-following soft glow (desktop). |
+| 2 | **Hero** | Promise + proof + CTA in one screen | Split screen in the Just Dent format: headline, CTAs and trust figures on a blush panel, the photograph in a window on the right (below, on phones). As you scroll the window opens to fill the screen, the headline slides away — inverting where it crosses the photo — and a second, metallic title slides in over it. The headline rotates between the three treatments, or holds on the one the visitor searched for. |
 | 3 | **Trust strip** | Kill doubt immediately | 4.8★ · 160+ reviews · 7+ yrs · IADVL member · Doctor-performed. Counters roll up when scrolled into view. |
 | 4 | **The difference** | Doctor vs. technician | Split-screen compare. Left "At a chain", right "At Chitra's". Divider wipes open on scroll. |
 | 5 | **Services** | Three hero cards | 3D tilt on mouse move, image zooms inside a clipped frame, pink border draws itself on hover. |
@@ -143,11 +145,11 @@ The page is **light throughout — no dark sections anywhere.** That removes the
 
 The only light-on-dark text left on the page is the caption inside each Instagram reel card — correct, because it sits on the photo's own gradient rather than on a page surface.
 
-- **Structure:** blush→bone→paper gradient hero, then sections alternating paper / bone / blush, closing on a bone footer. Contrast comes from the pink-bordered comparison panel, the champagne medallion, and soft shadows rather than from inverted sections.
+- **Structure:** a blush-panel split hero that opens onto a full-bleed photograph, then sections alternating paper / bone / blush, closing on a bone footer. Contrast comes from the pink-bordered comparison panel, the champagne medallion, and soft shadows rather than from inverted sections.
 - **Logo:** the clinic's own mark, trimmed and downscaled from the 2000px source (1.5 MB → 55 KB).
 - **Type:** Display — **Comfortaa** at 600, tracked tight. Body — **Nunito**. Both rounded: Comfortaa is round in its shapes, Nunito's terminals are softly cut, so the pairing is warm end to end. Both self-hosted (109 KB total), so the page makes **zero third-party requests** on load.
   - Comfortaa runs wide and optically light, so headings sit at 600 with `-0.035em` tracking — at 400 it reads as weak rather than soft.
-  - Comfortaa has **no italic**. The hero's accent word is distinguished by weight and colour instead, and the pull-quote uses Nunito's real drawn italic rather than a browser-synthesised slant.
+  - Comfortaa has **no italic**. The hero's accent word is distinguished by weight instead, and the pull-quote uses Nunito's real drawn italic rather than a browser-synthesised slant.
   - Buttons use a dedicated `--accent-btn` (`#C93A9E`) rather than `--accent-hi`: white label text on `#E24BA6` measures only 3.6:1, under the 4.5 needed at button sizes.
 - **Texture:** Fine film grain overlay everywhere at 3–4% opacity. It's what separates "template" from "designed".
 
@@ -173,7 +175,7 @@ Organised by priority. **Tier 1 is non-negotiable** — the page cannot launch w
 
 | # | Image | Spec & direction |
 |---|---|---|
-| 1.1 | **Dr. Bindiya — hero portrait** | Half-body, white coat, shot against a **plain light wall or seamless backdrop** so we can cut her out cleanly. Confident, warm, slight smile. Arms relaxed or lightly folded. Eyes to camera. Shoot 3–4 poses. *This is the single most important asset on the page.* Vertical, 3000px+. |
+| 1.1 | **Hero — the doctor at work** | Dr. Bindiya performing or preparing a procedure: gloved hands, the patient partly in frame, soft daylight, no text or signage in shot. **Landscape, 3:2, 3000px+ wide, with the subject in the right half** — the hero opens on the right half only, and the left half sits under the headline. Ideally one per treatment (botox, laser, facial), since each ad group gets its own. *This is the single most important asset on the page.* A vertical half-body portrait against a plain wall is still worth shooting for the doctor section and social. |
 | 1.2 | **Dr. Bindiya — consulting** | Seated across from a patient (or a stand-in), mid-conversation, gesturing. Candid, not posed. Shows the "doctor listens to you" promise. |
 | 1.3 | **Dr. Bindiya — performing a procedure** | Gloved, close in on the hands + the device/syringe, patient's face partially in frame or cropped out. This is the "doctor-performed" proof shot. Needs to be sharp and clinical. |
 | 1.4 | **The laser machine — full unit** | The actual device, clean, in the treatment room, brand name legible. `[CONFIRM which laser — Diode? Candela? Soprano? Alma?]` Naming the machine is a major trust and ad-differentiation signal. |
@@ -224,7 +226,7 @@ Pick reels where Dr. Bindiya is **on camera and talking**. Faces outperform trea
 > The clinic's Instagram bio currently reads "Dermatology • Skin • Hair • Laser / Spine & Pain Specialist Care / Advanced treatments | Expert guidance". Worth pointing it at the landing page URL once this is live — Instagram bio traffic converts well and costs nothing.
 
 ### If a photoshoot isn't possible right now
-The page is already built and running on licensed stock. The shots that genuinely cannot be faked — because the whole page is built on "this specific doctor, in this specific place" — are **1.1, 1.2, 1.3 and 1.10**: the doctor's portrait, her consulting, her performing a procedure, and the clinic exterior. Everything else can ship as-is and be upgraded later. Swapping any image is drop-the-file-and-redeploy; the layout doesn't move.
+The page is already built and running on licensed stock. The shots that genuinely cannot be faked — because the whole page is built on "this specific doctor, in this specific place" — are **1.1, 1.2, 1.3 and 1.10**: the doctor's portrait, her consulting, her performing a procedure, and the clinic exterior. Everything else can ship as-is and be upgraded later. Swapping any image is drop the file in, run `node scripts/build-images.mjs`, redeploy; the layout doesn't move.
 
 ---
 

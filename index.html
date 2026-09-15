@@ -18,7 +18,32 @@
      text can paint. Preload only the two Latin faces the first screen needs. -->
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/comfortaa-latin-normal.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/nunito-latin-normal.woff2" crossorigin>
-<link rel="preload" as="image" href="/assets/img/hero-doctor.jpg" fetchpriority="high">
+<!-- Runs before first paint, and decides three things for this visit:
+       · which hero photograph the ad group gets (?s=), and starts it
+         downloading now, at the right width, before the parser has even
+         reached the <img>;
+       · whether the preloader plays — once per session, never under reduced
+         motion — so a returning visitor never sees it flash;
+       · html.js, which the stylesheet uses to hold back effects that need
+         JavaScript to finish. Without it the page simply renders. -->
+<script>
+(function (d) {
+  var h = d.documentElement,
+      s = new URLSearchParams(location.search).get('s'),
+      HERO = { botox: 'botox-injection', laser: 'laser-handpiece', facial: 'medifacial' },
+      img = HERO[s] || 'doctor-procedure', seen = false;
+  h.className += ' js';
+  h.setAttribute('data-hero', img);
+  if (HERO[s]) h.setAttribute('data-variant', s);
+  try { seen = sessionStorage.getItem('cl_pl') === '1'; } catch (e) {}
+  h.setAttribute('data-pl', seen || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'skip' : 'active');
+  var l = d.createElement('link');
+  l.rel = 'preload'; l.as = 'image'; l.setAttribute('fetchpriority', 'high');
+  l.setAttribute('imagesrcset', [480, 800, 1200, 1800].map(function (w) { return '/assets/img/' + img + '-' + w + '.webp ' + w + 'w'; }).join(', '));
+  l.setAttribute('imagesizes', '100vw');
+  d.head.appendChild(l);
+})(document);
+</script>
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/styles.css">
 <link rel="icon" href="/assets/img/logo-mark.png" type="image/png">
@@ -26,22 +51,25 @@
 </head>
 <body>
 
-<!-- ══ LOADER ═══════════════════════════════════════════════════════════════
-     Overlay, never a gate on paint — the page renders underneath it, so it
-     does not push out LCP. Dismisses at min(hero image + fonts ready, 1100ms),
-     shows once per session, and is skipped entirely under reduced motion.
-     Delete this whole block to remove it; nothing else depends on it. -->
-<div class="loader" aria-hidden="true">
-  <span class="loader__panel loader__panel--l"></span>
-  <span class="loader__panel loader__panel--r"></span>
-  <span class="loader__line"></span>
-  <div class="loader__inner">
-    <img class="loader__mark" src="/assets/img/logo-mark.png" width="74" height="74" alt="">
-    <div class="loader__count">
-      <span class="loader__d loader__d--l"></span>
-      <span class="loader__d loader__d--r"></span>
-    </div>
-    <span class="loader__label">Chitra&rsquo;s Lifeline Clinic</span>
+<!-- ══ PRELOADER ════════════════════════════════════════════════════════════
+     Just Dent's preloader, with Chitra's logo assembling part by part. An
+     overlay, never a gate on paint: the page renders underneath the whole
+     time. It waits for the fonts and the hero photograph, and the meter
+     reports them; it plays once per session and never under reduced motion.
+     motion.js has the timings and the reasoning. If the script never
+     arrives, the stylesheet clears it after 7s. -->
+<div class="pl" aria-hidden="true">
+  <svg class="pl__logo" viewBox="16 17 966 999" width="272" height="281" aria-hidden="true" focusable="false">
+    <g fill="#aa2284"><path class="pl-part pl-hair pl-hair--1" d="M 501 24 C 500 25, 500 29, 500 38 C 500 66, 493 89, 477 114 C 472 122, 461 136, 459 138 C 459 138, 456 142, 453 146 C 449 150, 444 156, 441 160 C 432 170, 429 174, 423 181 C 403 205, 351 256, 303 297 C 284 313, 264 337, 261 347 C 260 348, 259 352, 257 355 C 251 368, 247 384, 247 399 C 247 408, 249 424, 251 429 C 274 482, 282 490, 283 464 C 284 453, 285 449, 290 434 C 294 420, 301 407, 314 389 C 323 375, 337 360, 355 344 C 358 341, 363 336, 366 334 C 369 331, 380 321, 387 316 C 389 315, 393 312, 396 309 C 404 303, 411 300, 432 298 C 442 297, 456 296, 463 296 C 481 295, 487 293, 487 288 C 487 284, 483 283, 475 283 C 452 285, 440 286, 438 287 C 435 288, 425 289, 422 289 C 419 288, 419 288, 420 285 C 421 284, 425 280, 429 276 C 437 270, 475 233, 486 221 C 506 198, 516 182, 525 159 C 537 130, 540 103, 533 77 C 529 62, 516 37, 507 26 C 503 23, 503 22, 501 24"/><path class="pl-part pl-hair pl-hair--2" d="M 470 42 C 453 68, 431 88, 386 121 C 375 129, 360 140, 352 145 C 345 151, 335 158, 330 162 C 325 166, 320 169, 320 170 C 320 170, 318 172, 316 173 C 291 192, 248 236, 234 256 C 233 258, 229 263, 226 267 C 212 288, 204 305, 198 328 C 195 340, 195 363, 198 374 C 199 378, 201 385, 202 389 C 203 393, 205 396, 205 397 C 206 397, 206 398, 206 399 C 206 404, 215 415, 216 411 C 217 411, 217 400, 217 388 C 217 366, 217 365, 220 355 C 222 348, 224 341, 224 339 C 225 333, 235 313, 241 303 C 254 280, 285 244, 324 208 C 339 194, 348 186, 353 182 C 355 180, 361 176, 365 172 C 369 168, 376 163, 380 160 C 393 149, 416 129, 426 119 C 447 98, 470 62, 478 39 C 480 32, 480 32, 478 32 C 477 32, 474 36, 470 42"/></g>
+    <g fill="#070707"><path class="pl-part pl-face" d="M 559 242 C 558 242, 558 246, 558 250 C 558 259, 556 261, 548 265 C 541 268, 543 272, 552 272 C 556 272, 561 272, 563 272 C 574 272, 581 262, 575 254 C 574 253, 573 250, 573 248 C 573 245, 572 244, 566 242 C 559 240, 559 240, 559 242 M 450 335 C 445 340, 436 348, 430 350 C 427 352, 424 354, 423 354 C 421 355, 409 357, 407 357 C 402 357, 389 355, 384 353 C 377 351, 374 350, 372 353 C 369 355, 369 355, 374 359 C 378 363, 378 364, 378 367 C 377 372, 378 373, 382 370 C 387 368, 388 369, 389 376 C 390 381, 390 381, 390 379 C 391 375, 396 371, 398 371 C 399 371, 401 372, 402 374 C 404 375, 406 376, 408 376 C 409 375, 410 376, 411 379 C 412 383, 414 382, 415 378 C 416 372, 421 370, 422 374 C 422 377, 423 377, 427 374 C 428 372, 430 371, 431 372 C 434 373, 440 374, 443 373 C 449 371, 449 370, 449 366 C 448 361, 449 359, 452 359 C 455 359, 456 355, 457 343 C 457 333, 457 332, 455 332 C 454 331, 452 332, 450 335"/></g>
+    <g fill="#aa2284"><path class="pl-part pl-lips" d="M 533 420 C 532 421, 530 422, 530 423 C 529 424, 526 426, 522 427 C 514 432, 511 434, 507 442 C 502 449, 498 453, 491 458 C 484 462, 484 465, 492 469 C 512 479, 537 457, 541 425 C 541 422, 541 420, 539 419 C 537 418, 537 418, 533 420"/></g>
+    <g fill="#45c2da"><path class="pl-part pl-leaf" d="M 653 332 C 652 334, 652 338, 653 344 C 653 350, 653 358, 653 366 C 651 384, 649 387, 624 412 C 603 433, 599 438, 590 453 C 580 470, 576 484, 574 504 C 574 514, 572 516, 559 523 C 554 525, 549 528, 549 528 C 546 530, 522 540, 518 541 C 515 541, 511 542, 508 544 C 506 545, 500 546, 496 547 C 493 548, 486 550, 482 551 C 477 552, 468 552, 453 553 C 431 553, 419 552, 403 548 C 399 547, 395 547, 395 549 C 395 552, 407 559, 422 565 C 437 570, 440 570, 458 570 C 479 571, 484 570, 518 559 C 531 555, 570 534, 582 524 C 600 509, 635 471, 644 457 C 645 454, 648 451, 650 448 C 652 446, 653 443, 653 443 C 653 442, 655 439, 657 437 C 666 427, 665 440, 656 461 C 644 489, 618 521, 591 542 C 580 551, 579 553, 589 555 C 608 560, 618 564, 627 570 C 635 576, 637 579, 635 581 C 634 583, 633 583, 629 581 C 620 578, 616 576, 611 574 C 607 574, 602 572, 598 570 C 587 566, 574 567, 568 573 C 563 577, 567 585, 577 592 C 588 601, 606 605, 635 606 C 653 607, 656 607, 662 610 C 666 611, 671 612, 673 612 C 675 612, 675 612, 675 609 C 675 602, 669 589, 661 576 C 654 566, 654 565, 644 559 C 638 554, 632 551, 627 550 C 619 547, 618 546, 618 544 C 618 541, 618 540, 626 535 C 636 528, 659 507, 668 496 C 673 490, 686 470, 686 469 C 686 469, 687 468, 687 467 C 689 466, 690 462, 695 446 C 697 436, 697 405, 694 395 C 690 378, 672 347, 660 334 C 656 329, 654 329, 653 332"/></g>
+    <g fill="#45c2da"><path class="pl-part pl-w1" d="M 70 710 C 49 715, 34 727, 28 744 C 24 753, 24 755, 23 765 C 21 784, 24 802, 32 815 C 52 849, 112 851, 129 817 C 134 807, 134 806, 133 804 C 131 803, 116 795, 114 795 C 114 795, 112 797, 111 800 C 103 824, 65 826, 54 802 C 47 788, 48 758, 55 746 C 61 735, 76 730, 89 732 C 100 734, 104 737, 109 746 C 112 751, 113 751, 119 747 C 121 745, 125 743, 127 742 C 133 739, 133 736, 126 727 C 119 719, 113 715, 102 711 C 94 710, 75 709, 70 710"/><path class="pl-part pl-w1" d="M 152 704 C 152 705, 152 736, 152 773 L 153 840 162 840 C 166 840, 172 840, 174 840 L 177 839 177 810 C 177 778, 177 776, 183 769 C 189 760, 205 759, 211 767 L 214 770 214 804 C 214 833, 215 838, 216 839 C 217 840, 222 840, 228 840 L 239 840 239 803 C 239 758, 238 754, 227 746 C 214 738, 194 739, 183 750 C 181 753, 178 755, 178 755 C 177 755, 177 744, 177 730 C 177 712, 177 705, 176 704 C 174 702, 153 703, 152 704"/><path class="pl-part pl-w1" d="M 274 703 C 261 705, 259 723, 271 730 C 280 734, 293 727, 293 717 C 293 707, 285 701, 274 703 M 266 791 L 267 840 276 840 C 291 840, 290 844, 290 809 C 291 793, 291 771, 290 761 L 290 743 278 743 L 266 743 266 791"/><path class="pl-part pl-w1" d="M 336 721 C 323 723, 323 723, 322 728 C 322 730, 322 734, 321 737 L 321 742 315 742 C 307 742, 307 742, 307 753 L 308 762 314 762 C 317 762, 320 763, 320 763 C 321 764, 322 777, 322 792 C 323 824, 323 825, 330 832 C 339 842, 357 844, 372 838 C 377 835, 378 834, 375 827 C 371 816, 372 816, 361 819 C 354 821, 349 818, 347 813 C 346 808, 346 765, 347 763 C 348 762, 352 762, 361 762 C 371 762, 373 762, 373 760 C 374 758, 374 744, 373 743 C 372 742, 368 742, 360 742 C 352 742, 348 742, 347 741 C 347 740, 346 735, 346 730 C 345 719, 346 720, 336 721"/><path class="pl-part pl-w1" d="M 434 743 C 430 744, 424 748, 421 752 C 418 757, 417 756, 417 749 L 417 743 405 743 L 393 743 393 791 C 393 834, 393 839, 395 839 C 398 841, 416 840, 417 839 C 418 838, 418 831, 418 812 C 418 779, 419 774, 428 768 C 431 765, 433 765, 438 765 C 442 765, 446 765, 447 765 C 450 766, 451 765, 452 758 C 454 747, 454 744, 451 743 C 448 742, 436 742, 434 743"/><path class="pl-part pl-w1" d="M 490 742 C 478 745, 464 754, 464 758 C 464 760, 473 773, 474 773 C 475 773, 478 771, 482 768 C 499 757, 516 758, 516 770 C 517 776, 513 779, 499 781 C 476 786, 468 790, 463 800 C 460 806, 461 820, 464 826 C 471 841, 491 846, 507 838 C 511 836, 516 830, 517 828 C 518 826, 521 828, 521 830 C 521 832, 527 838, 531 839 C 534 840, 548 840, 551 839 C 553 837, 553 837, 553 830 C 553 821, 552 820, 548 820 C 541 820, 542 821, 541 790 C 541 763, 540 762, 538 757 C 534 749, 528 745, 518 742 C 512 741, 496 741, 490 742 M 513 794 C 512 794, 508 795, 503 796 C 490 800, 487 802, 486 808 C 485 819, 491 824, 503 822 C 509 821, 516 815, 516 808 C 518 797, 518 794, 515 793 C 514 793, 513 793, 513 794"/><path class="pl-part pl-w1" d="M 567 710 C 563 714, 563 714, 563 720 C 563 725, 563 726, 567 729 C 568 731, 571 733, 572 733 C 575 733, 576 736, 576 739 C 575 742, 566 751, 561 754 C 557 756, 557 756, 561 762 C 565 769, 566 768, 580 756 C 589 747, 592 739, 593 727 C 593 716, 592 713, 587 709 C 584 706, 582 706, 577 706 C 571 706, 571 706, 567 710"/><path class="pl-part pl-w1" d="M 638 741 C 615 743, 603 757, 607 776 C 609 784, 618 795, 623 795 C 624 795, 625 795, 625 796 C 626 796, 629 797, 633 798 C 636 799, 642 801, 644 802 C 647 802, 650 803, 650 803 C 654 803, 657 808, 657 813 C 657 817, 656 818, 653 819 C 644 824, 630 820, 623 813 C 620 811, 618 809, 617 809 C 615 809, 603 822, 603 824 C 603 826, 611 833, 617 836 C 643 848, 674 840, 680 819 C 686 800, 676 787, 652 781 C 632 777, 630 775, 630 768 C 631 763, 634 760, 644 761 C 652 761, 657 762, 661 766 C 664 769, 666 768, 672 762 C 679 755, 679 754, 675 751 C 667 743, 652 740, 638 741"/></g>
+    <g fill="#aa2284"><path class="pl-part pl-w2" d="M 27 906 C 26 906, 26 929, 26 958 L 26 1009 59 1009 L 93 1009 93 1001 L 93 993 70 992 C 53 992, 48 992, 47 991 C 46 990, 46 976, 46 947 L 46 906 36 905 C 31 905, 27 905, 27 906"/><path class="pl-part pl-w2" d="M 108 903 C 105 907, 104 911, 107 916 C 111 924, 124 923, 129 915 C 130 911, 130 910, 128 906 C 126 901, 123 899, 117 899 C 112 899, 111 899, 108 903 M 108 932 C 107 933, 107 1006, 108 1008 C 109 1009, 117 1010, 125 1009 C 127 1009, 127 1006, 127 970 L 127 931 118 931 C 113 931, 108 931, 108 932"/><path class="pl-part pl-w2" d="M 170 899 C 157 902, 150 912, 150 926 L 151 931 146 931 L 141 932 141 939 L 141 946 145 946 C 148 946, 150 947, 151 947 C 152 948, 152 959, 152 979 L 153 1009 160 1009 C 173 1010, 171 1013, 172 977 L 173 947 183 946 L 194 946 194 938 L 194 931 184 931 C 172 931, 171 931, 171 924 C 171 916, 177 913, 186 915 C 194 918, 194 918, 196 911 C 199 903, 199 902, 195 900 C 192 899, 174 897, 170 899"/><path class="pl-part pl-w2" d="M 228 931 C 211 935, 202 947, 201 967 C 200 987, 207 1000, 221 1007 C 239 1015, 264 1010, 270 996 C 272 992, 271 991, 264 987 C 259 983, 258 983, 256 987 C 250 995, 232 996, 226 988 C 223 984, 222 981, 222 978 L 222 975 246 975 C 264 975, 271 975, 272 974 C 273 973, 273 969, 273 964 C 273 949, 269 940, 259 934 C 251 929, 238 928, 228 931 M 233 946 C 229 947, 226 950, 224 954 C 221 961, 220 961, 238 961 L 254 961 253 958 C 253 954, 251 950, 249 948 C 246 946, 238 945, 233 946"/><path class="pl-part pl-w2" d="M 290 901 C 288 904, 289 992, 291 997 C 294 1006, 300 1010, 311 1010 C 321 1011, 322 1010, 321 1002 C 321 994, 320 993, 316 993 C 313 993, 312 992, 311 991 C 310 990, 310 974, 310 945 C 310 912, 310 901, 309 900 C 308 899, 304 899, 299 899 C 292 899, 291 899, 290 901"/><path class="pl-part pl-w2" d="M 336 902 C 326 912, 339 926, 352 920 C 356 917, 358 910, 356 905 C 354 901, 351 899, 345 899 C 340 899, 339 899, 336 902 M 335 969 C 335 1014, 334 1010, 345 1010 C 356 1010, 355 1014, 355 969 L 355 931 345 931 L 335 931 335 969"/><path class="pl-part pl-w2" d="M 412 931 C 408 932, 405 934, 402 937 C 397 942, 397 942, 397 936 L 397 932 387 932 L 378 932 377 969 C 377 993, 377 1008, 378 1008 C 379 1010, 389 1010, 394 1009 L 397 1009 397 984 L 398 960 400 955 C 405 947, 414 944, 421 947 C 427 951, 427 951, 427 980 C 427 1002, 427 1007, 428 1008 C 430 1010, 446 1010, 447 1008 C 448 1007, 448 994, 448 978 C 447 944, 447 942, 440 936 C 433 929, 423 927, 412 931"/><path class="pl-part pl-w2" d="M 492 930 C 478 934, 469 943, 465 959 C 462 976, 467 994, 477 1002 C 485 1009, 491 1010, 503 1010 C 518 1010, 526 1007, 533 997 C 537 992, 537 993, 530 988 C 523 983, 522 983, 520 987 C 516 991, 512 993, 504 993 C 493 993, 487 988, 486 979 L 486 976 510 975 C 531 975, 535 974, 536 973 C 538 971, 536 953, 534 948 C 532 942, 526 936, 522 933 C 514 929, 501 928, 492 930 M 497 946 C 493 947, 490 950, 488 955 C 484 961, 484 961, 501 961 C 510 961, 517 961, 517 960 C 518 959, 516 951, 513 949 C 510 946, 503 945, 497 946"/><path class="pl-part pl-w2" d="M 619 905 C 597 911, 585 930, 585 957 C 585 992, 606 1013, 639 1010 C 651 1009, 657 1007, 665 999 C 669 995, 675 985, 675 982 C 674 980, 661 973, 659 973 C 659 974, 658 975, 657 976 C 653 989, 640 995, 627 992 C 619 989, 614 986, 610 978 C 606 970, 606 947, 610 938 C 615 925, 628 919, 642 923 C 647 924, 651 927, 655 933 C 657 936, 658 937, 660 936 C 662 936, 674 928, 674 927 C 674 927, 673 926, 673 924 C 669 916, 659 908, 649 905 C 642 904, 625 904, 619 905"/><path class="pl-part pl-w2" d="M 689 901 C 689 902, 689 924, 689 950 C 690 996, 690 997, 692 1001 C 696 1008, 705 1012, 715 1010 C 721 1010, 722 1008, 721 1001 C 719 993, 719 993, 716 993 C 709 993, 710 994, 709 945 L 709 900 699 899 C 690 899, 690 899, 689 901"/><path class="pl-part pl-w2" d="M 737 901 C 732 906, 732 915, 737 919 C 740 921, 749 922, 752 920 C 758 916, 759 906, 753 901 C 749 898, 740 898, 737 901 M 735 969 C 735 1005, 735 1008, 737 1009 C 739 1010, 753 1009, 754 1008 C 755 1007, 755 990, 755 969 L 755 932 745 931 L 735 931 735 969"/><path class="pl-part pl-w2" d="M 813 930 C 808 932, 804 934, 801 938 C 797 942, 796 942, 796 936 L 796 931 787 931 L 777 931 777 969 C 777 1000, 777 1007, 778 1008 C 780 1010, 794 1011, 796 1009 C 797 1008, 797 1001, 797 986 C 797 963, 798 958, 801 953 C 807 944, 821 944, 826 952 C 827 955, 828 959, 828 982 C 828 1001, 828 1009, 829 1009 C 831 1010, 842 1010, 845 1009 L 848 1008 848 982 C 848 948, 847 941, 839 934 C 832 929, 821 928, 813 930"/><path class="pl-part pl-w2" d="M 871 901 C 863 907, 867 920, 876 921 C 882 921, 884 921, 887 918 C 892 914, 892 906, 887 902 C 884 898, 875 898, 871 901 M 869 932 C 868 932, 868 949, 868 970 C 868 1013, 867 1010, 879 1010 C 883 1010, 887 1009, 888 1008 C 889 1007, 890 947, 888 936 L 888 931 879 931 C 873 931, 869 931, 869 932"/><path class="pl-part pl-w2" d="M 934 930 C 922 934, 913 943, 909 954 C 906 961, 906 980, 909 986 C 915 1003, 927 1011, 946 1010 C 960 1010, 969 1005, 975 994 C 978 989, 977 987, 971 984 C 963 980, 963 980, 961 983 C 957 991, 953 993, 945 993 C 933 993, 926 984, 927 968 C 928 954, 935 946, 945 946 C 950 946, 956 949, 959 953 C 960 955, 962 957, 963 957 C 965 957, 976 948, 976 946 C 976 944, 969 935, 965 933 C 957 929, 943 928, 934 930"/></g>
+  </svg>
+  <div class="pl__meter">
+    <div class="pl__track"><span class="pl__bar"></span></div>
+    <span class="pl__pct">0%</span>
   </div>
 </div>
 
@@ -85,69 +113,116 @@
 
 <main id="top">
 
-<!-- ══ HERO ══════════════════════════════════════════════════════════════ -->
-<section class="hero">
-  <div class="hero__grid">
+<!-- ══ HERO ══════════════════════════════════════════════════════════════
+     JustDent's split hero: two screens tall, a sticky stage, and a photo
+     window that opens from the right half to the whole screen as you scroll.
+     Driven by motion.js through --hp; see MOTION.md. -->
+<section class="hx" data-hx>
+  <!-- The real heading. The display headline below is decorative and rotates,
+       so it is hidden from assistive tech; this one carries the words, and the
+       ad-group variants swap it. -->
+  <h1 class="sr-only" data-variant-title>Botox, Laser Hair Removal &amp; Medi-Facials in Yelahanka — performed by a dermatologist.</h1>
 
-    <div class="hero__copy">
-      <p class="eyebrow reveal" data-reveal>
-        <span class="eyebrow__dot" aria-hidden="true"></span>
-        Yelahanka New Town · Opposite Rail Wheel Factory
-      </p>
+  <div class="hx__stage">
+    <p class="eyebrow hx__eyebrow hx-fade">
+      <span class="eyebrow__dot" aria-hidden="true"></span>
+      Yelahanka New Town · Opposite Rail Wheel Factory
+    </p>
 
-      <h1 class="hero__title" data-split>
-        <span data-variant-title>Botox, Laser &amp; Medi-Facials — performed by a <em>dermatologist</em>.</span>
-      </h1>
+    <div class="hx__frame">
+      <div class="hx__counter">
+        <div class="hx__photo">
+          <div class="hx__media">
+            <!-- No src in the markup: the script straight after it picks the
+                 photograph for this ad group (chosen in <head>, which has
+                 already started the download), so the wrong one is never
+                 fetched. Every hero photo needs all four widths, 480–1800 — the
+                 head script requests them by name. -->
+            <img class="hx__img" width="1800" height="1200" fetchpriority="high" sizes="100vw"
+                 alt="A skin treatment in progress at Chitra's Lifeline Clinic" data-slot="1.1">
+            <script>(function(i,h){i.srcset=[480,800,1200,1800].map(function(w){return'/assets/img/'+h+'-'+w+'.webp '+w+'w'}).join(', ');i.src='/assets/img/'+h+'.jpg'})(document.currentScript.previousElementSibling,document.documentElement.getAttribute('data-hero')||'doctor-procedure')</script>
+            <noscript><img class="hx__img" src="/assets/img/doctor-procedure.jpg" srcset="/assets/img/doctor-procedure-480.webp 480w, /assets/img/doctor-procedure-800.webp 800w, /assets/img/doctor-procedure-1200.webp 1200w, /assets/img/doctor-procedure-1800.webp 1800w" sizes="100vw" width="1800" height="1200" alt="A skin treatment in progress at Chitra's Lifeline Clinic"></noscript>
+          </div>
+        </div>
+        <div class="hx__tint" aria-hidden="true"></div>
+        <div class="hx__fadebot" aria-hidden="true"></div>
+        <div class="hx__shade" aria-hidden="true"></div>
 
-      <p class="hero__sub reveal" data-reveal data-reveal-delay="1">
-        <span data-variant-sub>At most chains, a technician holds the device. Here, <strong>Dr. Bindiya G P</strong> —
-        Aesthetic Dermatologist &amp; Cosmetologist, 7+ years — examines your skin and performs the
-        procedure herself.</span>
-      </p>
+        <div class="hx__note hx-fade">
+          <p class="hx__note-lead">Every procedure,<br><em>done by the doctor.</em></p>
+          <p class="hx__note-by">Dr. Bindiya G P<br>Aesthetic Dermatologist<br>&amp; Cosmetologist</p>
+        </div>
 
-      <div class="hero__actions reveal" data-reveal data-reveal-delay="2">
+        <div class="hx__note-m hx-fade">
+          <p><span data-variant-sub>At most chains, a technician holds the device. Here, <strong>Dr. Bindiya G P</strong> — Aesthetic Dermatologist &amp; Cosmetologist, 7+ years — examines your skin and performs the procedure herself.</span></p>
+          <ul class="hx__trust">
+            <li><strong>4.8</strong><span>★ Justdial<br>160+ ratings</span></li>
+            <li><strong>7+</strong><span>years in<br>aesthetics</span></li>
+            <li><strong>IADVL</strong><span>IMA · CDSI<br>ACSI</span></li>
+          </ul>
+        </div>
+
+        <p class="hx__title2 text-metal" aria-hidden="true">Your skin,<br><em>in a doctor&rsquo;s hands</em></p>
+
+        <ul class="hx__tips" aria-hidden="true">
+          <li class="rise-mask"><span style="--i:0">Botox</span></li>
+          <li class="rise-mask"><span style="--i:1">Laser Hair Removal</span></li>
+          <li class="rise-mask"><span style="--i:2">Medi-Facials</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="hx__intro hx-fade">
+      <p class="hx__sub"><span data-variant-sub>At most chains, a technician holds the device. Here, <strong>Dr. Bindiya G P</strong> — Aesthetic Dermatologist &amp; Cosmetologist, 7+ years — examines your skin and performs the procedure herself.</span></p>
+      <div class="hx__actions">
         <a class="btn btn--accent btn--lg magnetic" href="#book" data-track="book-hero">
           Book a consultation
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
         </a>
-        <a class="btn btn--outline btn--lg" href="https://wa.me/918197516940?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation%20at%20Chitra%27s%20Lifeline%20Clinic." target="_blank" rel="noopener" data-track="whatsapp-hero">
+        <a class="btn btn--outline btn--lg hx__wa" href="https://wa.me/918197516940?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation%20at%20Chitra%27s%20Lifeline%20Clinic." target="_blank" rel="noopener" data-track="whatsapp-hero" aria-label="WhatsApp us">
           <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-wa"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.1 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.5-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.3.3c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>
-          WhatsApp us
+          <span class="hx__wa-t">WhatsApp us</span>
         </a>
       </div>
-
-      <ul class="hero__trust reveal" data-reveal data-reveal-delay="3">
-        <li><strong data-count="4.8" data-decimals="1">4.8</strong><span>★ on Justdial<br>160+ ratings</span></li>
-        <li><strong data-count="7">7</strong><span>+ years<br>in aesthetics</span></li>
-        <li><strong>IADVL</strong><span>IMA · CDSI<br>ACSI member</span></li>
+      <ul class="hx__trust">
+        <li><strong class="text-metal-rose" data-count="4.8" data-decimals="1">4.8</strong><span>★ on Justdial<br>160+ ratings</span></li>
+        <li><strong class="text-metal-rose" data-count="7">7</strong><span>+ years<br>in aesthetics</span></li>
+        <li><strong class="text-metal-rose">IADVL</strong><span>IMA · CDSI<br>ACSI member</span></li>
       </ul>
     </div>
 
-    <figure class="hero__media reveal" data-reveal data-reveal-delay="2">
-      <div data-px-cover class="hero__frame" data-tilt>
-        <img src="/assets/img/hero-doctor.jpg" width="1200" height="1800" fetchpriority="high"
-             alt="Dermatologist in a white coat at Chitra's Lifeline Clinic, Yelahanka" data-slot="1.1">
-        <span class="hero__sheen" aria-hidden="true"></span>
+    <!-- Over the seam. A direct child of the stage so its difference blend can
+         see the photograph; decorative, since the H1 above carries the text. -->
+    <div class="hx__headline title-difference" aria-hidden="true">
+      <div class="hx__stack">
+        <div class="hx__set" data-set="botox">
+          <span class="rise-mask"><span style="--i:0">Botox,</span></span>
+          <span class="rise-mask"><span style="--i:1">by a <b>dermatologist</b></span></span>
+        </div>
+        <div class="hx__set" data-set="laser">
+          <span class="rise-mask"><span style="--i:0">Laser hair</span></span>
+          <span class="rise-mask"><span style="--i:1">removal, <b>doctor-led</b></span></span>
+        </div>
+        <div class="hx__set" data-set="facial">
+          <span class="rise-mask"><span style="--i:0">Medi-facials,</span></span>
+          <span class="rise-mask"><span style="--i:1">with a <b>diagnosis</b></span></span>
+        </div>
       </div>
-      <figcaption class="hero__badge">
-        <span class="hero__badge-k">Every procedure</span>
-        <span class="hero__badge-v">done by the doctor</span>
-      </figcaption>
-    </figure>
-
-  </div>
-
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee__track">
-      <span>Botox</span><i>·</i><span>Laser Hair Removal</span><i>·</i><span>Medi-Facials</span><i>·</i>
-      <span>PRP Therapy</span><i>·</i><span>Chemical Peels</span><i>·</i><span>Hair Fall Treatment</span><i>·</i>
-      <span>Dermal Fillers</span><i>·</i><span>Pigmentation</span><i>·</i>
-      <span>Botox</span><i>·</i><span>Laser Hair Removal</span><i>·</i><span>Medi-Facials</span><i>·</i>
-      <span>PRP Therapy</span><i>·</i><span>Chemical Peels</span><i>·</i><span>Hair Fall Treatment</span><i>·</i>
-      <span>Dermal Fillers</span><i>·</i><span>Pigmentation</span><i>·</i>
     </div>
   </div>
 </section>
+
+<!-- Treatments strip — once the old hero's foot, now its own band. -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Botox</span><i>·</i><span>Laser Hair Removal</span><i>·</i><span>Medi-Facials</span><i>·</i>
+    <span>PRP Therapy</span><i>·</i><span>Chemical Peels</span><i>·</i><span>Hair Fall Treatment</span><i>·</i>
+    <span>Dermal Fillers</span><i>·</i><span>Pigmentation</span><i>·</i>
+    <span>Botox</span><i>·</i><span>Laser Hair Removal</span><i>·</i><span>Medi-Facials</span><i>·</i>
+    <span>PRP Therapy</span><i>·</i><span>Chemical Peels</span><i>·</i><span>Hair Fall Treatment</span><i>·</i>
+    <span>Dermal Fillers</span><i>·</i><span>Pigmentation</span><i>·</i>
+  </div>
+</div>
 
 <!-- ══ THE DIFFERENCE ════════════════════════════════════════════════════ -->
 <section class="section section--light compare" id="difference">
@@ -197,7 +272,7 @@
 
     <div class="services__grid">
       <a class="svc reveal" href="#botox" data-reveal data-tilt>
-        <div class="svc__img"><img src="/assets/img/botox-injection.jpg" width="1800" height="1200" loading="lazy" alt="Botox being administered by a dermatologist" data-slot="1.6"></div>
+        <div class="svc__img"><img decoding="async" src="/assets/img/botox-injection.jpg" srcset="/assets/img/botox-injection-480.webp 480w, /assets/img/botox-injection-800.webp 800w, /assets/img/botox-injection-1200.webp 1200w, /assets/img/botox-injection-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Botox being administered by a dermatologist" data-slot="1.6"></div>
         <div class="svc__body">
           <span class="svc__n">01</span>
           <h3>Botox</h3>
@@ -207,7 +282,7 @@
       </a>
 
       <a class="svc reveal" href="#laser" data-reveal data-reveal-delay="1" data-tilt>
-        <div class="svc__img"><img src="/assets/img/laser-handpiece.jpg" width="1800" height="1200" loading="lazy" alt="Laser hair removal handpiece being used on a patient" data-slot="1.5"></div>
+        <div class="svc__img"><img decoding="async" src="/assets/img/laser-handpiece.jpg" srcset="/assets/img/laser-handpiece-480.webp 480w, /assets/img/laser-handpiece-800.webp 800w, /assets/img/laser-handpiece-1200.webp 1200w, /assets/img/laser-handpiece-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Laser hair removal handpiece being used on a patient" data-slot="1.5"></div>
         <div class="svc__body">
           <span class="svc__n">02</span>
           <h3>Laser Hair Removal</h3>
@@ -217,7 +292,7 @@
       </a>
 
       <a class="svc reveal" href="#facial" data-reveal data-reveal-delay="2" data-tilt>
-        <div class="svc__img"><img src="/assets/img/medifacial.jpg" width="1800" height="1200" loading="lazy" alt="Medi-facial treatment in progress" data-slot="1.7"></div>
+        <div class="svc__img"><img decoding="async" src="/assets/img/medifacial.jpg" srcset="/assets/img/medifacial-480.webp 480w, /assets/img/medifacial-800.webp 800w, /assets/img/medifacial-1200.webp 1200w, /assets/img/medifacial-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Medi-facial treatment in progress" data-slot="1.7"></div>
         <div class="svc__body">
           <span class="svc__n">03</span>
           <h3>Medi-Facials</h3>
@@ -237,7 +312,7 @@
   <div class="wrap deep__grid">
     <div class="deep__media reveal" data-reveal>
       <div data-px-cover data-px="-0.4" class="deep__frame">
-        <img src="/assets/img/botox-injection.jpg" width="1800" height="1200" loading="lazy" alt="Precise botulinum toxin injection performed by a dermatologist" data-slot="1.6">
+        <img decoding="async" src="/assets/img/botox-injection.jpg" srcset="/assets/img/botox-injection-480.webp 480w, /assets/img/botox-injection-800.webp 800w, /assets/img/botox-injection-1200.webp 1200w, /assets/img/botox-injection-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Precise botulinum toxin injection performed by a dermatologist" data-slot="1.6">
       </div>
       <!-- Face map: dots pulse in sequence to show commonly treated areas. -->
       <ul class="facemap" aria-label="Commonly treated areas">
@@ -248,8 +323,8 @@
         <li style="--x:50%;--y:74%"><span></span>Jawline</li>
       </ul>
     
-      <span class="float float--up" data-px="3" aria-hidden="true"><img src="/assets/img/detail-tools.jpg" loading="lazy" alt=""></span>
-      <span class="float float--dn" data-px="4" aria-hidden="true"><img src="/assets/img/skin-macro.jpg" loading="lazy" alt=""></span>
+      <span class="float float--up" data-px="3" aria-hidden="true"><img decoding="async" src="/assets/img/detail-tools.jpg" srcset="/assets/img/detail-tools-480.webp 480w, /assets/img/detail-tools-800.webp 800w, /assets/img/detail-tools-1200.webp 1200w, /assets/img/detail-tools-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" loading="lazy" alt=""></span>
+      <span class="float float--dn" data-px="4" aria-hidden="true"><img decoding="async" src="/assets/img/skin-macro.jpg" srcset="/assets/img/skin-macro-480.webp 480w, /assets/img/skin-macro-800.webp 800w, /assets/img/skin-macro-1200.webp 1200w, /assets/img/skin-macro-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" loading="lazy" alt=""></span>
     </div>
 
     <div class="deep__copy">
@@ -289,13 +364,13 @@
   <div class="wrap deep__grid">
     <div class="deep__media reveal" data-reveal>
       <div data-px-cover data-px="-0.4" class="deep__frame laser-frame">
-        <img src="/assets/img/laser-handpiece.jpg" width="1800" height="1200" loading="lazy" alt="Diode laser handpiece treating underarm hair" data-slot="1.5">
+        <img decoding="async" src="/assets/img/laser-handpiece.jpg" srcset="/assets/img/laser-handpiece-480.webp 480w, /assets/img/laser-handpiece-800.webp 800w, /assets/img/laser-handpiece-1200.webp 1200w, /assets/img/laser-handpiece-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Diode laser handpiece treating underarm hair" data-slot="1.5">
         <!-- Light bar travels across the image as the section scrolls past. -->
         <span class="laser-sweep" aria-hidden="true"></span>
       </div>
     
-      <span class="float float--up" data-px="4" aria-hidden="true"><img src="/assets/img/texture-water.jpg" loading="lazy" alt=""></span>
-      <span class="float float--dn" data-px="2.5" aria-hidden="true"><img src="/assets/img/detail-gloves.jpg" loading="lazy" alt=""></span>
+      <span class="float float--up" data-px="4" aria-hidden="true"><img decoding="async" src="/assets/img/texture-water.jpg" srcset="/assets/img/texture-water-480.webp 480w, /assets/img/texture-water-800.webp 800w, /assets/img/texture-water-1200.webp 1200w, /assets/img/texture-water-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" loading="lazy" alt=""></span>
+      <span class="float float--dn" data-px="2.5" aria-hidden="true"><img decoding="async" src="/assets/img/detail-gloves.jpg" srcset="/assets/img/detail-gloves-480.webp 480w, /assets/img/detail-gloves-800.webp 800w, /assets/img/detail-gloves-1200.webp 1200w, /assets/img/detail-gloves-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" loading="lazy" alt=""></span>
     </div>
 
     <div class="deep__copy">
@@ -342,11 +417,11 @@
   <div class="wrap deep__grid">
     <div class="deep__media reveal" data-reveal>
       <div data-px-cover data-px="-0.4" class="deep__frame">
-        <img src="/assets/img/medifacial.jpg" width="1800" height="1200" loading="lazy" alt="Medi-facial serum application during treatment" data-slot="1.7">
+        <img decoding="async" src="/assets/img/medifacial.jpg" srcset="/assets/img/medifacial-480.webp 480w, /assets/img/medifacial-800.webp 800w, /assets/img/medifacial-1200.webp 1200w, /assets/img/medifacial-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Medi-facial serum application during treatment" data-slot="1.7">
       </div>
     
-      <span class="float float--up" data-px="3.5" aria-hidden="true"><img src="/assets/img/texture-silk.jpg" loading="lazy" alt=""></span>
-      <span class="float float--dn" data-px="4" aria-hidden="true"><img src="/assets/img/detail-serum.jpg" loading="lazy" alt=""></span>
+      <span class="float float--up" data-px="3.5" aria-hidden="true"><img decoding="async" src="/assets/img/texture-silk.jpg" srcset="/assets/img/texture-silk-480.webp 480w, /assets/img/texture-silk-800.webp 800w, /assets/img/texture-silk-1200.webp 1200w, /assets/img/texture-silk-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" loading="lazy" alt=""></span>
+      <span class="float float--dn" data-px="4" aria-hidden="true"><img decoding="async" src="/assets/img/detail-serum.jpg" srcset="/assets/img/detail-serum-480.webp 480w, /assets/img/detail-serum-800.webp 800w, /assets/img/detail-serum-1200.webp 1200w, /assets/img/detail-serum-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" loading="lazy" alt=""></span>
     </div>
 
     <div class="deep__copy">
@@ -427,28 +502,28 @@
          each poster for a frame grabbed from that reel — see BRIEF.md §4 (4.x). -->
     <div class="ig__grid">
       <a class="reel reveal" data-reveal href="https://www.instagram.com/chitraslifelineclinic/reels/" target="_blank" rel="noopener" data-track="instagram-reel">
-        <img src="/assets/img/reel-1.jpg" width="1200" height="2133" loading="lazy" alt="Dr. Bindiya explaining what botox actually does" data-slot="4.1">
+        <img decoding="async" src="/assets/img/reel-1.jpg" srcset="/assets/img/reel-1-480.webp 480w, /assets/img/reel-1-800.webp 800w, /assets/img/reel-1-1200.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="2133" loading="lazy" alt="Dr. Bindiya explaining what botox actually does" data-slot="4.1">
         <span class="reel__badge">Botox</span>
         <span class="reel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
         <span class="reel__cap"><strong>What botox actually does</strong><span>And what it can't fix</span></span>
       </a>
 
       <a class="reel reveal" data-reveal data-reveal-delay="1" href="https://www.instagram.com/chitraslifelineclinic/reels/" target="_blank" rel="noopener" data-track="instagram-reel">
-        <img src="/assets/img/reel-2.jpg" width="1200" height="2133" loading="lazy" alt="Dr. Bindiya on laser settings for Indian skin" data-slot="4.2">
+        <img decoding="async" src="/assets/img/reel-2.jpg" srcset="/assets/img/reel-2-480.webp 480w, /assets/img/reel-2-800.webp 800w, /assets/img/reel-2-1200.webp 1200w, /assets/img/reel-2-1351.webp 1351w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="2133" loading="lazy" alt="Dr. Bindiya on laser settings for Indian skin" data-slot="4.2">
         <span class="reel__badge">Laser</span>
         <span class="reel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
         <span class="reel__cap"><strong>Laser on Indian skin</strong><span>Why the settings matter</span></span>
       </a>
 
       <a class="reel reveal" data-reveal data-reveal-delay="2" href="https://www.instagram.com/chitraslifelineclinic/reels/" target="_blank" rel="noopener" data-track="instagram-reel">
-        <img src="/assets/img/reel-3.jpg" width="1200" height="2133" loading="lazy" alt="Medi-facial aftercare explained" data-slot="4.3">
+        <img decoding="async" src="/assets/img/reel-3.jpg" srcset="/assets/img/reel-3-480.webp 480w, /assets/img/reel-3-800.webp 800w, /assets/img/reel-3-1200.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="2133" loading="lazy" alt="Medi-facial aftercare explained" data-slot="4.3">
         <span class="reel__badge">Medi-Facial</span>
         <span class="reel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
         <span class="reel__cap"><strong>Salon facial vs medi-facial</strong><span>The honest difference</span></span>
       </a>
 
       <a class="reel reveal" data-reveal data-reveal-delay="3" href="https://www.instagram.com/chitraslifelineclinic/reels/" target="_blank" rel="noopener" data-track="instagram-reel">
-        <img src="/assets/img/reel-4.jpg" width="1200" height="2133" loading="lazy" alt="When hair fall needs a dermatologist" data-slot="4.4">
+        <img decoding="async" src="/assets/img/reel-4.jpg" srcset="/assets/img/reel-4-480.webp 480w, /assets/img/reel-4-800.webp 800w, /assets/img/reel-4-1200.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="2133" loading="lazy" alt="When hair fall needs a dermatologist" data-slot="4.4">
         <span class="reel__badge">Hair fall</span>
         <span class="reel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
         <span class="reel__cap"><strong>When hair fall needs a doctor</strong><span>The signs to watch for</span></span>
@@ -467,14 +542,14 @@
   <div class="wrap doctor__grid">
     <figure class="doctor__media reveal" data-reveal>
       <div data-px-cover data-px="-0.5" class="doctor__frame">
-        <img src="/assets/img/doctor-env.jpg" width="1200" height="1800" loading="lazy" alt="Dr. Bindiya G P, Aesthetic Dermatologist and Cosmetologist" data-slot="2.2">
+        <img decoding="async" src="/assets/img/doctor-env.jpg" srcset="/assets/img/doctor-env-480.webp 480w, /assets/img/doctor-env-800.webp 800w, /assets/img/doctor-env-1200.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="1800" loading="lazy" alt="Dr. Bindiya G P, Aesthetic Dermatologist and Cosmetologist" data-slot="2.2">
       </div>
       <span class="doctor__stamp" aria-hidden="true">
         <span>7+ years</span><em>in aesthetic dermatology</em>
       </span>
     
-      <span class="float float--up" data-px="4" aria-hidden="true"><img src="/assets/img/detail-serum.jpg" loading="lazy" alt=""></span>
-      <span class="float float--dn" data-px="2.5" aria-hidden="true"><img src="/assets/img/texture-silk.jpg" loading="lazy" alt=""></span>
+      <span class="float float--up" data-px="4" aria-hidden="true"><img decoding="async" src="/assets/img/detail-serum.jpg" srcset="/assets/img/detail-serum-480.webp 480w, /assets/img/detail-serum-800.webp 800w, /assets/img/detail-serum-1200.webp 1200w, /assets/img/detail-serum-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" loading="lazy" alt=""></span>
+      <span class="float float--dn" data-px="2.5" aria-hidden="true"><img decoding="async" src="/assets/img/texture-silk.jpg" srcset="/assets/img/texture-silk-480.webp 480w, /assets/img/texture-silk-800.webp 800w, /assets/img/texture-silk-1200.webp 1200w, /assets/img/texture-silk-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" loading="lazy" alt=""></span>
     </figure>
 
     <div class="doctor__copy">
@@ -519,12 +594,12 @@
   <!-- Scrolls horizontally as you scroll down the page. -->
   <div class="rail" data-rail>
     <div class="rail__track">
-      <figure><img src="/assets/img/reception.jpg" width="1800" height="1200" loading="lazy" alt="Clinic reception and waiting area" data-slot="1.9"><figcaption>Reception</figcaption></figure>
-      <figure><img src="/assets/img/treatment-room.jpg" width="1800" height="1200" loading="lazy" alt="Treatment room" data-slot="1.8"><figcaption>Treatment room</figcaption></figure>
-      <figure><img src="/assets/img/laser-machine.jpg" width="1200" height="1800" loading="lazy" alt="Laser system used at the clinic" data-slot="1.4"><figcaption>The laser system</figcaption></figure>
-      <figure><img src="/assets/img/consult-room.jpg" width="1800" height="1200" loading="lazy" alt="Consultation room" data-slot="2.8"><figcaption>Consultation room</figcaption></figure>
-      <figure><img src="/assets/img/detail-gloves.jpg" width="1800" height="1200" loading="lazy" alt="Sterile gloves and single-use consumables" data-slot="2.3a"><figcaption>Single-use, every time</figcaption></figure>
-      <figure><img src="/assets/img/exterior.jpg" width="1800" height="1200" loading="lazy" alt="Clinic entrance in Yelahanka New Town" data-slot="1.10"><figcaption>Find us</figcaption></figure>
+      <figure><img decoding="async" src="/assets/img/reception.jpg" srcset="/assets/img/reception-480.webp 480w, /assets/img/reception-800.webp 800w, /assets/img/reception-1200.webp 1200w, /assets/img/reception-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Clinic reception and waiting area" data-slot="1.9"><figcaption>Reception</figcaption></figure>
+      <figure><img decoding="async" src="/assets/img/treatment-room.jpg" srcset="/assets/img/treatment-room-480.webp 480w, /assets/img/treatment-room-800.webp 800w, /assets/img/treatment-room-1200.webp 1200w, /assets/img/treatment-room-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Treatment room" data-slot="1.8"><figcaption>Treatment room</figcaption></figure>
+      <figure><img decoding="async" src="/assets/img/laser-machine.jpg" srcset="/assets/img/laser-machine-480.webp 480w, /assets/img/laser-machine-800.webp 800w, /assets/img/laser-machine-1200.webp 1200w, /assets/img/laser-machine-1350.webp 1350w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="1800" loading="lazy" alt="Laser system used at the clinic" data-slot="1.4"><figcaption>The laser system</figcaption></figure>
+      <figure><img decoding="async" src="/assets/img/consult-room.jpg" srcset="/assets/img/consult-room-480.webp 480w, /assets/img/consult-room-800.webp 800w, /assets/img/consult-room-1200.webp 1200w, /assets/img/consult-room-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Consultation room" data-slot="2.8"><figcaption>Consultation room</figcaption></figure>
+      <figure><img decoding="async" src="/assets/img/detail-gloves.jpg" srcset="/assets/img/detail-gloves-480.webp 480w, /assets/img/detail-gloves-800.webp 800w, /assets/img/detail-gloves-1200.webp 1200w, /assets/img/detail-gloves-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Sterile gloves and single-use consumables" data-slot="2.3a"><figcaption>Single-use, every time</figcaption></figure>
+      <figure><img decoding="async" src="/assets/img/exterior.jpg" srcset="/assets/img/exterior-480.webp 480w, /assets/img/exterior-800.webp 800w, /assets/img/exterior-1200.webp 1200w, /assets/img/exterior-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Clinic entrance in Yelahanka New Town" data-slot="1.10"><figcaption>Find us</figcaption></figure>
     </div>
   </div>
 </section>
@@ -575,10 +650,10 @@
   <!-- PLACEHOLDER COPY — replace with real, attributable reviews before launch. -->
   <div class="revmarq" data-marquee>
     <div class="revmarq__track">
-      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>She actually listens. Explained why I did not need half of what another clinic had quoted me.</p><footer><img src="/assets/img/model-1.jpg" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Yelahanka</span></footer></article>
-      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>Six sessions of laser and the difference is genuinely there. No burns, no pigmentation.</p><footer><img src="/assets/img/model-2.jpg" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Jakkur</span></footer></article>
-      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>Went in nervous about botox. It looks like nothing was done, which is exactly what I wanted.</p><footer><img src="/assets/img/model-3.jpg" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Sahakar Nagar</span></footer></article>
-      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>Clean clinic, no waiting, and the doctor does everything herself. Rare combination.</p><footer><img src="/assets/img/model-1.jpg" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Vidyaranyapura</span></footer></article>
+      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>She actually listens. Explained why I did not need half of what another clinic had quoted me.</p><footer><img decoding="async" src="/assets/img/model-1.jpg" srcset="/assets/img/model-1-480.webp 480w, /assets/img/model-1-800.webp 800w, /assets/img/model-1-1200.webp 1200w, /assets/img/model-1-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Yelahanka</span></footer></article>
+      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>Six sessions of laser and the difference is genuinely there. No burns, no pigmentation.</p><footer><img decoding="async" src="/assets/img/model-2.jpg" srcset="/assets/img/model-2-480.webp 480w, /assets/img/model-2-800.webp 800w, /assets/img/model-2-1200.webp 1200w, /assets/img/model-2-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Jakkur</span></footer></article>
+      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>Went in nervous about botox. It looks like nothing was done, which is exactly what I wanted.</p><footer><img decoding="async" src="/assets/img/model-3.jpg" srcset="/assets/img/model-3-480.webp 480w, /assets/img/model-3-800.webp 800w, /assets/img/model-3-1200.webp 1200w, /assets/img/model-3-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Sahakar Nagar</span></footer></article>
+      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>Clean clinic, no waiting, and the doctor does everything herself. Rare combination.</p><footer><img decoding="async" src="/assets/img/model-1.jpg" srcset="/assets/img/model-1-480.webp 480w, /assets/img/model-1-800.webp 800w, /assets/img/model-1-1200.webp 1200w, /assets/img/model-1-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Vidyaranyapura</span></footer></article>
     </div>
   </div>
 </section>
@@ -661,8 +736,9 @@
     <div class="location__map reveal" data-reveal data-reveal-delay="2">
       <iframe
         title="Map showing Chitra's Lifeline Clinic, Yelahanka New Town, Bengaluru"
-        src="https://www.google.com/maps?q=Chitra%27s%20Lifeline%20Clinic%20Yelahanka%20New%20Town%20Bengaluru&output=embed"
+        data-src="https://www.google.com/maps?q=Chitra%27s%20Lifeline%20Clinic%20Yelahanka%20New%20Town%20Bengaluru&output=embed"
         loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <noscript><iframe title="Map showing Chitra's Lifeline Clinic" src="https://www.google.com/maps?q=Chitra%27s%20Lifeline%20Clinic%20Yelahanka%20New%20Town%20Bengaluru&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></noscript>
     </div>
   </div>
 </section>
@@ -762,7 +838,7 @@
   <div class="wrap">
     <div class="foot__grid">
       <div class="foot__brand">
-        <img src="/assets/img/logo-full.png" width="640" height="662" loading="lazy"
+        <img decoding="async" src="/assets/img/logo-full.png" width="640" height="662" loading="lazy"
              alt="Chitra's Lifeline Clinic" class="foot__logo">
         <p>Dermatology &amp; Cosmetology (Skin &amp; Lasers) · Neurosurgery &amp; Spine Surgery</p>
       </div>

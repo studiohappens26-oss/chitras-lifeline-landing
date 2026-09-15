@@ -2,7 +2,7 @@
 
 Single-page, static, zero-dependency landing page for Cloudflare Pages.
 Creative and image brief: [BRIEF.md](BRIEF.md).
-Scroll and loader mechanics: [MOTION.md](MOTION.md).
+Hero, preloader and scroll mechanics: [MOTION.md](MOTION.md).
 
 ```
 index.html              the whole page
@@ -10,7 +10,7 @@ assets/css/styles.css   design system + all motion
 assets/css/fonts.css    @font-face rules — generated, do not edit by hand
 assets/fonts/           self-hosted Comfortaa + Nunito (woff2)
 assets/js/main.js       interaction layer (no libraries)
-assets/js/motion.js     loader, smooth scroll, parallax, line reveals — see MOTION.md
+assets/js/motion.js     preloader, hero, smooth scroll, parallax, line reveals — see MOTION.md
 type.html               font specimen page — 11 pairings, for reference
 assets/img/             imagery — currently Pexels placeholders
 assets/img/CREDITS.json photographer credits per slot
@@ -19,6 +19,9 @@ scripts/fetch-images.mjs   re-pull placeholder stock
 scripts/candidates.mjs     preview alternatives for one image slot
 scripts/fetch-fonts.mjs    re-download + self-host the webfonts
 scripts/serve.mjs          local preview server
+scripts/build-images.mjs   responsive WebP variants + srcset for every photo
+scripts/trace-logo.cjs     traces the logo PNG into the preloader's animated SVG
+package.json            dev tools only (sharp, potrace) — the site ships no dependencies
 _headers                caching + security headers
 ```
 
@@ -38,7 +41,8 @@ npx wrangler pages dev .
 ## The three ad-group URLs
 
 One page, three faces. The `?s=` parameter swaps the H1, the sub-headline and
-the hero image, floats the matching deep-dive section to the top, and preselects
+the hero photograph, holds the hero's rotating headline on the matching line,
+floats the matching deep-dive section to the top, and preselects
 the treatment in the booking form. Point each Google ad group at its own URL so
 the headline matches the search term — better message match, better Quality
 Score, cheaper clicks.
@@ -60,8 +64,8 @@ back to the ad group without extra tracking setup.
 3. Build settings: **no build command**, output directory `/`. It's static.
 4. Add a custom domain — `skin.chitraslifelineclinic.com` is recommended so it
    inherits the existing domain's trust.
-5. Turn on **Speed → Optimization → Polish** (Lossy + WebP) so the JPEGs are
-   auto-converted and resized at the edge.
+5. **Polish** (Speed → Optimization) is not needed: responsive WebP variants
+   are pre-built by `scripts/build-images.mjs` and served through `srcset`.
 
 ### Environment variables for lead capture
 
@@ -110,17 +114,28 @@ Import `lead_submit` and the `call_*` events as Google Ads conversions.
   paid traffic.
 - **Motion degrades.** Every animation is wrapped in `prefers-reduced-motion`
   handling; the page becomes a clean static document for anyone who asks for it.
-- **The motion layer is a separate file.** `motion.js` carries the loader,
-  smooth scroll, multi-speed parallax and line reveals — 6.9 KB gzipped, no
-  libraries, versus roughly 120 KB for the GSAP + Lenis stack the techniques
+- **The motion layer is a separate file.** `motion.js` carries the preloader,
+  the hero, smooth scroll, multi-speed parallax and line reveals — about 10 KB
+  gzipped, no libraries, versus roughly 120 KB for the GSAP + Lenis stack the techniques
   come from. It is deliberately not in `main.js`: that file holds the booking
   form and conversion tracking, and pulling an animation must never put the
   form at risk. Technique notes are in [MOTION.md](MOTION.md).
-- **The loader is bounded.** Paid traffic means every extra second is billed,
-  so it dismisses at `min(hero image + fonts ready, 1100 ms)`, shows once per
-  session, and never blocks paint — the page renders underneath it, so LCP is
-  unaffected. To drop it entirely, delete the `.loader` block from
-  `index.html`; to retime it, change `MAX_MS` in `motion.js`.
+- **The preloader is functional, and bounded.** It builds the clinic's logo,
+  then holds until the webfonts, the hero photograph (downloaded and decoded)
+  and the page load are actually ready — the meter reports them. It never
+  exits before the 1.8 s build (`MIN_MS`) and never waits past 4.5 s
+  (`CAP_MS`), shows once per session, is skipped under reduced motion, and
+  never blocks paint: the page renders underneath, so LCP is unaffected. If
+  `motion.js` fails to load, the stylesheet clears it at 7 s. To drop it,
+  delete the `.pl` block from `index.html`.
+- **Lazy by default.** Every photo below the fold is `loading="lazy"` and
+  `decoding="async"`, and arrives through a WebP `srcset` sized for the
+  screen — the 800w set is 87% lighter than the source JPEGs. Pending images
+  show a soft shimmer and fade in when they land. The hero photograph is the
+  exception: the head script preloads the right one for the ad group at high
+  priority before the parser reaches it. The Google Maps embed, the heaviest
+  thing on the page, is not requested until its section is about a screen
+  away.
 - **The form is resilient.** Client-side validation, a honeypot, Indian mobile
   format handling (`+91`, `0` and spaced variants all accepted), and a WhatsApp
   fallback if the endpoint is unreachable.
@@ -132,8 +147,25 @@ Import `lead_submit` and the `call_*` events as Google Ads conversions.
 
 ## Replacing an image
 
-Drop the new file in `assets/img/` under the same name and redeploy. Nothing in
-the HTML or CSS needs to change. To try different stock for a slot:
+Drop the new JPEG in `assets/img/` under the same name, rebuild its WebP
+variants, and redeploy:
+
+```bash
+npm install
+```
+
+```bash
+node scripts/build-images.mjs
+```
+
+The page serves those WebP files through `srcset`, so a replaced JPEG alone
+will not show. Nothing in the HTML or CSS needs editing by hand.
+
+Hero photographs must be landscape and at least 1800px wide — the head script
+requests all four widths by name. Which photo each ad group gets is the `HERO`
+map in that `<head>` script.
+
+To try different stock for a slot:
 
 ```bash
 node scripts/candidates.mjs "female doctor portrait" portrait 6

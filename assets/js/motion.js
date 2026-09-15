@@ -1,8 +1,10 @@
 /**
- * Motion layer — loader, smooth scroll, multi-speed parallax, line reveals.
+ * Motion layer — preloader, hero, smooth scroll, multi-speed parallax, line
+ * reveals.
  *
- * The techniques here are lifted from truekindskincare.com; MOTION.md records
- * the analysis. They run GSAP + ScrollTrigger + SplitText + Lenis, which is
+ * The preloader and the hero are ported from the Just Dent build
+ * (ClientWorks/JustDent); the scroll techniques from truekindskincare.com.
+ * MOTION.md records both analyses. They run GSAP + ScrollTrigger + SplitText + Lenis, which is
  * ~120 KB gzipped of library. This is a Google Ads landing page where latency
  * is billed to the client on every click, so everything below is hand-written
  * against the same maths — one rAF loop, transforms only, ~7 KB.
@@ -22,89 +24,284 @@
   /* Their CustomEase "M0,0 C0.17,0.84 0.44,1 1,1" is just this curve. */
   const EASE = 'cubic-bezier(.17,.84,.44,1)';
 
-  /* ══ Loader ═════════════════════════════════════════════════════════════
-     A loader on a paid-traffic landing page is a cost, not a flourish: the
-     visitor already paid for the click and every extra second leaks them. So
-     this one is bounded from three directions —
-       · it dismisses at min(fonts + hero image ready, MAX_MS)
-       · it shows once per session, so a back-button return is instant
-       · it is skipped entirely under prefers-reduced-motion
-     The page renders underneath it the whole time; this is an overlay, never
-     a gate on paint, so it does not push out LCP.
-     To remove it, delete the .loader element — nothing else depends on it. */
-  const MAX_MS = 1100;
-  const MIN_MS = 600;          // below this the exit animation just looks broken
+  /* JustDent's GSAP eases, as the cubic-béziers they approximate. */
+  const EXPO = 'cubic-bezier(.16,1,.3,1)';          // expo.out
+  const EXPO_IO = 'cubic-bezier(.87,0,.13,1)';      // expo.inOut
+  const POWER3_IO = 'cubic-bezier(.65,0,.35,1)';    // power3.inOut
+  const POWER2_IN = 'cubic-bezier(.55,.085,.68,.53)';
 
-  function loader() {
-    const el = $('.loader');
-    if (!el) return Promise.resolve();
+  const html = document.documentElement;
+  const anim = (el, frames, duration, delay = 0, easing = EXPO) =>
+    el.animate(frames, { duration, delay, easing, fill: 'both' });
 
-    const seen = (() => {
-      try { return sessionStorage.getItem('cl_seen') === '1'; } catch { return false; }
-    })();
+  /* ══ Preloader ══════════════════════════════════════════════════════════
+     Rebuilt from Just Dent's Preloader.tsx: the clinic's logo assembles
+     piece by piece, holds, then the panel wipes away upward to uncover a hero
+     panel of the same colour. Their GSAP timeline runs here on the Web
+     Animations API, with the same timings, and the logo is Chitra's own mark
+     traced into separate parts (scripts/trace-logo.cjs).
 
-    if (REDUCED || seen) { el.remove(); document.documentElement.classList.add('is-ready'); return Promise.resolve(); }
-    try { sessionStorage.setItem('cl_seen', '1'); } catch { /* private mode */ }
+     It does real work rather than just playing. It waits on what the first
+     screen needs — the webfonts, the hero photograph downloaded *and
+     decoded*, and the page's load event — and the meter reports those as they
+     arrive. The logo takes MIN_MS to build: if everything is ready sooner the
+     exit follows the animation; if not, the finished logo holds until it is,
+     up to CAP_MS. Past that it lets go regardless — a paid click must never be
+     held hostage by one slow photograph.
 
-    document.documentElement.classList.add('is-loading');
+     Whether a visit gets it at all is decided in <head> before first paint
+     (once per session, never under reduced motion), so a returning visitor
+     never sees it flash. */
+  const PL_KEY = 'cl_pl';
+  const MIN_MS = 1800;
+  const CAP_MS = 4500;
 
-    /* Two digit columns that only ever move forward — the reason the reference
-       site picks odd stops like 0,2,6,9 rather than counting every integer is
-       that a units digit rolling 9→0 would visibly run backwards. Both columns
-       here are monotonic, so the roll is always downward. */
-    const STOPS = ['00', '13', '25', '47', '68', '99'];
-    const L = [...new Set(STOPS.map((s) => s[0]))];
-    const R = [...new Set(STOPS.map((s) => s[1]))];
-    const fill = (sel, digits) => {
-      const box = $(sel, el);
-      if (box) box.innerHTML = `<span class="loader__di">${digits.map((d) => `<span>${d}</span>`).join('')}</span>`;
+  const whenLoaded = () => (document.readyState === 'complete'
+    ? Promise.resolve()
+    : new Promise((r) => addEventListener('load', r, { once: true })));
+
+  const whenDecoded = (img) => {
+    if (!img) return Promise.resolve();
+    const loaded = img.complete
+      ? Promise.resolve()
+      : new Promise((r) => { img.addEventListener('load', r, { once: true }); img.addEventListener('error', r, { once: true }); });
+    // decode(), so the wipe never uncovers a photograph still being rasterised.
+    return loaded.then(() => (img.decode ? img.decode().catch(() => {}) : undefined));
+  };
+
+  function preloader() {
+    const el = $('.pl');
+    if (!el || html.dataset.pl !== 'active') {
+      el?.remove();
+      html.dataset.pl = 'done';
+      return Promise.resolve();
+    }
+
+    /* Scroll lock. Capturing listeners that stop the event outright, so the
+       smooth-scroll wheel handler never sees it either; overflow alone would
+       not stop a trackpad's momentum from arriving after the unlock. */
+    const block = (e) => { e.preventDefault(); e.stopImmediatePropagation(); };
+    const KEYS = new Set([' ', 'PageUp', 'PageDown', 'Home', 'End', 'ArrowUp', 'ArrowDown']);
+    const blockKey = (e) => { if (KEYS.has(e.key)) block(e); };
+    const LOCK = { capture: true, passive: false };
+    addEventListener('wheel', block, LOCK);
+    addEventListener('touchmove', block, LOCK);
+    addEventListener('keydown', blockKey, true);
+    html.style.overflow = 'hidden';
+    const unlock = () => {
+      removeEventListener('wheel', block, LOCK);
+      removeEventListener('touchmove', block, LOCK);
+      removeEventListener('keydown', blockKey, true);
+      html.style.overflow = '';
     };
-    fill('.loader__d--l', L);
-    fill('.loader__d--r', R);
 
-    const roll = (i) => {
-      const [a, b] = STOPS[i];
-      const lb = $('.loader__d--l', el), rb = $('.loader__d--r', el);
-      if (lb) lb.style.setProperty('--i', L.indexOf(a));
-      if (rb) rb.style.setProperty('--i', R.indexOf(b));
-    };
+    /* ── The build ─────────────────────────────────────────────────────────
+       JustDent → here:
+         mint facet rises and rotates up from its base  → the two hair strokes
+         dark facet grows from its left edge            → lashes and brow
+         the smile draws on as a stroke                 → the chin line sweeps
+                                                           in, left to right,
+                                                           into the leaf
+         "Just", then "Dent", letter by letter          → "Chitra's", then
+                                                           "Lifeline Clinic"
+       Percent translates are of each part's own box (transform-box: fill-box
+       in the stylesheet), so the motion scales with the logo. */
+    const logo = $('.pl__logo', el);
+    const parts = (s) => $$(s, logo);
+    const from = (props) => [{ opacity: 0, ...props }, { opacity: 1, transform: 'none' }];
 
+    parts('.pl-hair').forEach((p, i) => {
+      p.style.transformOrigin = '50% 100%';
+      anim(p, from({ transform: 'translateY(30%) rotate(-12deg)' }), 1100, 150 + i * 110);
+    });
+    parts('.pl-face').forEach((p) => {
+      p.style.transformOrigin = '0% 50%';
+      anim(p, from({ transform: 'scaleX(0)' }), 900, 500);
+    });
+    parts('.pl-leaf').forEach((p) => {
+      anim(p, [{ opacity: 1, clipPath: 'inset(0 100% 0 0)' }, { opacity: 1, clipPath: 'inset(0 0% 0 0)' }], 1100, 550, POWER3_IO);
+    });
+    parts('.pl-lips').forEach((p) => {
+      p.style.transformOrigin = '50% 50%';
+      anim(p, from({ transform: 'scale(.3)' }), 800, 700);
+    });
+    parts('.pl-w1').forEach((p, i) => anim(p, from({ transform: 'translateY(45%)' }), 1000, 800 + i * 60));
+    parts('.pl-w2').forEach((p, i) => anim(p, from({ transform: 'translateY(35%)' }), 900, 1000 + i * 22));
+
+    /* ── The meter ─────────────────────────────────────────────────────────
+       Weighted by how much each item actually holds up the first screen. The
+       document itself is already parsed — this script is deferred. */
+    const bar = $('.pl__bar', el);
+    const pct = $('.pl__pct', el);
+    const tasks = [
+      [0.15, Promise.resolve()],
+      [0.25, document.fonts ? document.fonts.ready : Promise.resolve()],
+      [0.4, whenDecoded($('.hx__img'))],
+      [0.2, whenLoaded()],
+    ].map(([w, p]) => [w, p.catch(() => {})]);
+    let real = 0;
+    tasks.forEach(([w, p]) => p.then(() => { real += w; }));
+    const ready = Promise.all(tasks.map(([, p]) => p));
+
+    /* What the meter shows never runs ahead of what has actually loaded, and
+       never ahead of the logo either: on a warm cache everything is ready in a
+       few hundred ms, and a bar that hit 100% and then sat there while the
+       logo finished would read as a hang. So it is the lesser of the two, and
+       eased so the steps between assets read as movement. */
     const t0 = performance.now();
-    let step = 0;
-    const timer = setInterval(() => {
-      step += 1;
-      if (step < STOPS.length) roll(step);
-    }, MAX_MS / STOPS.length);
-
-    // Assets that actually matter for the first screen. A hero image still
-    // decoding is the one thing worth waiting a few hundred ms for.
-    const hero = $('.hero__frame img');
-    const ready = Promise.all([
-      document.fonts ? document.fonts.ready : Promise.resolve(),
-      hero && !hero.complete
-        ? new Promise((r) => { hero.addEventListener('load', r, { once: true }); hero.addEventListener('error', r, { once: true }); })
-        : Promise.resolve(),
-    ]);
+    let shown = 0, last = t0, raf = 0;
+    const draw = (now) => {
+      const goal = Math.min(real, (now - t0) / MIN_MS, 1);
+      shown += (goal - shown) * (1 - Math.exp(-(now - last) / 140));
+      last = now;
+      bar.style.setProperty('--p', shown.toFixed(4));
+      pct.textContent = `${Math.round(shown * 100)}%`;
+      raf = requestAnimationFrame(draw);
+    };
+    raf = requestAnimationFrame(draw);
 
     return new Promise((resolve) => {
-      const finish = () => {
-        clearInterval(timer);
-        roll(STOPS.length - 1);
-        el.classList.add('is-out');
-        document.documentElement.classList.remove('is-loading');
-        document.documentElement.classList.add('is-ready');
-        // Matches the longest exit transition in the CSS.
-        setTimeout(() => { el.remove(); resolve(); }, 900);
+      let gone = false;
+      const exit = () => {
+        if (gone) return;
+        gone = true;
+        clearTimeout(cap);
+        cancelAnimationFrame(raf);
+        bar.style.setProperty('--p', '1');
+        pct.textContent = '100%';
+
+        // The hero starts its own entrance on this, exactly as JustDent's
+        // PRELOADER_EXIT event, so the two overlap rather than queue.
+        document.dispatchEvent(new CustomEvent('cl:preloader-exit'));
+
+        anim(logo, [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.94)' }], 550, 0, POWER2_IN);
+        anim($('.pl__meter', el), [{ opacity: 1 }, { opacity: 0 }], 400, 0, POWER2_IN);
+        anim(el, [{ clipPath: 'inset(0 0 0 0)' }, { clipPath: 'inset(0 0 100% 0)' }], 1000, 100, EXPO_IO);
+
+        /* A timer rather than the animation's finished promise: a tab opened
+           in the background may not run animation frames at all, and the page
+           has to be usable the moment the visitor switches to it. */
+        setTimeout(() => {
+          el.remove();
+          unlock();
+          html.dataset.pl = 'done';
+          try { sessionStorage.setItem(PL_KEY, '1'); } catch { /* private mode */ }
+          resolve();
+        }, 1150);
       };
 
-      const cap = setTimeout(finish, MAX_MS);
-      ready.then(() => {
-        const waited = performance.now() - t0;
-        if (waited >= MAX_MS) return;              // the cap already fired
-        clearTimeout(cap);
-        setTimeout(finish, Math.max(0, MIN_MS - waited));
-      });
+      const cap = setTimeout(exit, CAP_MS);
+      Promise.all([ready, new Promise((r) => setTimeout(r, MIN_MS))]).then(exit);
     });
+  }
+
+  /* ══ Hero ═══════════════════════════════════════════════════════════════
+     Just Dent's hero (Hero.tsx) scrubs a GSAP timeline against the scroll.
+     Here a single number does the job: the hero's scroll progress, eased so it
+     trails the wheel by roughly their 0.3s scrub, written to --hp. Every
+     moving part is a calc() of that in the stylesheet, so one custom property
+     per frame drives the whole scene and nothing but transform and opacity
+     ever changes. */
+  const ROTATE_MS = 4200;
+
+  function hero() {
+    const sec = $('[data-hx]');
+    if (!sec) return;
+    const stage = $('.hx__stage', sec);
+    const media = $('.hx__media', sec);
+    const sets = $$('.hx__set', sec);
+
+    /* ── Rotating headline ─────────────────────────────────────────────────
+       Three headlines share one grid cell and take turns: the outgoing lines
+       leave upward through their masks while the next set rises in behind
+       them. A visitor from an ad group sees only the headline that matches
+       what they searched — message match beats variety — so it holds still. */
+    const only = sets.find((s) => s.dataset.set === html.dataset.variant);
+    const order = only ? [only] : sets;
+    let cur = 0, hp = 0;
+
+    const show = (s, delay) => {
+      s.style.setProperty('--d', `${delay}s`);
+      s.classList.remove('is-out');
+      s.classList.add('is-shown');
+      void s.offsetWidth;            // commit the lowered start so the rise transitions
+      s.classList.add('is-in');
+    };
+    const hide = (s) => {
+      s.classList.remove('is-in');
+      s.classList.add('is-out');
+      // Once it has left, drop it back below its mask, out of sight.
+      setTimeout(() => s.classList.remove('is-shown', 'is-out'), 900);
+    };
+    const next = () => {
+      // Not while nobody can see it: a hidden tab, or scrolled past the point
+      // where the headline has faded out.
+      if (document.hidden || hp > 0.55) return;
+      const prev = order[cur];
+      cur = (cur + 1) % order.length;
+      hide(prev);
+      show(order[cur], 0.4);
+    };
+
+    sec.classList.add('is-live');
+
+    /* ── Entrance ──────────────────────────────────────────────────────────
+       The photograph eases back from a 1.25× push-in while the first headline
+       rises, both keyed to the preloader lifting. The push-in's start scale is
+       set in the stylesheet so it is already in place at first paint. */
+    const enter = () => {
+      if (!REDUCED && media) anim(media, [{ transform: 'scale(1.25)' }, { transform: 'none' }], 2400);
+      show(order[0], 0.2);
+      if (order.length > 1 && !REDUCED) setInterval(next, ROTATE_MS);
+    };
+    if (html.dataset.pl === 'active') document.addEventListener('cl:preloader-exit', enter, { once: true });
+    else enter();
+
+    if (REDUCED) return;
+
+    /* ── Scroll ────────────────────────────────────────────────────────────
+       Progress is measured over the stretch where the stage is pinned: the
+       section's height less the stage's own. */
+    let top = 0, span = 1, height = 0, vh = innerHeight, target = 0, raf = 0, last = 0;
+
+    const read = () => {
+      const y = scrollY - top;
+      target = clamp(y / span, 0, 1);
+      // The treatment names rise once the section's foot passes 110% of the
+      // viewport, and sink again on the way back up.
+      sec.classList.toggle('is-end', height - y < vh * 1.1);
+      // After the pin releases, the photo drifts down a little as it leaves.
+      sec.style.setProperty('--hx-lag', `${(clamp((y - span) / vh, 0, 1) * 6).toFixed(2)}%`);
+    };
+
+    const frame = (now) => {
+      const dt = Math.min(64, now - (last || now));
+      last = now;
+      hp += (target - hp) * (1 - Math.exp(-dt / 90));
+      if (Math.abs(target - hp) < 0.0005) hp = target;
+      sec.style.setProperty('--hp', hp.toFixed(4));
+      // The panel copy is fully faded by 15%; past that it is hidden outright
+      // so its buttons cannot take an invisible click.
+      sec.classList.toggle('is-open', hp > 0.16);
+      if (hp === target) { raf = 0; last = 0; } else raf = requestAnimationFrame(frame);
+    };
+    const kick = () => { read(); if (!raf) raf = requestAnimationFrame(frame); };
+
+    const measure = () => {
+      vh = innerHeight;
+      const r = sec.getBoundingClientRect();
+      top = r.top + scrollY;
+      height = r.height;
+      span = Math.max(1, height - stage.offsetHeight);
+      read();
+    };
+
+    measure();
+    hp = target;                     // a reload part-way down starts in place
+    sec.style.setProperty('--hp', hp.toFixed(4));
+    sec.classList.toggle('is-open', hp > 0.16);
+    addEventListener('scroll', kick, { passive: true });
+    addEventListener('resize', () => { measure(); kick(); });
   }
 
   /* ══ Smooth scroll ══════════════════════════════════════════════════════
@@ -333,7 +530,15 @@
   function lineReveal() {
     const targets = $$('[data-lines]');
     if (!targets.length) return;
-    if (REDUCED) { targets.forEach((el) => el.classList.add('is-in')); return; }
+    /* Section headings take Just Dent's metallic finish — their
+       text-metal-dark, here rebased on the page's plum. The class goes on each
+       line's inner span, the element that directly holds the text, because
+       background-clip:text does not reach text inside a transformed child.
+       data-metal="rose" picks the pink finish; "none" opts out. */
+    const metal = (el) => (el.dataset.metal === 'none' ? '' : `text-metal-${el.dataset.metal || 'plum'}`);
+    const whole = (el) => { if (metal(el)) el.classList.add(metal(el)); };
+
+    if (REDUCED) { targets.forEach((el) => { whole(el); el.classList.add('is-in'); }); return; }
 
     const split = (el) => {
       if (!el._raw) el._raw = el.innerHTML;
@@ -344,7 +549,7 @@
          heading uses inline markup today, but rather than let a future edit
          lose formatting without a word, such a heading skips line splitting
          and reveals as a single block. */
-      if (el.firstElementChild) { el.classList.add('ln-whole'); return; }
+      if (el.firstElementChild) { el.classList.add('ln-whole'); whole(el); return; }
 
       // Wrap every word, read back its offsetTop, and group words that share
       // one into a line. Measuring after the browser has laid the text out is
@@ -370,7 +575,7 @@
         const box = document.createElement('span');
         box.className = 'ln';
         const inner = document.createElement('span');
-        inner.className = 'ln__i';
+        inner.className = `ln__i ${metal(el)}`.trim();
         inner.style.setProperty('--i', i);
         row.forEach((w, j) => {
           if (j) inner.append(' ');
@@ -426,10 +631,12 @@
   /* ══ Boot ═══════════════════════════════════════════════════════════════ */
   const start = () => { smoothScroll(); parallax(); coverParallax(); lineReveal(); };
 
-  // Parallax measures geometry, so it must not run while the loader is over
-  // the page — but nothing here should be able to strand the site if the
-  // loader throws, hence the catch.
-  loader().then(start).catch(start);
+  // The hero first, so it is already listening when the preloader announces
+  // its exit. The rest waits for the preloader to clear — smooth scroll must
+  // not start taking wheel events while the page is locked — and neither may
+  // strand the site if it throws, hence the catches.
+  try { hero(); } catch (e) { console.error(e); }
+  preloader().then(start, start);
 
   // Expose the easing token for anything else that wants to match.
   document.documentElement.style.setProperty('--ease-tk', EASE);

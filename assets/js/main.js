@@ -19,19 +19,16 @@
     botox: {
       title: 'Botox in Yelahanka — performed by a <em>dermatologist</em>.',
       sub: 'Not by a technician. <strong>Dr. Bindiya G P</strong> — Aesthetic Dermatologist &amp; Cosmetologist, 7+ years — assesses your face and places every unit herself.',
-      hero: '/assets/img/botox-injection.jpg',
       first: 'botox',
     },
     laser: {
       title: 'Laser Hair Removal in Yelahanka, done by a <em>dermatologist</em>.',
       sub: 'Indian skin needs settings chosen for it, not machine presets. <strong>Dr. Bindiya G P</strong> reads your skin and hair type before a single pass.',
-      hero: '/assets/img/laser-handpiece.jpg',
       first: 'laser',
     },
     facial: {
       title: 'Medi-Facials in Yelahanka, prescribed by a <em>dermatologist</em>.',
       sub: 'A facial chosen after your skin is actually examined. <strong>Dr. Bindiya G P</strong> — Aesthetic Dermatologist &amp; Cosmetologist, 7+ years.',
-      hero: '/assets/img/medifacial.jpg',
       first: 'facial',
     },
   };
@@ -41,15 +38,11 @@
     const v = VARIANTS[key];
     if (!v) return;
 
+    // The ad group's hero photograph and display headline are already chosen
+    // (the head script, then motion.js); this swaps the words.
     const title = $('[data-variant-title]');
-    const sub = $('[data-variant-sub]');
-    const heroImg = $('.hero__frame img');
     if (title) title.innerHTML = v.title;
-    if (sub) sub.innerHTML = v.sub;
-    if (heroImg) {
-      heroImg.src = v.hero;
-      heroImg.style.objectPosition = 'center';
-    }
+    $$('[data-variant-sub]').forEach((el) => { el.innerHTML = v.sub; });
 
     // Float the matching deep-dive to the top of the three.
     const host = $('#deep-dives');
@@ -62,51 +55,6 @@
     const label = { botox: 'Botox', laser: 'Laser Hair Removal', facial: 'Medi-Facial' }[v.first];
     const select = $('#f-service');
     if (select && label) select.value = label;
-  }
-
-  /* ── Headline: wrap each character for the mask reveal ───────────────
-     Characters are wrapped in inline-blocks, which the browser will happily
-     break between — so they must be grouped into per-word inline-blocks with
-     white-space:nowrap, or the headline breaks mid-word. Spaces stay as plain
-     text nodes so lines can still wrap where they should.                  */
-  function splitText() {
-    const el = $('[data-split]');
-    if (!el || REDUCED) return;
-
-    let i = 0;
-
-    const makeWord = (word) => {
-      const wd = document.createElement('span');
-      wd.className = 'wd';
-      for (const char of word) {
-        const outer = document.createElement('span');
-        outer.className = 'ch';
-        const inner = document.createElement('i');
-        inner.textContent = char;
-        outer.style.setProperty('--i', i++);
-        outer.append(inner);
-        wd.append(outer);
-      }
-      return wd;
-    };
-
-    const walk = (node) => {
-      [...node.childNodes].forEach((child) => {
-        if (child.nodeType === Node.TEXT_NODE) {
-          const frag = document.createDocumentFragment();
-          // Keep the separators so spacing survives the round-trip.
-          child.textContent.split(/(\s+)/).forEach((part) => {
-            if (!part) return;
-            if (/^\s+$/.test(part)) frag.append(part);
-            else frag.append(makeWord(part));
-          });
-          child.replaceWith(frag);
-        } else if (child.nodeType === Node.ELEMENT_NODE) {
-          walk(child);
-        }
-      });
-    };
-    walk(el);
   }
 
   /* ── Scroll reveal ────────────────────────────────────────────────── */
@@ -453,6 +401,32 @@
     });
   }
 
+  /* ── Lazy media ───────────────────────────────────────────────────────
+     Photographs below the fold load natively lazily; this handles how they
+     arrive. Each shows a shimmer until it lands, then fades in — unless it
+     was already cached, in which case it simply appears. */
+  function lazyMedia() {
+    $$('img[loading="lazy"]').forEach((img) => {
+      if (img.complete && img.naturalWidth) { img.classList.add('is-cached'); return; }
+      img.addEventListener('load', () => img.classList.add('is-loaded'), { once: true });
+      img.addEventListener('error', () => img.classList.add('is-cached'), { once: true });
+    });
+
+    /* The map embed brings several hundred kilobytes of Google's script, and
+       loading="lazy" on an iframe still starts it well ahead of the fold in
+       some browsers. So its src is held back until the section is within
+       roughly a screen of the viewport. */
+    const frames = $$('iframe[data-src]');
+    const load = (f) => { f.src = f.dataset.src; f.removeAttribute('data-src'); };
+    if (!('IntersectionObserver' in window)) { frames.forEach(load); return; }
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      load(e.target);
+      io.unobserve(e.target);
+    }), { rootMargin: '800px 0px' });
+    frames.forEach((f) => io.observe(f));
+  }
+
   /* ── Conversion tracking ──────────────────────────────────────────── */
   function track(event, params = {}) {
     if (typeof window.gtag === 'function') window.gtag('event', event, params);
@@ -470,8 +444,8 @@
   if (year) year.textContent = new Date().getFullYear();
 
   applyVariant();
-  splitText();
   reveals();
+  lazyMedia();
   inViewFlags();
   counters();
   scrollChrome();
