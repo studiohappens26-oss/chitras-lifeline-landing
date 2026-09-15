@@ -257,6 +257,22 @@
     if (html.dataset.pl === 'active') document.addEventListener('cl:preloader-exit', enter, { once: true });
     else enter();
 
+    /* ── Phones: where the photo window starts ─────────────────────────────
+       Just below the Book button, which sits under the headline in normal
+       flow. Measured rather than set in CSS because the headline's height
+       depends on the font, the width and the longest of the three headlines.
+       Capped so at least ~38% of the screen is always photograph. */
+    const intro = $('.hx__intro', sec);
+    const PHONE = matchMedia('(max-width: 1023px)');
+    const place = () => {
+      if (!PHONE.matches || !intro) { sec.style.removeProperty('--hx-start-y'); return; }
+      const start = Math.min(intro.offsetTop + intro.offsetHeight + 24, stage.offsetHeight * 0.62);
+      sec.style.setProperty('--hx-start-y', `${Math.round(start)}px`);
+    };
+    place();
+    if (document.fonts?.ready) document.fonts.ready.then(place);
+    addEventListener('resize', place);
+
     if (REDUCED) return;
 
     /* ── Scroll ────────────────────────────────────────────────────────────

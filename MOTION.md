@@ -159,7 +159,8 @@ block rather than losing the tag.
 than the image. The botox face-map dots were landing nowhere near the face,
 except while the reveal's `translateY` happened to be creating a containing
 block for them. Adding `position: relative` fixes that and gives the float
-layers their anchor.
+layers their anchor. (The face map itself was later removed at the client's
+request; the `position: relative` stays, for the floats.)
 
 ---
 

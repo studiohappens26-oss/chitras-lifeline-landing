@@ -170,7 +170,13 @@ ul, ol { list-style: none; padding: 0; }
 }
 .btn:hover::after { transform: translateX(120%); }
 
-.btn--accent  { background: linear-gradient(135deg, var(--accent-btn), var(--accent) 55%, var(--accent-deep)); }
+/* Top-lit rather than corner-to-corner: the old 135° run to --accent-deep
+   went muddy at the right end of a wide pill. Its lightest stop is still
+   --accent-btn, which holds white text at 4.58:1. */
+.btn--accent {
+  background: linear-gradient(180deg, var(--accent-btn) 0%, var(--accent) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .28), 0 10px 24px -14px rgba(124, 19, 97, .6);
+}
 /* Deep plum-pink rather than a flat dark — a secondary weight below the
    bright accent gradient, without introducing a dark surface. */
 .btn--dark  { --btn-bg: var(--accent-deep); --btn-fg: #fff; }
@@ -225,11 +231,17 @@ ul, ol { list-style: none; padding: 0; }
 .nav__links a:hover::after { transform: scaleX(1); transform-origin: left; }
 
 .nav__cta { display: flex; gap: 10px; align-items: center; }
+/* A pill that wraps to two lines stops reading as a button, so the label
+   never wraps; phones get the short form instead. */
+.nav__cta .btn { white-space: nowrap; }
+.nav__cta-short { display: none; }
 
 @media (max-width: 1080px) { .nav__links { display: none; } }
 @media (max-width: 620px)  {
   .nav__name em { display: none; }
   .nav__cta .btn--ghost { display: none; }
+  .nav__cta-long { display: none; }
+  .nav__cta-short { display: inline; }
 }
 
 /* ── Eyebrow ─────────────────────────────────────────────────────────── */
@@ -549,22 +561,31 @@ html.js .hx__set.is-out .rise-mask > span {
     --hx-wx: 0%;
     --hx-wy: calc(var(--hx-start-y) * (1 - var(--hp)));
   }
-  .hx__eyebrow { top: calc(var(--nav-h) + 16px); font-size: .66rem; letter-spacing: .13em; right: var(--hx-pad); }
+  /* Eyebrow, headline and Book button stack from the top in normal flow, and
+     motion.js starts the photo window just below them (--hx-start-y, in px).
+     So the gap is the same on every phone, instead of the headline hanging
+     off a fixed share of the screen and leaving a hole under the eyebrow on
+     tall ones. The 60% above is the fallback if the script never runs. */
+  .hx__stage {
+    display: flex; flex-direction: column;
+    padding: calc(var(--nav-h) + 14px) var(--hx-pad) 0;
+  }
+  .hx__eyebrow, .hx__headline, .hx__intro { position: relative; inset: auto; }
+  .hx__eyebrow { order: 1; font-size: .66rem; letter-spacing: .13em; margin-bottom: 20px; }
   .hx__headline {
-    top: auto; bottom: calc(100% - var(--hx-start-y) + 88px);
-    right: var(--hx-pad);
+    order: 2;
     font-size: clamp(2.45rem, 11.2vw, 4.6rem); line-height: .94; letter-spacing: -.045em;
     transform: translate3d(calc(-50% * var(--hp)), 0, 0);
   }
-  .hx__intro {
-    left: var(--hx-pad); right: var(--hx-pad); width: auto;
-    bottom: calc(100% - var(--hx-start-y) + 18px);
-  }
+  .hx__intro { order: 3; width: auto; margin-top: 22px; }
   .hx__intro .hx__sub, .hx__intro .hx__trust { display: none; }
   .hx__actions { flex-wrap: nowrap; }
   .hx__actions .btn--lg { padding: 14px 24px; font-size: .95rem; }
   /* WhatsApp collapses to its icon — the sticky dock carries the full label. */
-  .hx__wa { padding: 0; width: 50px; flex: none; }
+  /* Scoped to .hx__actions so it outranks the .btn--lg padding just above —
+     otherwise 24px a side leaves the icon 2px of a 50px circle. */
+  .hx__actions .hx__wa { padding: 0; width: 50px; flex: none; }
+  .hx__wa svg { flex: none; width: 22px; height: 22px; }
   .hx__wa-t { display: none; }
   .hx__note { display: none; }
   .hx__note-m {
@@ -766,28 +787,6 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 .rx svg { width: 17px; height: 17px; flex: none; margin-top: 2px; color: var(--accent-deep); }
 .rx--dark { background: rgba(255,255,255,.7); }
 
-/* Face map — dots pulse in sequence over the botox image. */
-.facemap { position: absolute; inset: 0; pointer-events: none; }
-.facemap li {
-  position: absolute; left: var(--x); top: var(--y); transform: translate(-50%, -50%);
-  display: flex; align-items: center; gap: 8px; white-space: nowrap;
-  font-size: .72rem; letter-spacing: .05em; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,.9);
-  opacity: 0;
-}
-.deep__media.is-in .facemap li { animation: dotIn .8s var(--ease) forwards; }
-.facemap li:nth-child(1) { animation-delay: .35s; }
-.facemap li:nth-child(2) { animation-delay: .55s; }
-.facemap li:nth-child(3) { animation-delay: .75s; }
-.facemap li:nth-child(4) { animation-delay: .95s; }
-.facemap li:nth-child(5) { animation-delay: 1.15s; }
-@keyframes dotIn { from { opacity: 0; transform: translate(-50%,-50%) scale(.7); } to { opacity: 1; transform: translate(-50%,-50%) scale(1); } }
-.facemap span {
-  width: 11px; height: 11px; border-radius: 50%; flex: none;
-  background: var(--accent); box-shadow: 0 0 0 3px rgba(173,30,135,.28);
-  animation: dotPulse 2.4s var(--ease-io) infinite;
-}
-@keyframes dotPulse { 50% { box-shadow: 0 0 0 9px rgba(173,30,135,0); } }
-@media (max-width: 560px) { .facemap li { font-size: .62rem; } }
 
 /* Laser sweep — light bar crosses the frame when the section is in view. */
 .laser-frame { overflow: hidden; }
