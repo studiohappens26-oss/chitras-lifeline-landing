@@ -17,18 +17,18 @@
      match → better Quality Score → cheaper clicks.                       */
   const VARIANTS = {
     botox: {
-      title: 'Botox in Yelahanka — performed by a <em>dermatologist</em>.',
-      sub: 'Not by a technician. <strong>Dr. Bindiya G P</strong> — Aesthetic Dermatologist &amp; Cosmetologist, 7+ years — assesses your face and places every unit herself.',
+      title: 'Botox in Yelahanka, performed by a <em>dermatologist</em>.',
+      sub: '<strong>Dr. Bindiya G P</strong>, an aesthetic dermatologist and cosmetologist with more than seven years of practice, assesses your face and places every unit herself instead of handing it to a technician.',
       first: 'botox',
     },
     laser: {
       title: 'Laser Hair Removal in Yelahanka, done by a <em>dermatologist</em>.',
-      sub: 'Indian skin needs settings chosen for it, not machine presets. <strong>Dr. Bindiya G P</strong> reads your skin and hair type before a single pass.',
+      sub: 'Indian skin needs settings chosen for it, and machine presets won\'t do that. <strong>Dr. Bindiya G P</strong> reads your skin and hair type before the first pass.',
       first: 'laser',
     },
     facial: {
       title: 'Medi-Facials in Yelahanka, prescribed by a <em>dermatologist</em>.',
-      sub: 'A facial chosen after your skin is actually examined. <strong>Dr. Bindiya G P</strong> — Aesthetic Dermatologist &amp; Cosmetologist, 7+ years.',
+      sub: 'Your facial is chosen after <strong>Dr. Bindiya G P</strong>, an aesthetic dermatologist and cosmetologist with more than seven years of practice, has examined your skin.',
       first: 'facial',
     },
   };
@@ -347,7 +347,25 @@
       return ok;
     };
 
-    form.addEventListener('submit', async (ev) => {
+    /* Booking goes to WhatsApp. The enquiry is written out as a formatted
+       message to the clinic's number, which is where the clinic replies from;
+       the visitor only has to press send. *asterisks* render as bold there. */
+    const WA_NUMBER = '918197516940';
+    const waMessage = (d) => [
+      "Hi, I'd like to book a consultation at Chitra's Lifeline Clinic.",
+      '',
+      `*Name:* ${d.name.trim()}`,
+      `*Mobile:* ${d.phone.trim()}`,
+      `*Interested in:* ${d.service}`,
+      `*Best time to call:* ${d.preferred}`,
+      ...(d.message && d.message.trim() ? [`*Note:* ${d.message.trim()}`] : []),
+      '',
+      '(Sent from the clinic website)',
+    ].join('\n');
+
+    // Deliberately not async: a browser only lets a page open a new window as
+    // the direct result of a click, so WhatsApp has to open before any await.
+    form.addEventListener('submit', (ev) => {
       ev.preventDefault();
       status.textContent = '';
       status.className = 'form__status';
@@ -358,38 +376,32 @@
         return;
       }
 
-      // Honeypot — silently accept and discard.
+      // Honeypot: silently accept and discard.
       if (form.querySelector('[name="company"]').value) return;
 
       const data = Object.fromEntries(new FormData(form).entries());
       data.page = location.pathname + location.search;
       data.variant = new URLSearchParams(location.search).get('s') || 'generic';
 
-      form.classList.add('is-sending');
+      const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMessage(data))}`;
+      const win = window.open(url, '_blank');
+      if (win) win.opener = null;
+      else location.href = url;              // popup blocked: go there directly
 
-      try {
-        const res = await fetch('/api/lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      // A copy for the clinic's records, in case the visitor never presses
+      // send. keepalive lets it finish even as focus moves to WhatsApp.
+      fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+        keepalive: true,
+      }).catch(() => {});
 
-        form.reset();
-        status.textContent = 'Thank you — we have your details and will call you back shortly.';
-        status.classList.add('is-ok');
-        track('lead_submit', { service: data.service, variant: data.variant });
-      } catch (err) {
-        // Never lose a lead to a failed endpoint — hand them to WhatsApp.
-        const msg = encodeURIComponent(
-          `Hi, I'd like to book a consultation.\nName: ${data.name}\nPhone: ${data.phone}\nInterested in: ${data.service}\nPreferred time: ${data.preferred}`,
-        );
-        status.innerHTML =
-          `We couldn't submit that just now. <a href="https://wa.me/918197516940?text=${msg}" target="_blank" rel="noopener" style="text-decoration:underline">Send it on WhatsApp instead →</a>`;
-        status.classList.add('is-bad');
-      } finally {
-        form.classList.remove('is-sending');
-      }
+      track('lead_submit', { service: data.service, variant: data.variant });
+      form.reset();
+      status.innerHTML =
+        `WhatsApp should now be open with your details filled in. Press send and we'll reply to confirm your slot. <a href="${url}" target="_blank" rel="noopener" style="text-decoration:underline">Didn't open? Tap here.</a>`;
+      status.classList.add('is-ok');
     });
 
     // Clear the error as soon as they start fixing it.

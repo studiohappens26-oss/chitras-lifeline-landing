@@ -69,10 +69,14 @@ back to the ad group without extra tracking setup.
 
 ### Environment variables for lead capture
 
-Set these under **Settings → Environment variables**. All are optional and the
-form degrades gracefully — if none are set, leads are still accepted and logged,
-and if the endpoint fails entirely the browser offers to send the enquiry over
-WhatsApp instead so no lead is lost.
+The booking form sends the enquiry to the clinic's WhatsApp (+91 81975 16940)
+as a formatted message: name, mobile, treatment, best time to call and any
+note. The visitor only has to press send. A copy is posted to `/api/lead` in
+the background, so the lead is still recorded if they never press send.
+
+Set these under **Settings → Environment variables**. All are optional. If none
+are set, leads are still accepted and logged, and if the endpoint is down the
+WhatsApp message still goes through.
 
 | Variable | Purpose |
 |---|---|
@@ -136,9 +140,11 @@ Import `lead_submit` and the `call_*` events as Google Ads conversions.
   priority before the parser reaches it. The Google Maps embed, the heaviest
   thing on the page, is not requested until its section is about a screen
   away.
-- **The form is resilient.** Client-side validation, a honeypot, Indian mobile
-  format handling (`+91`, `0` and spaced variants all accepted), and a WhatsApp
-  fallback if the endpoint is unreachable.
+- **The form books over WhatsApp.** Client-side validation, a honeypot, and
+  Indian mobile format handling (`+91`, `0` and spaced variants all accepted).
+  A valid form opens WhatsApp with the enquiry already written out, and a copy
+  goes to `/api/lead` in the background. To change the number, edit
+  `WA_NUMBER` in `main.js`.
 - **Fonts are self-hosted.** Comfortaa (display) and Nunito (body), Latin +
   Latin-Ext only, 109 KB of WOFF2 in `assets/fonts/`. The page makes zero
   third-party requests, so no extra DNS/TLS round trip before text can paint.
