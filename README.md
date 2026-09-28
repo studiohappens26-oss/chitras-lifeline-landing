@@ -3,6 +3,7 @@
 Single-page, static, zero-dependency landing page for Cloudflare Pages.
 Creative and image brief: [BRIEF.md](BRIEF.md).
 Hero, preloader and scroll mechanics: [MOTION.md](MOTION.md).
+The mascot: [MOCHI.md](MOCHI.md).
 
 ```
 index.html              the whole page
@@ -11,7 +12,9 @@ assets/css/fonts.css    @font-face rules — generated, do not edit by hand
 assets/fonts/           self-hosted Comfortaa + Nunito (woff2)
 assets/js/main.js       interaction layer (no libraries)
 assets/js/motion.js     preloader, hero, smooth scroll, parallax, line reveals — see MOTION.md
+assets/js/mochi.js      Mochi, the mascot — see MOCHI.md
 type.html               font specimen page — 11 pairings, for reference
+mochi.html              Mochi's pose sheet, for reference
 assets/img/             imagery — currently Pexels placeholders
 assets/img/CREDITS.json photographer credits per slot
 functions/api/lead.js   Cloudflare Pages Function — receives the booking form
@@ -106,7 +109,7 @@ only need to paste the GA4 / Google Ads tag into `<head>`. Events emitted:
 `call_nav` · `call_dock` · `call_location` · `whatsapp_hero` · `whatsapp_book` ·
 `whatsapp_dock` · `book_hero` · `book_nav` · `book_dock` · `book_botox` ·
 `book_laser` · `book_facial` · `directions` · `instagram_profile` ·
-`instagram_reel` · `lead_submit`
+`instagram_reel` · `lead_submit` · `mochi_tap` · `book_mochi`
 
 Import `lead_submit` and the `call_*` events as Google Ads conversions.
 
@@ -145,6 +148,11 @@ Import `lead_submit` and the `call_*` events as Google Ads conversions.
   A valid form opens WhatsApp with the enquiry already written out, and a copy
   goes to `/api/lead` in the background. To change the number, edit
   `WA_NUMBER` in `main.js`.
+- **Mochi, the mascot, is optional.** A small SVG companion that follows the
+  visitor down the page and sits on the booking form (see [MOCHI.md](MOCHI.md)).
+  Where it goes is set by `data-mochi` attributes on each section. It loads
+  last, never writes to the form, and deleting its `<script>` line removes it
+  cleanly.
 - **Fonts are self-hosted.** Comfortaa (display) and Nunito (body), Latin +
   Latin-Ext only, 109 KB of WOFF2 in `assets/fonts/`. The page makes zero
   third-party requests, so no extra DNS/TLS round trip before text can paint.

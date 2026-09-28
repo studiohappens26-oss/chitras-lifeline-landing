@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mochi, pose sheet · Chitra's Lifeline Clinic</title>
+<link rel="stylesheet" href="/assets/css/fonts.css">
+<link rel="stylesheet" href="/assets/css/styles.css">
+<style>
+  body { background: var(--bone); color: var(--tx); font-family: var(--sans); }
+  .sheet { max-width: 1040px; margin: 0 auto; padding: clamp(40px, 7vw, 88px) 20px; }
+  .sheet h1 { font-family: var(--display); font-size: clamp(2rem, 5vw, 3.2rem); color: var(--accent-deep); margin-bottom: 12px; }
+  .sheet > p { max-width: 62ch; color: var(--tx-mute); line-height: 1.6; }
+  .sheet h2 { font-family: var(--display); font-size: 1.2rem; margin: 56px 0 18px; }
+  .poses { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; }
+  .pose { background: var(--paper); border-radius: var(--r); padding: 22px 16px 16px; text-align: center;
+          box-shadow: inset 0 0 0 1px var(--line); }
+  .pose [data-mochi-art] { display: block; width: 120px; height: 120px; margin: 0 auto 10px; cursor: pointer; transform-origin: 50% 86%; }
+  .pose b { display: block; font-size: .95rem; }
+  .pose span { display: block; font-size: .8rem; color: var(--tx-mute); margin-top: 4px; line-height: 1.4; }
+  .sizes { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 28px; background: var(--paper); border-radius: var(--r);
+           padding: 28px; box-shadow: inset 0 0 0 1px var(--line); }
+  .sizes figure { text-align: center; font-size: .78rem; color: var(--tx-mute); }
+  .sizes [data-mochi-art] { display: block; margin: 0 auto 8px; }
+</style>
+</head>
+<body>
+<main class="sheet">
+  <h1>Mochi</h1>
+  <p>
+    The clinic's mascot: soft, bouncy and even, the skin people come in for. Mochi keeps visitors company
+    down the landing page, peeks over the treatment cards, and sits on the booking form while it's filled in.
+    Every face below is the same small SVG. Tap one to squish it.
+  </p>
+
+  <h2>Poses</h2>
+  <div class="poses">
+    <div class="pose"><span data-mochi-art="idle" data-mochi-squish></span><b>idle</b><span>Content, eyes closed. The default.</span></div>
+    <div class="pose"><span data-mochi-art="look" data-mochi-squish></span><b>look</b><span>Watching the cursor, a form field or something in the section.</span></div>
+    <div class="pose"><span data-mochi-art="happy" data-mochi-squish></span><b>happy</b><span>Hops. After a booking goes through.</span></div>
+    <div class="pose"><span data-mochi-art="think" data-mochi-squish></span><b>think</b><span>Head tilted. The comparison, the process, the FAQ.</span></div>
+    <div class="pose"><span data-mochi-art="shock" data-mochi-squish></span><b>shock</b><span>A hard fling of the page, or a form error.</span></div>
+    <div class="pose"><span data-mochi-art="sleepy" data-mochi-squish></span><b>sleepy</b><span>Nothing has moved for nine seconds.</span></div>
+    <div class="pose"><span data-mochi-art="bounce" data-mochi-squish></span><b>bounce</b><span>Hopping across to the other side.</span></div>
+    <div class="pose"><span data-mochi-art="shy" data-mochi-squish></span><b>shy</b><span>The cursor came close, or someone squished it.</span></div>
+  </div>
+
+  <h2>Sizes</h2>
+  <div class="sizes">
+    <figure><span data-mochi-art="idle" style="width:32px;height:32px"></span>32px</figure>
+    <figure><span data-mochi-art="look" style="width:62px;height:62px"></span>62px, phone</figure>
+    <figure><span data-mochi-art="happy" style="width:84px;height:84px"></span>84px, desktop</figure>
+    <figure><span data-mochi-art="idle" style="width:180px;height:180px"></span>180px</figure>
+  </div>
+</main>
+<script src="/assets/js/mochi.js" defer></script>
+</body>
+</html>
