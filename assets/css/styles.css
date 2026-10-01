@@ -36,9 +36,12 @@
   --tx:         #1F0E1A;
   --tx-mute:    #6E5766;
   --line:       #EFE1E9;
-  /* Comfortaa is a rounded geometric sans, not a serif — hence --display. */
-  --display: "Comfortaa", "Trebuchet MS", sans-serif;
-  --sans:    "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Bodoni Moda for display: a high-contrast Didone, the fashion-house serif.
+     Its opsz axis redraws the hairlines for the size it's set at, so it holds
+     up at 16px as well as at 8rem. Jost for everything else: a Futura-style
+     sans that stays quiet next to it. */
+  --display: "Bodoni Moda", "Bodoni 72", Didot, Georgia, serif;
+  --sans:    "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --r-sm: 8px;
   --r:    16px;
@@ -83,10 +86,11 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round
 
 button, input, select, textarea { font: inherit; color: inherit; }
 a { color: inherit; text-decoration: none; }
-/* Comfortaa runs wide and optically light, so headings sit at 600 with tighter
-   tracking and a little more leading than a serif would need — at 400 it reads
-   as weak rather than soft. */
-h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.16; letter-spacing: -.035em; }
+/* A Didone gets its elegance from contrast, not weight: headings sit at 500,
+   which keeps the hairlines visible on the metallic gradients, with only a
+   touch of negative tracking. Emphasis is the drawn italic, never bold. */
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 500; line-height: 1.1; letter-spacing: -.012em; }
+:is(h1, h2, h3, h4) em { font-style: italic; }
 ul, ol { list-style: none; padding: 0; }
 
 ::selection { background: var(--accent); color: #fff; }
@@ -186,8 +190,8 @@ ul, ol { list-style: none; padding: 0; }
 .btn--outline:hover { --btn-bg: rgba(173,30,135,.05); box-shadow: inset 0 0 0 1px rgba(173,30,135,.45); }
 .btn--dark-outline { --btn-fg: var(--tx); box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); }
 .btn--dark-outline:hover { --btn-bg: rgba(0,0,0,.04); box-shadow: inset 0 0 0 1px rgba(0,0,0,.4); }
-/* 11px block padding, not 10 — Nunito's metrics land 1px shorter than the
-   previous body face and these fell just under the 44px tap-target minimum. */
+/* 11px block padding, not 10, so the small button clears the 44px
+   tap-target minimum. */
 .btn--sm { padding: 11px 18px; font-size: .875rem; }
 .btn--lg { padding: 17px 34px; font-size: 1.02rem; }
 .btn--block { width: 100%; }
@@ -217,7 +221,7 @@ ul, ol { list-style: none; padding: 0; }
 }
 .nav__brand:hover .nav__mark { transform: rotate(-8deg) scale(1.06); }
 .nav__name { display: flex; flex-direction: column; line-height: 1.25; }
-.nav__name strong { font-family: var(--display); font-weight: 600; font-size: 1.06rem; letter-spacing: -.015em; }
+.nav__name strong { font-family: var(--display); font-weight: 500; font-size: 1.12rem; letter-spacing: 0; white-space: nowrap; }
 .nav__name em { font-style: normal; font-size: .69rem; letter-spacing: .09em; text-transform: uppercase; opacity: .62; }
 
 .nav__links { display: flex; gap: 26px; font-size: .875rem; }
@@ -239,6 +243,7 @@ ul, ol { list-style: none; padding: 0; }
 @media (max-width: 1080px) { .nav__links { display: none; } }
 @media (max-width: 620px)  {
   .nav__name em { display: none; }
+  .nav__name strong { font-size: 1.02rem; }
   .nav__cta .btn--ghost { display: none; }
   .nav__cta-long { display: none; }
   .nav__cta-short { display: inline; }
@@ -420,8 +425,8 @@ html[data-pl="active"] .pl__logo .pl-part { opacity: 0; }
 }
 .hx__trust li { display: flex; align-items: baseline; gap: 10px; }
 .hx__trust strong {
-  font-family: var(--display); font-weight: 700; font-size: 1.9rem; line-height: 1;
-  letter-spacing: -.04em;
+  font-family: var(--display); font-weight: 500; font-size: 2rem; line-height: 1;
+  letter-spacing: -.02em;
 }
 .hx__trust span { font-size: .74rem; line-height: 1.4; color: var(--tx-mute); }
 
@@ -471,21 +476,21 @@ html[data-hero="botox-injection"] .hx__img { transform: scaleX(-1); }
   padding: clamp(28px, 3vw, 48px); color: #fff;
 }
 .hx__note-lead {
-  font-family: var(--display); font-weight: 600; letter-spacing: -.03em;
-  font-size: clamp(1.25rem, 1.8vw, 1.7rem); line-height: 1.2; max-width: 17rem; margin: 0;
+  font-family: var(--display); font-weight: 400; letter-spacing: -.01em;
+  font-size: clamp(1.35rem, 1.9vw, 1.8rem); line-height: 1.15; max-width: 17rem; margin: 0;
 }
-.hx__note-lead em { font-style: normal; font-weight: 700; }
+.hx__note-lead em { font-style: italic; }
 .hx__note-by { font-size: .86rem; line-height: 1.5; color: rgba(255, 255, 255, .88); text-align: right; margin: 0; }
 .hx__note-m { display: none; }
 
 .hx__title2 {
   position: absolute; inset-inline: 0; top: 50%; margin: 0;
   padding-inline: var(--hx-pad);
-  font-family: var(--display); font-weight: 600;
-  font-size: clamp(2.5rem, 6.4vw, 7.4rem); line-height: .98; letter-spacing: -.045em;
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(2.5rem, 6.4vw, 7.4rem); line-height: .98; letter-spacing: -.03em;
   transform: translate3d(calc(100% * (1 - clamp(0, (var(--hp) - .1) * 1.18, 1))), -50%, 0);
 }
-.hx__title2 em { font-style: normal; font-weight: 700; }
+.hx__title2 em { font-style: italic; }
 
 .hx__tips {
   position: absolute; inset-inline: 0; bottom: 0; margin: 0; list-style: none;
@@ -504,12 +509,12 @@ html[data-hero="botox-injection"] .hx__img { transform: scaleX(-1); }
 .hx__headline {
   position: absolute; z-index: 3; pointer-events: none;
   left: var(--hx-pad); right: 0; top: 47%;
-  font-family: var(--display); font-weight: 600;
-  font-size: clamp(3.1rem, 6.9vw, 8.6rem); line-height: .9; letter-spacing: -.05em;
+  font-family: var(--display); font-weight: 400;
+  font-size: clamp(3.1rem, 6.9vw, 8.6rem); line-height: .92; letter-spacing: -.035em;
   transform: translate3d(calc(-50% * var(--hp)), -50%, 0);
   opacity: clamp(0, 1 - (var(--hp) - .25) * 3.33, 1);
 }
-.hx__headline b { font-weight: 700; }
+.hx__headline b { font-weight: 400; font-style: italic; }
 /* Every headline stacked in one grid cell and swapped on a timer: the
    outgoing lines leave upward through their masks while the incoming lines
    rise in from below.
@@ -656,8 +661,8 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
   animation: marq 34s linear infinite;
 }
 .marquee span {
-  font-family: var(--display); font-weight: 500; font-size: clamp(1.1rem, 2vw, 1.65rem);
-  color: var(--tx-mute); white-space: nowrap; letter-spacing: -.02em;
+  font-family: var(--display); font-weight: 400; font-style: italic; font-size: clamp(1.2rem, 2.1vw, 1.75rem);
+  color: var(--tx-mute); white-space: nowrap; letter-spacing: 0;
 }
 .marquee i { color: var(--accent); font-style: normal; }
 @keyframes marq { to { transform: translateX(-50%); } }
@@ -732,8 +737,8 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 .svc:hover .svc__img img { transform: scale(1.07); }
 .svc__body { padding: clamp(22px, 2.5vw, 32px); display: flex; flex-direction: column; flex: 1; }
 .svc__n {
-  font-family: var(--display); font-weight: 700; font-size: .82rem; color: var(--lux-deep);
-  letter-spacing: .1em; margin-bottom: 10px;
+  font-family: var(--display); font-weight: 500; font-style: italic; font-size: 1rem; color: var(--lux-deep);
+  letter-spacing: .04em; margin-bottom: 8px;
 }
 .svc h3 { font-size: 1.6rem; margin-bottom: 12px; }
 .svc p { font-size: .94rem; color: var(--tx-mute); margin-bottom: 22px; }
@@ -774,7 +779,7 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 }
 .facts div { display: flex; flex-direction: column; gap: 5px; }
 .facts dt { font-size: .7rem; letter-spacing: .11em; text-transform: uppercase; color: var(--tx-mute); }
-.facts dd { font-family: var(--display); font-weight: 600; font-size: 1.24rem; letter-spacing: -.02em; margin: 0; }
+.facts dd { font-family: var(--display); font-weight: 500; font-size: 1.3rem; letter-spacing: -.01em; margin: 0; }
 /* Retained as a light "emphasis" variant of the facts row on tinted sections. */
 .facts--dark dd { color: var(--accent-deep); }
 @media (max-width: 560px) { .facts { grid-template-columns: repeat(2, 1fr); gap: 20px 4px; } }
@@ -890,7 +895,7 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 18px;
   display: flex; flex-direction: column; gap: 5px;
 }
-.reel__cap strong { font-family: var(--display); font-weight: 600; font-size: 1.02rem; color: #fff; letter-spacing: -.015em; }
+.reel__cap strong { font-family: var(--display); font-weight: 500; font-size: 1.08rem; color: #fff; letter-spacing: 0; }
 /* White over the reel's own dark photo gradient — the one place light text is
    correct, because it sits on imagery rather than on a page surface. */
 .reel__cap span { font-size: .74rem; color: rgba(255,255,255,.78); }
@@ -928,7 +933,7 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
   animation: bob 5s var(--ease-io) infinite alternate;
 }
 @keyframes bob { to { transform: translateY(-12px); } }
-.doctor__stamp span { font-family: var(--display); font-weight: 700; font-size: 1.5rem; line-height: 1; }
+.doctor__stamp span { font-family: var(--display); font-weight: 500; font-size: 1.6rem; line-height: 1; }
 .doctor__stamp em { font-style: normal; font-size: .6rem; letter-spacing: .07em; margin-top: 6px; padding-inline: 14px; line-height: 1.3; }
 
 .doctor__copy > * + * { margin-top: 18px; }
@@ -940,10 +945,9 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 }
 .creds span { font-size: .68rem; letter-spacing: .11em; text-transform: uppercase; color: var(--tx-mute); }
 .pull {
-  /* Nunito, not Comfortaa: Comfortaa has no italic and the browser would
-     synthesise a skewed fake. Nunito ships a real drawn italic. */
-  font-family: var(--sans); font-weight: 400; font-size: clamp(1.16rem, 1.6vw, 1.44rem); font-style: italic;
-  line-height: 1.45; padding-left: 24px; border-left: 2px solid var(--lux);
+  /* Bodoni Moda's drawn italic: the doctor's own words, set like a quote. */
+  font-family: var(--display); font-weight: 400; font-size: clamp(1.3rem, 1.8vw, 1.62rem); font-style: italic;
+  line-height: 1.4; padding-left: 24px; border-left: 2px solid var(--lux);
   color: var(--tx); margin-top: 32px !important;
 }
 .doctor__note { font-size: .88rem; color: var(--tx-mute); padding-top: 20px; border-top: 1px solid var(--line); }
@@ -979,7 +983,7 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 .steps li { position: relative; padding-top: 66px; }
 .steps__n {
   position: absolute; top: 0; left: 0; width: 52px; height: 52px; border-radius: 50%;
-  display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 1.02rem;
+  display: grid; place-items: center; font-family: var(--display); font-weight: 500; font-style: italic; font-size: 1.12rem;
   background: var(--bone); color: var(--lux-deep); box-shadow: inset 0 0 0 1px var(--line);
   transition: background .5s var(--ease), color .5s var(--ease), box-shadow .5s var(--ease);
 }
@@ -1017,7 +1021,7 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 .acc summary {
   display: flex; align-items: center; justify-content: space-between; gap: 20px;
   padding: 22px clamp(20px, 3vw, 32px); cursor: pointer; list-style: none;
-  font-family: var(--display); font-weight: 600; font-size: clamp(1.02rem, 1.4vw, 1.2rem); letter-spacing: -.025em;
+  font-family: var(--display); font-weight: 500; font-size: clamp(1.08rem, 1.45vw, 1.26rem); letter-spacing: 0;
   transition: color .3s ease;
 }
 .acc summary::-webkit-details-marker { display: none; }

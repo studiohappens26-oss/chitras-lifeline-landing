@@ -147,9 +147,10 @@ The only light-on-dark text left on the page is the caption inside each Instagra
 
 - **Structure:** a blush-panel split hero that opens onto a full-bleed photograph, then sections alternating paper / bone / blush, closing on a bone footer. Contrast comes from the pink-bordered comparison panel, the champagne medallion, and soft shadows rather than from inverted sections.
 - **Logo:** the clinic's own mark, trimmed and downscaled from the 2000px source (1.5 MB → 55 KB).
-- **Type:** Display — **Comfortaa** at 600, tracked tight. Body — **Nunito**. Both rounded: Comfortaa is round in its shapes, Nunito's terminals are softly cut, so the pairing is warm end to end. Both self-hosted (109 KB total), so the page makes **zero third-party requests** on load.
-  - Comfortaa runs wide and optically light, so headings sit at 600 with `-0.035em` tracking — at 400 it reads as weak rather than soft.
-  - Comfortaa has **no italic**. The hero's accent word is distinguished by weight instead, and the pull-quote uses Nunito's real drawn italic rather than a browser-synthesised slant.
+- **Type:** Display: **Bodoni Moda**, a high-contrast Didone, the serif fashion and beauty houses use. Body: **Jost**, a Futura-style geometric sans that stays quiet beside it. Both self-hosted, so the page makes **zero third-party requests** on load. (Replaced Comfortaa and Nunito, the earlier rounded pairing, when the client asked for something more elegant.)
+  - Bodoni Moda has an optical-size axis: the browser redraws it for the size it's set at, so the hairlines thicken at 16px and sharpen at 8rem. One file covers both.
+  - Elegance comes from contrast, not weight. Headings sit at 500 (enough to keep the hairlines visible through the metallic gradients), the big hero lines at 400, with only light negative tracking.
+  - Emphasis is the drawn italic, never bold: the hero's accent words, the marquee, the step and service numerals, and Dr. Bindiya's pull-quote.
   - Buttons use a dedicated `--accent-btn` (`#C93A9E`) rather than `--accent-hi`: white label text on `#E24BA6` measures only 3.6:1, under the 4.5 needed at button sizes.
 - **Texture:** Fine film grain overlay everywhere at 3–4% opacity. It's what separates "template" from "designed".
 

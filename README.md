@@ -9,7 +9,7 @@ The mascot: [MOCHI.md](MOCHI.md).
 index.html              the whole page
 assets/css/styles.css   design system + all motion
 assets/css/fonts.css    @font-face rules — generated, do not edit by hand
-assets/fonts/           self-hosted Comfortaa + Nunito (woff2)
+assets/fonts/           self-hosted Bodoni Moda + Jost (woff2)
 assets/js/main.js       interaction layer (no libraries)
 assets/js/motion.js     preloader, hero, smooth scroll, parallax, line reveals — see MOTION.md
 assets/js/mochi.js      Mochi, the mascot — see MOCHI.md
@@ -153,8 +153,10 @@ Import `lead_submit` and the `call_*` events as Google Ads conversions.
   Where it goes is set by `data-mochi` attributes on each section. It loads
   last, never writes to the form, and deleting its `<script>` line removes it
   cleanly.
-- **Fonts are self-hosted.** Comfortaa (display) and Nunito (body), Latin +
-  Latin-Ext only, 109 KB of WOFF2 in `assets/fonts/`. The page makes zero
+- **Fonts are self-hosted.** Bodoni Moda (display) and Jost (body), Latin +
+  Latin-Ext only, in `assets/fonts/`. A visitor downloads about 125 KB of it
+  (the Latin roman and italic files; Latin-Ext only loads if a character
+  needs it), and the two roman files are preloaded. The page makes zero
   third-party requests, so no extra DNS/TLS round trip before text can paint.
   Re-pull or change them with `node scripts/fetch-fonts.mjs`, which regenerates
   `assets/css/fonts.css`.
