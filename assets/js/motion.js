@@ -534,6 +534,95 @@
     measure();
   }
 
+  /* ══ Two-layer flip ═════════════════════════════════════════════════════
+     Lakova's signature move (their FlipMedia + effects.ts), without GSAP.
+     Two photographs stacked in one frame; scrolling wipes the upper one away
+     with a clip-path inset and uncovers a different photograph underneath.
+     Both sit at scale(1.2) and drift in opposite directions inside that
+     headroom while the wipe runs, so they move against each other instead of
+     sliding as one plate. That counter-motion is what makes it read as depth
+     rather than a crossfade.
+
+     Scrubbed, not fired once: the point is watching one photo become the
+     other, so progress is tied to scroll position. It runs from the frame's
+     top entering the screen to its centre reaching 65% down (their window),
+     and trails the scroll by a short ease, the way their scrub: 0.8 does.
+     The end is measured from the centre, not an edge, so a frame taller than
+     the screen still finishes. */
+  const FLIP_DRIFT = 7;      // % of the image's box; scale(1.2) leaves 10% a side
+  const FLIP_TAU = 0.22;     // seconds the wipe takes to catch up with the scroll
+  const FLIP = {
+    up:    { clip: (p) => `inset(0% 0% ${p}% 0%)`, axis: 'Y', sign: -1 },
+    down:  { clip: (p) => `inset(${p}% 0% 0% 0%)`, axis: 'Y', sign: 1 },
+    left:  { clip: (p) => `inset(0% ${p}% 0% 0%)`, axis: 'X', sign: -1 },
+    right: { clip: (p) => `inset(0% 0% 0% ${p}%)`, axis: 'X', sign: 1 },
+  };
+
+  function flipMedia() {
+    if (REDUCED) return;
+    const frames = $$('[data-flip-media]').map((el) => ({
+      el,
+      cfg: FLIP[el.dataset.direction] || FLIP.up,
+      up: el.querySelector('.flip__layer--up'),
+      upImg: el.querySelector('.flip__layer--up img'),
+      downImg: el.querySelector('.flip__layer--down img'),
+      top: 0, h: 0, p: 0, shown: -1,
+    })).filter((f) => f.up);
+    if (!frames.length) return;
+
+    let vh = innerHeight, raf = 0, last = 0;
+
+    // 0 as the frame's top enters the screen, 1 once its centre is 65% down
+    const target = (f) => clamp((vh - (f.top - scrollY)) / (vh * 0.35 + f.h / 2), 0, 1);
+
+    const paint = (f) => {
+      const key = Math.round(f.p * 1000);
+      if (key === f.shown) return;             // nothing visible changed
+      f.shown = key;
+      const { cfg } = f;
+      const move = (v) => `translate${cfg.axis}(${v.toFixed(2)}%) scale(1.2)`;
+      f.up.style.clipPath = cfg.clip((f.p * 100).toFixed(2));
+      if (f.upImg) f.upImg.style.transform = move(cfg.sign * FLIP_DRIFT * f.p);
+      if (f.downImg) f.downImg.style.transform = move(-cfg.sign * FLIP_DRIFT * (1 - f.p));
+    };
+
+    const tick = (now) => {
+      const dt = last ? Math.min(64, now - last) / 1000 : 1 / 60;
+      last = now;
+      const k = 1 - Math.exp(-dt / FLIP_TAU);
+      let moving = false;
+      for (const f of frames) {
+        const to = target(f);
+        f.p += (to - f.p) * k;
+        if (Math.abs(to - f.p) < 0.0005) f.p = to; else moving = true;
+        paint(f);
+      }
+      if (moving) raf = requestAnimationFrame(tick);
+      else { raf = 0; last = 0; }
+    };
+    const kick = () => { if (!raf) raf = requestAnimationFrame(tick); };
+
+    const measure = () => {
+      vh = innerHeight;
+      const y = scrollY;
+      for (const f of frames) {
+        const r = f.el.getBoundingClientRect();
+        f.top = r.top + y;
+        f.h = r.height;
+      }
+      kick();
+    };
+
+    measure();
+    // Start where the page already is, so a reload halfway down doesn't
+    // replay every wipe from the beginning.
+    for (const f of frames) { f.p = target(f); paint(f); }
+    addEventListener('scroll', kick, { passive: true });
+    addEventListener('resize', measure);
+    if (document.fonts?.ready) document.fonts.ready.then(measure);
+    addEventListener('load', measure);
+  }
+
   /* ══ Line-mask reveal ═══════════════════════════════════════════════════
      Headings split into their rendered lines, each line rising out of an
      overflow-hidden box. The mask is the whole point — without it this is a
@@ -645,7 +734,7 @@
   }
 
   /* ══ Boot ═══════════════════════════════════════════════════════════════ */
-  const start = () => { smoothScroll(); parallax(); coverParallax(); lineReveal(); };
+  const start = () => { smoothScroll(); parallax(); coverParallax(); flipMedia(); lineReveal(); };
 
   // The hero first, so it is already listening when the preloader announces
   // its exit. The rest waits for the preloader to clear — smooth scroll must

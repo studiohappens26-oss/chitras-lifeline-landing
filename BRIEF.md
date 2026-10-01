@@ -127,7 +127,7 @@ Brand colours were sampled directly off the logo artwork: **magenta `#AD1E87`** 
 The page is **light throughout — no dark sections anywhere.** That removes the easiest way to make pink look expensive (deep plum grounds), so the luxury has to come from elsewhere. Three decisions carry it:
 
 1. **Three tinted surfaces instead of light-vs-dark.** Paper `#FFFFFF` → bone `#FDF8FA` → blush `#F9E9F1`. Sections alternate between them, so the page still has rhythm and depth without ever going dark. All three are warm pink-whites — a cool grey next to this pink reads as dirty.
-2. **A metallic does the luxury work, not the pink.** Champagne `#E3C39F` → `#8C6538` carries the numerals, the medallion on the doctor's portrait, the star ratings and the fine rules. Pink is reserved for brand and action.
+2. **A metallic does the luxury work, not the pink.** Champagne `#E3C39F` → `#77522B` carries the numerals, the medallion on the doctor's portrait, the star ratings and the fine rules. Pink is reserved for brand and action.
 3. **Cyan appears in small doses only.** The pulse dot, the tick marks. Enough to tie back to the logo and stop the page going monochrome pink.
 
 | Role | Token | Value |
@@ -136,12 +136,21 @@ The page is **light throughout — no dark sections anywhere.** That removes the
 | Brand / action | `--accent` | `#AD1E87` |
 | Bright pink | `--accent-hi` | `#E24BA6` |
 | Deep pink | `--accent-deep` | `#7C1361` |
-| Metallic | `--lux-hi` / `--lux` / `--lux-deep` | `#F5E3C9` / `#E3C39F` / `#8C6538` |
+| Metallic | `--lux-hi` / `--lux` / `--lux-deep` | `#F5E3C9` / `#E3C39F` / `#77522B` |
 | Brand secondary | `--brand-cyan` | `#28C2DA` |
-| Text | `--tx` / `--tx-mute` | `#1F0E1A` / `#6E5766` |
+| Text | `--tx` / `--tx-mute` | `#1F0E1A` / `#574350` |
 | Hairlines | `--line` | `#EFE1E9` |
 
 51 text/background pairs were measured against WCAG AA and all pass. Two colours are deliberately deeper than they look like they need to be: `--lux-deep`, because champagne fails contrast on white at anything lighter, and `--accent-deep`, which replaced the brighter `--accent-hi` on small text once the dark backgrounds were removed.
+
+**Readability pass (after the switch to Jost).** Jost has thinner strokes and a smaller x-height than Nunito, so text that passed on paper still read faint. Four changes, none of which alter the look at a glance:
+
+- `--tx-mute` darkened `#6E5766` → `#574350` (6.5:1 → 9.0:1 on white, 7.7:1 on blush) and `--lux-deep` `#8C6538` → `#77522B`. The old champagne measured 4.45:1 on blush, a fail for small text.
+- The root font size is 106.25% (17px), which lifts every rem-sized text together.
+- No uppercase label is below .75rem (12.75px), and all of them are weight 500.
+- Form errors use `#B3261E` (6.5:1); the old `#E0655B` was 3.4:1.
+
+**Spacing.** Section padding is `clamp(56px, 6.8vw, 100px)` (was up to 160px, which left ~320px of blank between sections on a laptop). Two adjacent sections on the same ground drop the second one's top padding, since together they read as one block.
 
 The only light-on-dark text left on the page is the caption inside each Instagram reel card — correct, because it sits on the photo's own gradient rather than on a page surface.
 

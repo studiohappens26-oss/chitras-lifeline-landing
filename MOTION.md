@@ -283,3 +283,32 @@ child — which is why `lineReveal` puts it on each line's inner span.
   the markup, so the wrong photograph is never fetched.
 - The Google Maps iframe's `src` is withheld until its section is about 800px
   away.
+
+# Lakova port: two-layer image flip
+
+Ported from the Lakova site (`FlipMedia.astro` plus the flip effect in
+`src/lib/motion/effects.ts`), rewritten without GSAP as `flipMedia()` in
+`motion.js`. Used on four frames: Botox, laser, medi-facial and the doctor.
+
+```html
+<div class="deep__frame flip" data-flip-media data-direction="up">
+  <div class="flip__layer flip__layer--down"><img ...></div>
+  <div class="flip__layer flip__layer--up"><img ...></div>
+</div>
+```
+
+- **The wipe.** The upper photo is cut away with a scrubbed `clip-path: inset()`
+  from the side named in `data-direction` (`up`, `down`, `left`, `right`),
+  uncovering a second photo underneath. It starts when the frame's top enters
+  the screen and finishes when the frame's centre reaches 65% of the viewport.
+- **The drift.** Both photos sit at `scale(1.2)` and move in opposite directions
+  by up to 7% (`FLIP_DRIFT`). That stays inside the 10% overhang the scale buys,
+  so an edge never shows.
+- **Easing.** Progress follows the scroll position through an exponential ease
+  (`FLIP_TAU`, 0.22s) instead of snapping to it, which gives Lakova's soft
+  scrub without a scroll-smoothing library.
+- **Fallbacks.** The CSS resting state is "upper photo fully covers", so with no
+  JS you see a normal photograph. Reduced motion skips the effect entirely and
+  drops the scale. The under-photo is `loading="lazy"` like every other image.
+- These frames dropped `data-px-cover`; the inner drift now belongs to the flip.
+  The frame keeps its `data-px` float.
