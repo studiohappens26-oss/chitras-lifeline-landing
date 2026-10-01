@@ -246,7 +246,14 @@
       $$('.chip', group).forEach((c) => c.classList.remove('is-on'));
       chip.classList.add('is-on');
       if (outArea) outArea.textContent = chip.dataset.area;
-      if (outTime) outTime.textContent = chip.dataset.time;
+      // Ranges get a sans hyphen: Bodoni's is a hairline that vanishes at this size.
+      if (outTime) {
+        outTime.textContent = '';
+        chip.dataset.time.split(/(?<=\d)-(?=\d)/).forEach((part, i) => {
+          if (i) { const r = document.createElement('span'); r.className = 'rng'; r.textContent = '-'; outTime.append(r); }
+          outTime.append(part);
+        });
+      }
     });
   }
 

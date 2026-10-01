@@ -228,7 +228,17 @@ ul, ol { list-style: none; padding: 0; }
 .nav__name strong { font-family: var(--display); font-weight: 500; font-size: 1.12rem; letter-spacing: 0; white-space: nowrap; }
 .nav__name em { font-style: normal; font-size: .75rem; letter-spacing: .09em; text-transform: uppercase; font-weight: 500; opacity: .62; }
 
-.nav__links { display: flex; gap: 26px; font-size: .875rem; }
+/* A frosted pill, so the links stay legible where the hero's photograph
+   runs under them; once the bar itself is frosted the pill steps back. */
+.nav__links {
+  display: flex; gap: 26px; font-size: .875rem;
+  padding: 7px 24px; border-radius: 999px;
+  background: rgba(255, 255, 255, .72);
+  backdrop-filter: saturate(160%) blur(14px); -webkit-backdrop-filter: saturate(160%) blur(14px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .7), 0 10px 30px -20px rgba(31, 14, 26, .4);
+  transition: background-color .45s var(--ease), box-shadow .45s var(--ease);
+}
+.nav.is-stuck .nav__links { background: transparent; box-shadow: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
 .nav__links a { position: relative; padding-block: 6px; opacity: .82; transition: opacity .3s; }
 .nav__links a::after {
   content: ""; position: absolute; left: 0; bottom: 0; height: 1px; width: 100%;
@@ -244,6 +254,12 @@ ul, ol { list-style: none; padding: 0; }
 .nav__cta .btn { white-space: nowrap; }
 .nav__cta-short { display: none; }
 
+.nav__links a { white-space: nowrap; }
+/* Laptops: the tagline goes first so the links never wrap to two lines. */
+@media (max-width: 1340px) {
+  .nav__name em { display: none; }
+  .nav__links { gap: 20px; padding-inline: 20px; }
+}
 @media (max-width: 1080px) { .nav__links { display: none; } }
 @media (max-width: 620px)  {
   .nav__name em { display: none; }
@@ -395,7 +411,9 @@ html[data-pl="active"] .pl__logo .pl-part { opacity: 0; }
    compositor. */
 .hx {
   --hp: 0;
-  --hx-pad: clamp(22px, 4vw, 56px);
+  /* Lines up with the page column (.wrap) on every width; the percentage
+     resolves against the stage wherever the variable is used. */
+  --hx-pad: max(var(--gut), calc((100% - 1280px) / 2));
   --hx-wx: calc(50% * (1 - var(--hp)));
   --hx-wy: 0%;
   position: relative; height: 200svh; background: var(--panel);
@@ -463,6 +481,13 @@ html[data-hero="botox-injection"] .hx__img { transform: scaleX(-1); }
    headline letters come out bright over the photo, light enough that the
    photograph still reads as daylight. */
 .hx__tint { position: absolute; inset: 0; background: rgba(31, 14, 26, .26); pointer-events: none; }
+@media (min-width: 1024px) {
+  .hx__tint::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent 49%, rgba(31, 14, 26, .5) 50%, rgba(31, 14, 26, .3) 66%, transparent 82%);
+    opacity: clamp(0, 1 - var(--hp, 0) * 3, 1);
+  }
+}
 .hx__fadebot {
   position: absolute; inset: auto 0 0; height: 55%; pointer-events: none;
   background: linear-gradient(0deg, rgba(31, 14, 26, .66), rgba(31, 14, 26, 0));
@@ -607,6 +632,8 @@ html.js .hx__set.is-out .rise-mask > span {
   .hx__note-m .hx__trust { border-top-color: rgba(255, 255, 255, .22); margin-top: 0; padding-top: 14px; gap: 22px; }
   .hx__note-m .hx__trust strong { font-size: 1.45rem; color: #fff; }
   .hx__note-m .hx__trust span { color: rgba(255, 255, 255, .8); }
+  /* Number over its label: side by side, three of them crush into slivers. */
+  .hx__note-m .hx__trust li { flex-direction: column; align-items: flex-start; gap: 6px; }
   .hx__title2 { font-size: clamp(2.4rem, 11vw, 4.4rem); }
   .hx__tips { padding-bottom: 104px; gap: 6px 26px; }
   /* Phones crop a landscape photo to its middle; steer each one to its
@@ -753,6 +780,12 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 .svc__go svg { width: 16px; height: 16px; transition: transform .45s var(--ease); }
 .svc:hover .svc__go svg { transform: translateX(5px); }
 @media (max-width: 900px) { .services__grid { grid-template-columns: 1fr; } }
+/* Tablets: one column of full-width cards is mostly photograph, so the
+   card turns sideways, picture beside the words. */
+@media (min-width: 561px) and (max-width: 900px) {
+  .svc { flex-direction: row; }
+  .svc__img { flex: 0 0 42%; aspect-ratio: auto; min-height: 240px; }
+}
 
 /* ── Deep dives ──────────────────────────────────────────────────────── */
 .deep__grid {
@@ -784,6 +817,14 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 .facts div { display: flex; flex-direction: column; gap: 5px; }
 .facts dt { font-size: .75rem; letter-spacing: .11em; text-transform: uppercase; font-weight: 500; color: var(--tx-mute); }
 .facts dd { font-family: var(--display); font-weight: 500; font-size: 1.3rem; letter-spacing: -.01em; margin: 0; }
+/* Wide enough on desktop for every value to sit on one line, so the columns
+   size to their content instead of wrapping the longest. */
+@media (min-width: 1200px) {
+  .facts { grid-template-columns: repeat(4, auto); justify-content: space-between; column-gap: 20px; }
+  .facts dd { white-space: nowrap; }
+}
+/* The hyphen in a range, from the sans: Bodoni draws it as a hairline. */
+.rng { font-family: var(--sans); font-weight: 400; margin-inline: .1em; }
 /* Retained as a light "emphasis" variant of the facts row on tinted sections. */
 .facts--dark dd { color: var(--accent-deep); }
 @media (max-width: 560px) { .facts { grid-template-columns: repeat(2, 1fr); gap: 20px 4px; } }
@@ -958,7 +999,7 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 .doctor__note { font-size: .88rem; color: var(--tx-mute); padding-top: 20px; border-top: 1px solid var(--line); }
 @media (max-width: 900px) {
   .doctor__grid { grid-template-columns: 1fr; }
-  .doctor__media { max-width: 420px; }
+  .doctor__media { max-width: 420px; width: 100%; margin-inline: auto; }
   .creds li { grid-template-columns: 1fr; gap: 3px; }
 }
 
@@ -980,25 +1021,27 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 }
 
 /* ── Process ─────────────────────────────────────────────────────────── */
-.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(18px, 2.5vw, 32px); position: relative; }
-.steps::before {
-  content: ""; position: absolute; left: 0; right: 0; top: 26px; height: 1px;
-  background: var(--line);
+.steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(18px, 2.5vw, 36px); position: relative; }
+/* Editorial steps: a hairline that draws in champagne as each step reveals,
+   a large drawn-italic numeral, then the words. */
+.steps li { position: relative; padding-top: clamp(22px, 2.4vw, 32px); border-top: 1px solid var(--line); }
+.steps li::before {
+  content: ""; position: absolute; left: 0; right: 0; top: -1px; height: 1px;
+  background: linear-gradient(90deg, var(--lux-deep), var(--lux));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 1.3s var(--ease) calc(var(--d, 0) * .12s + .1s);
 }
-.steps li { position: relative; padding-top: 66px; }
+.steps li.is-in::before { transform: none; }
 .steps__n {
-  position: absolute; top: 0; left: 0; width: 52px; height: 52px; border-radius: 50%;
-  display: grid; place-items: center; font-family: var(--display); font-weight: 500; font-style: italic; font-size: 1.12rem;
-  background: var(--bone); color: var(--lux-deep); box-shadow: inset 0 0 0 1px var(--line);
-  transition: background .5s var(--ease), color .5s var(--ease), box-shadow .5s var(--ease);
+  display: block; margin-bottom: clamp(14px, 1.6vw, 22px);
+  font-family: var(--display); font-weight: 400; font-style: italic; line-height: 1;
+  font-size: clamp(2.6rem, 4.2vw, 4rem); letter-spacing: -.02em;
+  background: linear-gradient(135deg, #B48C5C 0%, var(--lux-deep) 60%, #5E3F1F 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
 }
-.steps li.is-in .steps__n {
-  background: linear-gradient(135deg, var(--lux-hi), var(--lux) 55%, var(--lux-deep)); color: #3A2A14;
-  box-shadow: 0 12px 26px -12px rgba(168,127,78,.75);
-}
-.steps h3 { font-size: 1.2rem; margin-bottom: 9px; }
-.steps p { font-size: .9rem; color: var(--tx-mute); }
-@media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } .steps::before { display: none; } }
+.steps h3 { font-size: clamp(1.25rem, 1.6vw, 1.45rem); margin-bottom: 10px; }
+.steps p { font-size: .94rem; color: var(--tx-mute); max-width: 30ch; }
+@media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; row-gap: 40px; } }
 @media (max-width: 520px) { .steps { grid-template-columns: 1fr; } }
 
 /* ── Reviews marquee ─────────────────────────────────────────────────── */
@@ -1021,8 +1064,22 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 .revmarq footer strong { color: var(--tx); font-weight: 500; font-size: .88rem; }
 
 /* ── FAQ ─────────────────────────────────────────────────────────────── */
-.acc { display: grid; gap: 2px; background: var(--line); border-radius: var(--r-lg); overflow: hidden; }
-.acc details { background: var(--bone); }
+.faq__grid {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: clamp(32px, 6vw, 104px); align-items: start;
+}
+.faq__head { position: sticky; top: calc(var(--nav-h) + 40px); margin-bottom: 0; }
+.faq__wa { margin-top: 28px; }
+.faq__wa svg { width: 18px; height: 18px; color: #25D366; }
+@media (max-width: 900px) {
+  .faq__grid { grid-template-columns: 1fr; gap: 0; }
+  .faq__head { position: static; margin-bottom: 32px; }
+}
+/* Rules between rows rather than a coloured gap, so a row still waiting to
+   reveal shows as paper instead of a grey slab. */
+.acc { display: grid; background: var(--paper); border-radius: var(--r-lg); overflow: hidden; box-shadow: inset 0 0 0 1px var(--line), 0 30px 60px -48px rgba(31, 14, 26, .35); }
+.acc details { background: transparent; }
+.acc details + details { border-top: 1px solid var(--line); }
 .acc summary {
   display: flex; align-items: center; justify-content: space-between; gap: 20px;
   padding: 22px clamp(20px, 3vw, 32px); cursor: pointer; list-style: none;
@@ -1084,11 +1141,11 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 }
 .book__wa {
   display: flex; align-items: center; gap: 14px; margin-top: 34px !important;
-  padding: 16px 20px; border-radius: var(--r); background: rgba(37,211,102,.1);
-  box-shadow: inset 0 0 0 1px rgba(37,211,102,.28);
+  padding: 16px 20px; border-radius: var(--r); background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--line), 0 18px 40px -30px rgba(31, 14, 26, .3);
   transition: background .4s ease, transform .5s var(--ease);
 }
-.book__wa:hover { background: rgba(37,211,102,.17); transform: translateY(-2px); }
+.book__wa:hover { box-shadow: inset 0 0 0 1px rgba(37,211,102,.45), 0 22px 44px -28px rgba(31, 14, 26, .35); transform: translateY(-2px); }
 .book__wa svg { width: 30px; height: 30px; flex: none; color: #25D366; }
 .book__wa span { display: flex; flex-direction: column; font-size: .85rem; color: var(--tx-mute); }
 .book__wa strong { color: var(--tx); font-weight: 500; font-size: .96rem; }
@@ -1174,7 +1231,9 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 }
 .foot__grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: clamp(28px, 4vw, 56px); }
 .foot__brand { display: flex; flex-direction: column; gap: 16px; align-items: flex-start; }
-.foot__logo { width: 168px; height: auto; }
+.foot__id { display: flex; align-items: center; gap: 14px; }
+.foot__logo { width: 44px; height: auto; }
+.foot__id span { font-family: var(--display); font-weight: 500; font-size: 1.5rem; line-height: 1.1; color: var(--tx); }
 .foot__brand p { font-size: .84rem; max-width: 36ch; }
 .foot__col { display: flex; flex-direction: column; gap: 10px; }
 .foot__col h4 { font-family: var(--sans); font-size: .75rem; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: var(--tx); margin-bottom: 4px; }
@@ -1189,6 +1248,16 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
   padding-block: 24px 28px; margin-top: 20px; border-top: 1px solid var(--line);
   font-size: .74rem;
 }
+/* The sign-off: the name set as large as the page is wide, cropped by the
+   bottom edge so it reads as a ground rather than a heading. */
+.foot { overflow: hidden; }
+.foot__mega {
+  margin: clamp(8px, 2vw, 24px) 0 0; padding-inline: var(--gut);
+  font-family: var(--display); font-weight: 400; letter-spacing: -.04em;
+  font-size: clamp(3.2rem, 14.8vw, 14.4rem); line-height: .8; white-space: nowrap;
+  text-align: center; margin-bottom: -.12em; user-select: none;
+}
+.foot__mega em { font-style: italic; }
 @media (max-width: 860px) { .foot__grid { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 520px) { .foot__grid { grid-template-columns: 1fr; } }
 
@@ -1307,15 +1376,14 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
 
    They bleed a little past the page edge; the section's overflow-x: clip
    catches that, and the crop reads as intentional. */
-.float { width: 40%; aspect-ratio: 3 / 4; opacity: .86; }
-.float--up { top: -46%; left: -13%; }
-.float--dn { bottom: -40%; left: 8%; width: 32%; aspect-ratio: 1 / 1; }
-
-/* Mirror when the image sits on the right. */
-.deep--flip .float--up { left: auto; right: -13%; }
-.deep--flip .float--dn { left: auto; right: 8%; }
-.doctor__media .float--up { left: auto; right: -14%; }
-.doctor__media .float--dn { left: -10%; bottom: -24%; }
+/* One inset per frame, laid over the photograph's lower corner like a print
+   on a print. A paper border so it reads as placed, not as a stray image. */
+.float--inset {
+  width: 30%; aspect-ratio: 1 / 1; right: -6%; bottom: -12%; z-index: 2;
+  border: 7px solid var(--paper); border-radius: 22px;
+  box-shadow: 0 30px 60px -28px rgba(31, 14, 26, .45);
+}
+.deep--flip .float--inset { right: auto; left: -6%; }
 
 @media (max-width: 1200px) { .float { display: none; } }
 
@@ -1390,7 +1458,7 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
    on the drawing itself, and only while it's on screen. */
 .mochi-pal {
   position: fixed; left: 0; top: 0; z-index: 95;
-  width: 84px; height: 84px; transform-origin: 0 0;
+  width: 76px; height: 76px; transform-origin: 0 0;
   pointer-events: none; will-change: transform;
 }
 .mochi-pal__show {
@@ -1454,6 +1522,8 @@ html:not(.js) .location__map iframe[data-src] { display: none; }
   transform: scale(1.2); will-change: transform;
 }
 .flip__layer--up { z-index: 1; clip-path: inset(0% 0% 0% 0%); will-change: clip-path; }
+/* Without the motion, show where the animation would have ended. */
 @media (prefers-reduced-motion: reduce) {
   .flip__layer img { transform: none; will-change: auto; }
+  .flip__layer--up { display: none; }
 }
