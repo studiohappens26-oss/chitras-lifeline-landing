@@ -555,7 +555,9 @@ html[data-hero="botox-injection"] .hx__img { transform: scaleX(-1); }
 .hx__stack { display: grid; }
 .hx__set { grid-area: 1 / 1; }
 .hx__set:not(:first-child) { visibility: hidden; }
-html.js .hx__set .rise-mask > span { transform: translateY(115%); }
+/* 140%, not 115%: Bodoni's ascenders and italic descenders reach well past
+   the line box, and at 115% they still showed inside the mask. */
+html.js .hx__set .rise-mask > span { transform: translateY(140%); }
 html.js .hx:not(.is-live) .hx__set:first-child .rise-mask > span { animation: hxFailsafe .01s linear 6s forwards; }
 @keyframes hxFailsafe { to { transform: none; } }
 .hx.is-live .hx__set { visibility: hidden; }
@@ -565,7 +567,7 @@ html.js .hx__set.is-in .rise-mask > span {
   transition: transform 1.1s var(--ease-expo) calc(var(--d, 0s) + var(--i, 0) * .1s);
 }
 html.js .hx__set.is-out .rise-mask > span {
-  transform: translateY(-115%);
+  transform: translateY(-140%);
   transition: transform .65s cubic-bezier(.55, .06, .68, .19) calc(var(--i, 0) * .06s);
 }
 

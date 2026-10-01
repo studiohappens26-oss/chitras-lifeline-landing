@@ -31,7 +31,7 @@
   var h = d.documentElement,
       s = new URLSearchParams(location.search).get('s'),
       HERO = { botox: 'botox-injection', laser: 'laser-handpiece', facial: 'medifacial' },
-      img = HERO[s] || 'doctor-procedure', seen = false;
+      img = HERO[s] || 'botox-injection', seen = false;
   h.className += ' js';
   h.setAttribute('data-hero', img);
   if (HERO[s]) h.setAttribute('data-variant', s);
@@ -141,7 +141,7 @@
             <img class="hx__img" width="1800" height="1200" fetchpriority="high" sizes="100vw"
                  alt="A skin treatment in progress at Chitra's Lifeline Clinic" data-slot="1.1">
             <script>(function(i,h){i.srcset=[480,800,1200,1800].map(function(w){return'/assets/img/'+h+'-'+w+'.webp '+w+'w'}).join(', ');i.src='/assets/img/'+h+'.jpg'})(document.currentScript.previousElementSibling,document.documentElement.getAttribute('data-hero')||'doctor-procedure')</script>
-            <noscript><img class="hx__img" src="/assets/img/doctor-procedure.jpg" srcset="/assets/img/doctor-procedure-480.webp 480w, /assets/img/doctor-procedure-800.webp 800w, /assets/img/doctor-procedure-1200.webp 1200w, /assets/img/doctor-procedure-1800.webp 1800w" sizes="100vw" width="1800" height="1200" alt="A skin treatment in progress at Chitra's Lifeline Clinic"></noscript>
+            <noscript><img class="hx__img" src="/assets/img/botox-injection.jpg" srcset="/assets/img/botox-injection-480.webp 480w, /assets/img/botox-injection-800.webp 800w, /assets/img/botox-injection-1200.webp 1200w, /assets/img/botox-injection-1800.webp 1800w" sizes="100vw" width="1800" height="1200" alt="A skin treatment in progress at Chitra's Lifeline Clinic"></noscript>
           </div>
         </div>
         <div class="hx__tint" aria-hidden="true"></div>

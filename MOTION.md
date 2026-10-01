@@ -312,3 +312,20 @@ Ported from the Lakova site (`FlipMedia.astro` plus the flip effect in
   drops the scale. The under-photo is `loading="lazy"` like every other image.
 - These frames dropped `data-px-cover`; the inner drift now belongs to the flip.
   The frame keeps its `data-px` float.
+
+# Design pass, October 2026
+
+- **Floats.** The eight drifting stock photos (silk, water, pills, serum) are
+  gone. They overlapped copy and section edges and had nothing to do with the
+  treatments. One framed inset remains, on the medi-facial frame (the serum),
+  laid over the photo's corner with a paper border and a slow `data-px="1.2"`.
+- **Hero headline swap.** Lines rise from and leave to 140% instead of 115%.
+  Bodoni's ascenders and italic descenders reach past the line box, and at
+  115% fragments of the outgoing line stayed visible in the mask.
+- **Seam band.** On desktop a darker band sits at the photo's left edge
+  (`.hx__tint::after`), so the difference-blended headline comes out light
+  where it crosses onto the photograph. It fades out as the window opens.
+- **`--hx-pad`** now matches the page column (`max(gut, (100% - 1280px) / 2)`),
+  so the hero lines up with the nav and every section at any width.
+- **Process steps** draw a champagne hairline as each one reveals, above a
+  large italic numeral, replacing the numbered circles.
