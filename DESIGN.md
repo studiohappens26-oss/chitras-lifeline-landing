@@ -34,7 +34,8 @@ wordmark was tried and dropped because it clashed.
 - The hero circle grows into place on load. There's no preloader, so the photo is painted on the
   first frame (this matters for the Ads LCP score).
 - The mission statement fills in word by word as it scrolls past.
-- Visit steps stack as sticky cards, with a progress line.
+- Visit steps are a column of cards; the heading beside them stays in view and its progress
+  line fills as each card passes.
 - Each treatment photo opens as a growing circle when its tab is selected.
 - Photographs drift slowly inside their frames as you scroll (parallax). Lines draw
   themselves in and the lens circles turn with the scroll.

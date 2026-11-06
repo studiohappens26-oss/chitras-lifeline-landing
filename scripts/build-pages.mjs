@@ -465,10 +465,10 @@ ${labPharmacy()}
       <div class="dots" data-dots aria-hidden="true"><span>Book</span><span>Consultation</span><span>Tests, if needed</span><span>Prescription</span></div>
     </div>
     <ol class="steps__cards">
-      <li class="step" style="--i:0"><span data-ribbon="corner"></span><b>01</b><div><h3>Book</h3><p>Call, message on WhatsApp or use the form on this page. The clinic is open Monday to Saturday, 11am to 8pm.</p></div></li>
-      <li class="step" style="--i:1"><span data-ribbon="corner"></span><b>02</b><div><h3>Consultation</h3><p>You see Dr. Bindiya G P at the clinic. Online consultations are also available.</p></div></li>
-      <li class="step" style="--i:2"><span data-ribbon="corner"></span><b>03</b><div><h3>Tests, if needed</h3><p>Blood tests are done in the clinic's own laboratory.</p></div></li>
-      <li class="step" style="--i:3"><span data-ribbon="corner"></span><b>04</b><div><h3>Prescription</h3><p>Prescriptions are issued electronically, and the clinic has its own pharmacy.</p></div></li>
+      <li class="step"><span data-ribbon="corner"></span><b>01</b><div><h3>Book</h3><p>Call, message on WhatsApp or use the form on this page. The clinic is open Monday to Saturday, 11am to 8pm.</p></div></li>
+      <li class="step"><span data-ribbon="corner"></span><b>02</b><div><h3>Consultation</h3><p>You see Dr. Bindiya G P at the clinic. Online consultations are also available.</p></div></li>
+      <li class="step"><span data-ribbon="corner"></span><b>03</b><div><h3>Tests, if needed</h3><p>Blood tests are done in the clinic's own laboratory.</p></div></li>
+      <li class="step"><span data-ribbon="corner"></span><b>04</b><div><h3>Prescription</h3><p>Prescriptions are issued electronically, and the clinic has its own pharmacy.</p></div></li>
     </ol>
   </div>
 </section>

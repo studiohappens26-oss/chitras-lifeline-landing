@@ -3,7 +3,7 @@
 
    One seamless motion: every section grows out of the one before it. The
    hero circle opens, the mission text fills in as it is read, ribbons draw
-   themselves along their length, the visit cards stack under a progress
+   themselves along their length, the visit cards fill a progress
    line. Rules in DESIGN.md.
 
    Kept apart from main.js on purpose: nothing here can break the booking
@@ -172,7 +172,7 @@
     units.forEach((u, i) => u.classList.toggle('on', REDUCED || i < n));
   }
 
-  /* ── Visit steps: the progress line follows the stacking cards ─────── */
+  /* ── Visit steps: the progress line follows the cards ───────────────── */
   const steps = $$('.step');
   const dots = $('[data-dots]');
   const dotEls = dots ? $$('span', dots) : [];
