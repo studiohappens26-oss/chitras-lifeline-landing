@@ -19,7 +19,8 @@
  *    botox.html (organic search, never an ad final URL) uses the word.
  *  - No testimonials, ratings, before/after, superlatives or comparisons.
  */
-import { writeFile } from 'node:fs/promises';
+import { readdir, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -64,7 +65,7 @@ function head({ title, desc, path, og, ogType = 'website', extra = '' }) {
 <meta property="og:image" content="${SITE}/assets/img/${og}-1200.webp">
 <meta name="theme-color" content="#EEEDF3">
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/manrope-latin-normal.woff2" crossorigin>
-${extra || "<script>document.documentElement.className += ' js'; document.documentElement.setAttribute('data-pl', 'skip');</script>"}
+${extra || "<script>document.documentElement.className += location.hash ? ' js all-drawn' : ' js';</script>"}
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/styles.css">
 <link rel="icon" href="/assets/img/logo-mark.png" type="image/png">
@@ -72,8 +73,9 @@ ${extra || "<script>document.documentElement.className += ' js'; document.docume
 </head>`;
 }
 
-function nav({ home, links }) {
-  return `<a href="#book" class="skip-link">Skip to booking form</a>
+// skip: false on pages without the booking form (the 404)
+function nav({ home, links, skip = true }) {
+  return `${skip ? '<a href="#book" class="skip-link">Skip to booking form</a>' : ''}
 
 <header class="nav" id="nav">
   <div class="wrap nav__bar">
@@ -278,10 +280,10 @@ function footer({ home, extraLegal = '' }) {
   <span data-ribbon="high"></span>
   <a class="brand" href="${top}" aria-label="Chitra's Lifeline Clinic, ${home ? 'back to top' : 'home'}">${BRAND.replace('alt="">', 'alt="" loading="lazy">')}</a>
   <div class="foot__grid">
-    <div><h4>Clinic</h4><p>Dermatology, cosmetology, skin and laser · Neurosurgery and spine surgery · In-house laboratory and pharmacy</p></div>
-    <div><h4>Treatments</h4>${TREATMENT_LINKS.map(([h, t]) => `<a href="${h}">${t}</a>`).join('')}</div>
-    <div><h4>Visit</h4><a href="${home ? '' : '/'}#doctor">Dr. Bindiya G P</a><a href="/#clinic">Inside the clinic</a><a href="${home ? '' : '/'}#faq">Questions</a><a href="${home ? '' : '/'}#location">Location</a></div>
-    <div><h4>Contact</h4><a href="tel:+918197516940">+91 81975 16940</a><a href="tel:+919986086610">+91 99860 86610</a><a href="${WA}" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener">@chitraslifelineclinic</a></div>
+    <div><h2>Clinic</h2><p>Dermatology, cosmetology, skin and laser · Neurosurgery and spine surgery · In-house laboratory and pharmacy</p></div>
+    <div><h2>Treatments</h2>${TREATMENT_LINKS.map(([h, t]) => `<a href="${h}">${t}</a>`).join('')}</div>
+    <div><h2>Visit</h2><a href="${home ? '' : '/'}#doctor">Dr. Bindiya G P</a><a href="${home ? '' : '/'}#faq">Questions</a><a href="${home ? '' : '/'}#location">Location</a></div>
+    <div><h2>Contact</h2><a href="tel:+918197516940">+91 81975 16940</a><a href="tel:+919986086610">+91 99860 86610</a><a href="${WA}" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener">@chitraslifelineclinic</a></div>
   </div>
   <p class="foot__mega" aria-hidden="true">Chitra's <em>Lifeline</em></p>
   <div class="foot__legal">
@@ -360,7 +362,7 @@ function homePage() {
     { key: 'facial', title: 'Medi-facials', img: 'cl-hydra', alt: 'The medi-facial machine at the clinic', page: '/medi-facials', prefill: 'Medi-facial', small: 'Matched to your skin concern.', text: 'A facial done in a medical clinic, matched to a skin concern such as acne, dullness or pigmentation, using medical-grade products.' },
     { key: 'skinlaser', title: 'Laser skin treatments', img: 'cl-laser', alt: 'Laser equipment at the clinic', page: '', prefill: 'Laser skin treatment', small: 'The right laser depends on your skin.', text: 'Laser treatments for concerns such as acne scarring, fine lines and wrinkles, sun spots, tattoos and loose skin.' },
   ];
-  const tab = (t, i) => `<li><button class="sel__tab" role="tab" id="t-${t.key}" aria-controls="p-${t.key}" aria-selected="${i ? 'false' : 'true'}" data-tab="${t.key}"${i ? ' tabindex="-1"' : ''}>${t.title}<span class="ar">${ARROW_SM}</span></button></li>`;
+  const tab = (t, i) => `<li role="presentation"><button class="sel__tab" role="tab" id="t-${t.key}" aria-controls="p-${t.key}" aria-selected="${i ? 'false' : 'true'}" data-tab="${t.key}"${i ? ' tabindex="-1"' : ''}>${t.title}<span class="ar">${ARROW_SM}</span></button></li>`;
   const ALSO = [
     ['Chemical peels', 'Offered in three strengths: mild, medium and deep.'],
     ['PRP therapy', 'Platelet-rich plasma, including cosmetic uses.'],
@@ -370,18 +372,6 @@ function homePage() {
     ['Skin, nail and fungal infections', 'Including skin biopsies examined in a laboratory.'],
   ];
   const IG = ['DYw1-rZTaoq', 'DZCyS_ezZAc', 'DaK2jUPvYm4', 'Dakn0D6v86f', 'Dau67jHoVNN', 'DbVetyGTO6g', 'Dbf5DPKzdZ9', 'Db3JjUFzdRq', 'DcTDE_bxWgh', 'DdGLg5_tAjT', 'Dd1ZbdATo5r'];
-  const SHOTS = [
-    ['w', 'cl-sign', 'The clinic sign on the wood-slat wall at reception', 'Reception'],
-    ['t', 'cl-hourglass', 'An hourglass on the marble reception counter', ''],
-    ['w', 'cl-laser-2', 'Laser machines in the treatment room', 'Laser room'],
-    ['s', 'cl-hydra', 'The medi-facial machine', 'Medi-facials'],
-    ['w', 'cl-waiting', 'Seating in the waiting area', 'Waiting area'],
-    ['t', 'cl-decal', 'The clinic logo on a frosted glass door', ''],
-    ['w', 'cl-desk', 'The consultation desk', 'Consultation'],
-    ['s', 'cl-pharmacy', "Shelves of the clinic's pharmacy", 'Pharmacy'],
-  ];
-  const shotSizes = { w: '(max-width: 860px) 80vw, 680px', s: '420px', t: '340px' };
-
   const headScript = `<!-- Runs before first paint. Picks the hero photograph for the ad group
      (?s=) and starts it downloading at the right width before the parser
      reaches the <img>, and sets html.js for effects that need JavaScript.
@@ -392,8 +382,7 @@ function homePage() {
       s = new URLSearchParams(location.search).get('s'),
       HERO = { wrinkle: 'cl-anatomy', laser: 'cl-laser-2', facial: 'cl-hydra' },
       img = HERO[s] || 'cl-sign';
-  h.className += ' js';
-  h.setAttribute('data-pl', 'skip');
+  h.className += location.hash ? ' js all-drawn' : ' js'; // arriving at a section: draw them all (styles.css, .frame)
   h.setAttribute('data-hero', img);
   var l = d.createElement('link');
   l.rel = 'preload'; l.as = 'image'; l.setAttribute('fetchpriority', 'high');
@@ -406,7 +395,7 @@ function homePage() {
   return `${head({ title: "Skin, Laser and Aesthetic Clinic in Yelahanka | Chitra's Lifeline Clinic", desc: "Dermatology, cosmetology, skin and laser treatments in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist. In-house laboratory and pharmacy. Open Monday to Saturday, 11am to 8pm.", path: '/', og: 'cl-sign', extra: headScript })}
 <body data-page="home">
 
-${nav({ home: true, links: [['#treatments', 'Treatments'], ['#doctor', 'Doctor'], ['#visit', 'Your visit'], ['#clinic', 'Clinic'], ['#faq', 'FAQ']] })}
+${nav({ home: true, links: [['#treatments', 'Treatments'], ['#doctor', 'Doctor'], ['#visit', 'Your visit'], ['#faq', 'FAQ']] })}
 
 <main id="top" class="wrap page">
 
@@ -484,23 +473,6 @@ ${labPharmacy()}
   </div>
 </section>
 
-<!-- ══ INSIDE THE CLINIC ═════════════════════════════════════════════════
-     Real photographs from the clinic's own footage (February 2026). -->
-<section class="frame gal" id="clinic" data-mochi="happy" data-mochi-say="That's the real reception, in Yelahanka New Town.">
-  <div class="gal__head">
-    <div data-reveal>
-      <p class="eyebrow">Inside the clinic</p>
-      <h2 class="h2">Yelahanka New Town, <span class="pk">as it is</span></h2>
-    </div>
-    <p class="lede" data-reveal data-reveal-delay="2" style="margin:0">Every photograph here was taken at the clinic.</p>
-  </div>
-  <div class="rail" data-rail>
-    <div class="rail__track">
-      ${SHOTS.map(([k, img, alt, cap]) => `<figure class="shot shot--${k}"><img src="/assets/img/${img}.jpg" sizes="${shotSizes[k]}" width="2400" height="${img === 'cl-desk' ? 1351 : 1350}" loading="lazy" decoding="async" alt="${esc(alt)}">${cap ? `<figcaption class="pill"><i></i>${cap}</figcaption>` : '<span data-lens></span>'}</figure>`).join('\n      ')}
-    </div>
-  </div>
-</section>
-
 <!-- ══ INSTAGRAM ═════════════════════════════════════════════════════════
      Dr. Bindiya's reels, through Instagram's own embed. They load only when
      the rail scrolls near the view (main.js). -->
@@ -519,7 +491,7 @@ ${labPharmacy()}
   </div>
   <div class="reels__rail" data-reels-rail tabindex="0" aria-label="Instagram videos by Dr. Bindiya">
     <!-- Reels supplied by the clinic, November 2026. -->
-    ${IG.map((id) => `<div class="reel" data-ig="${id}"></div>`).join('\n    ')}
+    ${IG.map((id, i) => `<div class="reel" data-ig="${id}"><div class="reel__wait"><span>Loading video ${i + 1} of ${IG.length}</span><a href="https://www.instagram.com/p/${id}/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>`).join('\n    ')}
   </div>
 </section>
 
@@ -815,9 +787,118 @@ ${scripts()}
 `;
 }
 
+/* ══ 404 ═════════════════════════════════════════════════════════════════
+   Cloudflare Pages serves 404.html, with a real 404 status, for any path
+   that doesn't exist. Without it, Pages assumes a single-page app and
+   answers every unknown URL with the home page, which search engines read
+   as duplicate content ("soft 404s"). */
+function notFoundPage() {
+  return head({ title: "Page not found | Chitra's Lifeline Clinic", desc: "This page doesn't exist. Find treatments, the doctor and booking at Chitra's Lifeline Clinic, Yelahanka New Town.", path: '/404', og: 'cl-sign' })
+    .replace('<meta name="robots" content="index, follow">', '<meta name="robots" content="noindex">')
+    .replace(/\n<link rel="canonical"[^\n]*/, '') + `
+<body data-page="404">
+${nav({ home: false, links: [['/#treatments', 'Treatments'], ['/#doctor', 'Doctor'], ['/#faq', 'FAQ']], skip: false })}
+<main id="top" class="wrap page">
+<section class="frame art-hero">
+  <div class="mesh" aria-hidden="true"><i style="--c:var(--peri-soft);--x:55%;--y:-10%;--s:60%"></i><i style="--c:var(--pink-soft);--x:-5%;--y:40%;--s:50%;--o:.7"></i></div>
+  <span data-ribbon="high"></span>
+  <p class="eyebrow">Error 404</p>
+  <h1>This page <em>doesn't exist.</em></h1>
+  <p class="lede">The link may be old or mistyped. These will get you where you were going:</p>
+  <div class="btn-row">
+    <a class="btn" href="/">Home page ${ARROW}</a>
+    ${TREATMENT_LINKS.slice(0, 3).map(([h, t]) => `<a class="btn btn--ghost" href="${h}">${t}</a>`).join('\n    ')}
+  </div>
+</section>
+${footer({ home: false })}
+</main>
+${scripts()}
+</body>
+</html>
+`;
+}
+
 /* ── Write ────────────────────────────────────────────────────────────── */
-const out = [['index.html', homePage()], ...TREATMENTS.map((t) => [t.file, treatmentPage(t)])];
+const out = [['index.html', homePage()], ...TREATMENTS.map((t) => [t.file, treatmentPage(t)]), ['404.html', notFoundPage()]];
 for (const [file, html] of out) await writeFile(resolve(ROOT, file), html);
+
+/* Cache busting. Every CSS and JS reference gets ?v=<content hash>, so
+   _headers can let browsers and Cloudflare's edge keep them for a year
+   ("immutable") and a change still reaches everyone on the next page view.
+   Also applied to the hand-written pages (privacy.html). */
+const ASSETS = ['assets/css/fonts.css', 'assets/css/styles.css', 'assets/js/main.js', 'assets/js/motion.js', 'assets/js/mochi.js'];
+const hash = {};
+for (const a of ASSETS) hash[a] = createHash('sha256').update(await readFile(resolve(ROOT, a))).digest('hex').slice(0, 10);
+const htmlFiles = (await readdir(ROOT)).filter((f) => f.endsWith('.html') && !['type.html', 'mochi.html'].includes(f));
+for (const f of htmlFiles) {
+  const p = resolve(ROOT, f);
+  const html = await readFile(p, 'utf8');
+  const next = html.replace(/(["'])\/(assets\/(?:css|js)\/[\w.-]+\.(?:css|js))(?:\?v=\w+)?\1/g, (m, q, a) => (hash[a] ? `${q}/${a}?v=${hash[a]}${q}` : m));
+  if (next !== html) await writeFile(p, next);
+}
+
+/* Cloudflare Pages headers. Written here because the Early Hints links
+   must carry the same ?v= hashes as the pages. Cloudflare turns a page's
+   Link: rel=preload headers into a "103 Early Hints" response, so the
+   browser starts fetching the font and stylesheets while the HTML is still
+   on its way. */
+const v = (a) => `/${a}?v=${hash[a]}`;
+const HINTS = [
+  '</assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin',
+  `<${v('assets/css/fonts.css')}>; rel=preload; as=style`,
+  `<${v('assets/css/styles.css')}>; rel=preload; as=style`,
+].join(', ');
+const pagePaths = ['/', '/index.html', ...TREATMENTS.map((t) => t.path), '/privacy'];
+await writeFile(resolve(ROOT, '_headers'), `# Cloudflare Pages headers. GENERATED by scripts/build-pages.mjs; edit it there.
+
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: SAMEORIGIN
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+
+# Pages: always revalidated (cheap: Cloudflare answers with 304 when nothing
+# changed), with Early Hints for the font and stylesheets.
+${pagePaths.map((p) => `${p}\n  Cache-Control: public, max-age=0, must-revalidate\n  Link: ${HINTS}`).join('\n')}
+
+# CSS and JS are referenced with ?v=<content hash>, so they can be cached
+# for a year: any change produces a new URL.
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Self-hosted fonts never change under the same filename.
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+# Photographs: a month at the browser, then revalidated in the background.
+# Replace a photo under a new filename to update it everywhere at once.
+/assets/img/*
+  Cache-Control: public, max-age=2592000, stale-while-revalidate=604800
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+/robots.txt
+  Cache-Control: public, max-age=3600
+
+# Reference pages that ship with the repo but aren't part of the site.
+/type.html
+  X-Robots-Tag: noindex
+/mochi.html
+  X-Robots-Tag: noindex
+/type
+  X-Robots-Tag: noindex
+/mochi
+  X-Robots-Tag: noindex
+
+/api/*
+  Cache-Control: no-store
+  X-Robots-Tag: noindex
+`);
 
 // The sitemap lists every page; the botox page is found by search engines
 // this way, never through a link from the ad pages.

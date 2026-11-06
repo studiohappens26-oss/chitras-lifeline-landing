@@ -177,12 +177,29 @@
     let sections = [], tops = [], floors = [], floorRects = [];
     let sectionsAt = 0, floorsAt = 0;
     let footerIn = false;
-    let plDone = html.dataset.pl !== 'active';
 
     // Last written values, so an unchanged frame writes nothing
     const shown = { tf: '', clip: '', visible: false, lx: 0, ly: 0, tip: 0 };
     let lx = 0, ly = 0, tipR = 0;
     let lastY = scrollY, lastT = performance.now(), raf = 0;
+
+    // The loop sleeps when Mochi is settled and nothing is happening, and
+    // wakes on scroll, input or a timer. It starts on the first scroll:
+    // Mochi stays out of sight in the hero, so there is nothing to draw before.
+    let running = false, awakeUntil = 0, sleepTimer = 0;
+    const wake = (ms = 1200, input = true) => {
+      const now = performance.now();
+      awakeUntil = Math.max(awakeUntil, now + ms);
+      if (input) {
+        // Come back once to turn sleepy after a quiet spell
+        clearTimeout(sleepTimer);
+        sleepTimer = setTimeout(() => wake(400, false), SLEEP_AFTER + 120);
+      }
+      if (running || doc.hidden) return;
+      running = true;
+      lastT = now;
+      raf = requestAnimationFrame(frame);
+    };
 
     // Bubble
     let sayOpen = false, sayY = 0, sayUntil = 0, sayW = 0, sayH = 0, sayTimer = 0;
@@ -314,7 +331,6 @@
 
     /* ── The frame ── */
     const frame = (now) => {
-      raf = requestAnimationFrame(frame);
       const dts = Math.min(64, now - lastT) / 1000;
       lastT = now;
       const vw = innerWidth;
@@ -418,7 +434,7 @@
       // Out of the way in the hero, over the footer and while a phone keyboard is up
       const vv = window.visualViewport;
       const keyboard = !desktop.matches && vv && vv.height < vh * 0.75;
-      const visible = plDone && active >= 0 && ((!footerIn && !keyboard) || dk > 0.5);
+      const visible = active >= 0 && ((!footerIn && !keyboard) || dk > 0.5);
       if (visible !== shown.visible) {
         shown.visible = visible;
         pal.classList.toggle('is-shown', visible);
@@ -502,6 +518,17 @@
         say.style.transform = `translate3d(${bx.toFixed(1)}px, ${by.toFixed(1)}px, 0)`;
         say.style.setProperty('--tail', `${clamp(cx - bx, 22, sayW - 22).toFixed(1)}px`);
       }
+
+      // Keep going while anything is still moving, then sleep
+      const busy = v !== 0 || sayOpen || hiding || leaving ||
+        Math.abs(x - g.x) > 0.5 || Math.abs(vx) > 0.5 ||
+        Math.abs(rise - riseTo) > 0.004 || Math.abs(vr) > 0.004 ||
+        Math.abs(dk - (dockOn ? 1 : 0)) > 0.002 || Math.abs(vdk) > 0.004 ||
+        Math.abs(tipR) > 0.15 || Math.abs(lx - tx) > 0.05 || Math.abs(ly - ty) > 0.05 ||
+        now < Math.max(shockUntil, shyUntil, happyUntil, holdUntil);
+      if (busy) awakeUntil = Math.max(awakeUntil, now + 250);
+      if (now < awakeUntil) raf = requestAnimationFrame(frame);
+      else running = false;
     };
 
     /* ── Wiring ── */
@@ -511,9 +538,7 @@
     const footer = doc.querySelector('.foot');
     if (footer) io.observe(footer);
 
-    if (!plDone) doc.addEventListener('cl:preloader-exit', () => { plDone = true; }, { once: true });
-    // If the preloader never announces its exit, don't stay hidden forever
-    setTimeout(() => { plDone = true; }, 7000);
+    addEventListener('scroll', () => wake(), { passive: true });
 
     addEventListener('pointermove', (e) => {
       lastInput = performance.now();
@@ -521,10 +546,12 @@
       pointer.x = e.clientX;
       pointer.y = e.clientY;
       pointer.seen = true;
+      if (shown.visible) wake(600);
     }, { passive: true });
-    addEventListener('touchstart', () => { lastInput = performance.now(); }, { passive: true });
+    addEventListener('touchstart', () => { lastInput = performance.now(); if (shown.visible) wake(); }, { passive: true });
     addEventListener('keydown', (e) => {
       lastInput = performance.now();
+      if (shown.visible) wake();
       if (e.key === 'Escape') closeSay();
     });
     addEventListener('resize', () => {
@@ -533,12 +560,14 @@
       laneX = null;
       x = geo(cur).x;
       sectionsAt = 0;
+      if (running || shown.visible) wake();
     });
 
-    pop.addEventListener('click', onTap);
+    pop.addEventListener('click', () => { onTap(); wake(); });
     say.querySelector('.mochi-say__x').addEventListener('click', closeSay);
     sayCta.addEventListener('click', () => { track('book_mochi'); closeSay(); });
     doc.addEventListener('pointerdown', (e) => {
+      if (shown.visible) wake();
       if (sayOpen && !say.contains(e.target) && !pop.contains(e.target)) closeSay();
     });
 
@@ -547,12 +576,13 @@
     // marked the status line by the time this listener runs.
     const form = doc.getElementById('lead-form');
     if (form) {
-      form.addEventListener('focusin', (e) => { focusField = e.target.closest('.field, .consent') || e.target; });
-      form.addEventListener('focusout', () => { focusField = null; });
+      form.addEventListener('focusin', (e) => { focusField = e.target.closest('.field, .consent') || e.target; wake(); });
+      form.addEventListener('focusout', () => { focusField = null; wake(); });
       form.addEventListener('submit', () => {
         const status = form.querySelector('.form__status');
         const now = performance.now();
         lastInput = now;
+        wake();
         if (status?.classList.contains('is-ok')) {
           happyUntil = now + 4500;
           openSay("Now press send in WhatsApp. We'll reply to confirm your slot.", { cta: false, ms: 7000 });
@@ -566,15 +596,14 @@
     // Pause with the tab
     doc.addEventListener('visibilitychange', () => {
       cancelAnimationFrame(raf);
-      if (!doc.hidden) {
-        lastT = performance.now();
-        raf = requestAnimationFrame(frame);
-      }
+      running = false;
+      if (!doc.hidden && (scrollY > 0 || shown.visible)) wake();
     });
 
     x = geo(cur).x;
     html.classList.add('mochi-live');
-    raf = requestAnimationFrame(frame);
+    // A page restored part-way down starts at once; otherwise the first scroll does it
+    if (scrollY > 0) wake();
   }
 
   window.Mochi = { art, squish };

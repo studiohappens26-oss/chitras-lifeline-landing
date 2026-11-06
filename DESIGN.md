@@ -36,9 +36,29 @@ wordmark was tried and dropped because it clashed.
 - The mission statement fills in word by word as it scrolls past.
 - Visit steps stack as sticky cards, with a progress line.
 - Each treatment photo opens as a growing circle when its tab is selected.
-- The gallery rail drifts sideways as you scroll.
+- Photographs drift slowly inside their frames as you scroll (parallax). Lines draw
+  themselves in and the lens circles turn with the scroll.
 - Only transform, opacity, clip-path and stroke offsets are animated, and everything respects
   `prefers-reduced-motion`.
+
+## Performance rules
+
+These are what keep every page at 90+ in Lighthouse on mobile. Break one and the score drops.
+
+- **Nothing starts invisible.** No preloader, and no fade-in on the headline or hero photo:
+  the browser counts the largest element (LCP) only once it shows.
+- **Measure without forcing layout.** Read sizes inside an IntersectionObserver, a
+  ResizeObserver or the one shared scroll frame, never while a script is first running. Read
+  every element before writing any style.
+- **Loops sleep.** Mochi's animation loop stops when nothing moves and wakes on scroll or
+  input. Scroll effects only touch elements near the screen.
+- **No embeds at load.** Instagram iframes are created only when the reels come close; the map
+  likewise. An empty iframe already costs a browsing context.
+- **No blur behind moving things.** `backdrop-filter` re-renders every frame anything under
+  it moves. It is kept only where the background behind is still or the effect is the point:
+  the nav, the phone dock, the booking form and its WhatsApp button.
+- **Contrast.** Small text needs 4.5:1 and large text 3:1. `--ink-3` is the lightest grey for
+  small text.
 
 ## Photographs
 

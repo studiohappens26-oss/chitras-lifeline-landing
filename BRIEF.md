@@ -122,7 +122,7 @@ gets a clean static page.
 None of this uses an animation library. It is about 7 KB of code against the
 roughly 120 KB the reference site loads for the same effects — which matters
 directly, because Google scores page experience and every extra second is
-billed on paid clicks. Technique notes are in `MOTION.md`.
+billed on paid clicks. Motion rules are in `DESIGN.md`.
 
 ### Section by section
 
@@ -140,7 +140,7 @@ Section by section, with the animation treatment for each.
 | 8 | **Medi-facial deep-dive** | Convert the facial ad group | Horizontal scroll of facial types. Water-ripple / glow filter on the hero image. |
 | 9 | **Instagram reels** | Show the doctor's own expertise | 9:16 reel cards, poster zooms on hover, play button fades up, links out to @chitraslifelineclinic. |
 | 10 | **Meet Dr. Bindiya** | Trust anchor | Portrait masked reveal from bottom, credentials type in line by line, membership logos fade up staggered. |
-| 11 | **Inside the clinic** | "Is this place clean and real?" | Gallery that scrolls horizontally as you scroll vertically. Parallax depth on each frame. |
+| 11 | **Inside the clinic** | "Is this place clean and real?" | **Removed** (November 2026, client request): no sideways-scrolling gallery. Photos elsewhere drift with a light parallax. |
 | 12 | **What to expect** | Reduce anxiety | 4-step timeline, a champagne line draws downward as you scroll. |
 | 13 | **Reviews** | Social proof | Auto-marquee of review cards, pauses on hover. Google logo + star rating. |
 | 14 | **FAQ** | Kill last objections | Smooth accordion, pink plus rotates to minus. Doubles as SEO/schema. |

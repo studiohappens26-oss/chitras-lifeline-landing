@@ -15,20 +15,18 @@
      ad final URLs are the dedicated treatment pages (BRIEF.md, top).
      Wording avoids prescription drug names, which Google Ads does not
      allow on landing pages in India. */
+  const SUB = "With <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra's Lifeline Clinic in Yelahanka New Town.";
   const VARIANTS = {
     wrinkle: {
       title: 'Anti-wrinkle injections in Yelahanka, <em>by your dermatologist.</em>',
-      sub: "With <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra's Lifeline Clinic in Yelahanka New Town.",
       tab: 'wrinkle', service: 'Anti-wrinkle injections',
     },
     laser: {
       title: 'Laser hair reduction in Yelahanka, <em>by your dermatologist.</em>',
-      sub: "With <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra's Lifeline Clinic in Yelahanka New Town.",
       tab: 'laser', service: 'Laser hair reduction',
     },
     facial: {
       title: 'Medi-facials in Yelahanka, <em>by your dermatologist.</em>',
-      sub: "With <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra's Lifeline Clinic in Yelahanka New Town.",
       tab: 'facial', service: 'Medi-facial',
     },
   };
@@ -39,7 +37,7 @@
     if (!VARIANT) return;
     const title = $('[data-variant-title]');
     if (title) title.innerHTML = VARIANT.title;
-    $$('[data-variant-sub]').forEach((el) => { el.innerHTML = VARIANT.sub; });
+    $$('[data-variant-sub]').forEach((el) => { el.innerHTML = SUB; });
     const select = $('#f-service');
     if (select) select.value = VARIANT.service;
   }
@@ -62,7 +60,7 @@
     const btns = $$('[role="tab"]', list);
     const panels = btns.map((b) => document.getElementById(b.getAttribute('aria-controls')));
 
-    selectTab = (key, focus = false) => {
+    selectTab = (key, focus = false, animate = true) => {
       btns.forEach((b, i) => {
         const on = b.dataset.tab === key;
         b.setAttribute('aria-selected', on);
@@ -71,7 +69,7 @@
         if (on) {
           if (focus) b.focus();
           const img = $('.card__media img', panels[i]);
-          if (img && !REDUCED) { img.classList.remove('in'); void img.offsetWidth; img.classList.add('in'); }
+          if (img && animate && !REDUCED) { img.classList.remove('in'); void img.offsetWidth; img.classList.add('in'); }
         }
       });
     };
@@ -90,7 +88,8 @@
       });
     });
 
-    selectTab(VARIANT ? VARIANT.tab : btns[0].dataset.tab);
+    // Without JS every panel shows; with it, only the chosen one (no opening animation at load)
+    selectTab(VARIANT ? VARIANT.tab : btns[0].dataset.tab, false, false);
 
     // Footer links jump to the section with the right tab open.
     $$('[data-goto-tab]').forEach((a) => a.addEventListener('click', () => selectTab(a.dataset.gotoTab)));
@@ -109,27 +108,26 @@
       return;
     }
 
+    // The observer's first report covers everything already on screen, so
+    // nothing visible at load waits for a scroll, and nothing is measured here.
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (!e.isIntersecting) return;
         e.target.classList.add('is-in');
         io.unobserve(e.target);
       });
-    }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
+    });
     items.forEach((el) => io.observe(el));
+  }
 
-    // Anything already on screen at load (or after the font swap reflows the
-    // page) is revealed straight away, so nothing waits for a scroll.
-    const revealVisible = () => {
-      items.forEach((el) => {
-        if (el.classList.contains('is-in')) return;
-        const r = el.getBoundingClientRect();
-        if (r.top < innerHeight && r.bottom > 0) { el.classList.add('is-in'); io.unobserve(el); }
-      });
-    };
-    requestAnimationFrame(revealVisible);
-    document.fonts?.ready.then(revealVisible);
-    addEventListener('load', revealVisible, { once: true });
+  /* Sections below the hero skip rendering until they come near the screen
+     (styles.css, .frame). An in-page link would then smooth-scroll to an
+     estimated position, so on the first such click every section is drawn
+     first. The cost lands on the click, not on page load. */
+  function inPageJumps() {
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('a[href*="#"]')) document.documentElement.classList.add('all-drawn');
+    }, { capture: true });
   }
 
   /* ── Nav + mobile dock state ──────────────────────────────────────── */
@@ -138,7 +136,7 @@
     const dock = $('.dock');
     // Runs straight from the scroll event: it only flips classes, and the
     // browser already coalesces scroll events to one per frame.
-    let lastY = scrollY, travel = 0;
+    let lastY = 0, travel = 0; // not scrollY: reading it here would force a layout
     const onScroll = () => {
       const y = Math.max(0, scrollY);
       const dy = y - lastY;
@@ -155,7 +153,6 @@
       else if (travel > 24) nav.classList.add('is-hidden');
       else if (travel < -12) nav.classList.remove('is-hidden');
     };
-    onScroll();
     addEventListener('scroll', onScroll, { passive: true });
   }
 
@@ -170,55 +167,28 @@
     });
   }
 
-  /* ── Clinic rail: horizontal drift tied to vertical scroll ────────── */
-  function rail() {
-    const host = $('[data-rail]');
-    const track = host && $('.rail__track', host);
-    if (!track || REDUCED) return;
-
-    let raf = null;
-    const update = () => {
-      raf = null;
-      const r = host.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > innerHeight) return;
-      const progress = Math.max(0, Math.min(1, 1 - (r.top + r.height) / (innerHeight + r.height)));
-      const overflow = Math.max(0, track.scrollWidth - host.clientWidth);
-      track.style.transform = `translate3d(${-overflow * progress}px, 0, 0)`;
-    };
-    addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
-    addEventListener('resize', update);
-    update();
-  }
-
   /* ── Instagram reels ──────────────────────────────────────────────────
-     Each .reel carries only its post id. The iframe is written in when the
-     rail comes within a screen of the viewport, so Instagram's script costs
-     nothing on arrival. A link sits underneath in case the embed is blocked. */
+     Each .reel ships with its post id and a "Watch on Instagram" link
+     (build-pages.mjs). The embeds are created only when the rail comes
+     within a screen of the viewport: an iframe is costly even before it
+     loads anything, so none exist at page load. */
   function reels() {
     const rail = $('[data-reels-rail]');
     if (!rail) return;
     const cards = $$('.reel[data-ig]', rail);
-
-    cards.forEach((c, i) => {
-      const id = c.dataset.ig;
-      const post = `https://www.instagram.com/p/${id}/`;
-      c.innerHTML =
-        `<div class="reel__wait"><span>Loading video ${i + 1} of ${cards.length}</span>` +
-        `<a href="${post}" target="_blank" rel="noopener">Watch on Instagram</a></div>` +
-        `<iframe title="Instagram video ${i + 1} by Dr. Bindiya G P" data-src="${post}embed/" loading="lazy" allowtransparency="true" scrolling="no" referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+    const load = () => cards.forEach((c, i) => {
+      const f = document.createElement('iframe');
+      f.title = `Instagram video ${i + 1} by Dr. Bindiya G P`;
+      f.src = `https://www.instagram.com/p/${c.dataset.ig}/embed/`;
+      f.loading = 'lazy';
+      f.referrerPolicy = 'strict-origin-when-cross-origin';
+      f.setAttribute('scrolling', 'no');
+      c.append(f);
     });
-
-    const load = () => cards.forEach((c) => {
-      const f = $('iframe[data-src]', c);
-      if (f) { f.src = f.dataset.src; f.removeAttribute('data-src'); }
-    });
-    if (!('IntersectionObserver' in window)) load();
-    else {
-      const io = new IntersectionObserver((es) => {
-        if (es.some((e) => e.isIntersecting)) { load(); io.disconnect(); }
-      }, { rootMargin: '600px 0px' });
-      io.observe(rail);
-    }
+    const io = new IntersectionObserver((es) => {
+      if (es.some((e) => e.isIntersecting)) { io.disconnect(); load(); }
+    }, { rootMargin: '600px 0px' });
+    io.observe(rail);
 
     $$('[data-reels]').forEach((b) => b.addEventListener('click', () => {
       const step = (cards[0]?.getBoundingClientRect().width || 300) + 14;
@@ -382,9 +352,9 @@
   tabs();
   reveals();
   lazyFrames();
+  inPageJumps();
   scrollChrome();
   accordion();
-  rail();
   reels();
   prefill();
   leadForm();

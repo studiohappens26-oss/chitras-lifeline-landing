@@ -12,8 +12,7 @@
   --paper-2:   #F7F6FA;
   --ink:       #2B2447;
   --ink-2:     #5F5978;
-  --ink-3:     #8E89A4;
-  --ink-faint: #CFCBDB;
+  --ink-3:     #706A88;  /* 4.5:1 on white and the pale fills */
   --line:      #E4E1EC;
   --pink:      #AD1E87;
   --pink-hi:   #C93A9E;
@@ -52,7 +51,7 @@ body {
 }
 img, svg, video, iframe { max-width: 100%; display: block; }
 h1, h2, h3, h4 { font-weight: 500; letter-spacing: -.03em; line-height: 1.06; margin: 0; text-wrap: balance; color: var(--ink); }
-p { margin: 0; text-wrap: pretty; }
+p { margin: 0; }
 a { color: inherit; }
 button, input, select, textarea { font: inherit; color: inherit; }
 address { font-style: normal; }
@@ -65,6 +64,10 @@ address { font-style: normal; }
 .wrap { width: min(1320px, 100% - var(--gut) * 2); margin-inline: auto; }
 .page { display: grid; gap: var(--gap); padding: calc(var(--nav-h) + 20px) 0 var(--gap); }
 .frame { position: relative; background: var(--paper); border-radius: var(--r-xl); overflow: hidden; isolation: isolate; }
+/* Sections below the hero skip layout and paint until they come near the screen.
+   "auto" remembers each one's real height once it has been drawn. */
+.frame:not(.hx) { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+.all-drawn .frame { content-visibility: visible; } /* set by main.js before an in-page jump */
 .frame--soft { background: var(--paper-2); }
 .pad { padding: var(--pad); }
 
@@ -86,12 +89,21 @@ address { font-style: normal; }
 
 [data-ribbon], [data-lens] { display: contents; }
 .ribbon { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: #fff; z-index: -1; }
-.ribbon .draw { stroke-dasharray: 1 1; stroke-dashoffset: 0; transition: stroke-dashoffset 2.6s var(--ease); }
-.js .ribbon:not(.on) .draw { stroke-dashoffset: 1; }
-.ribbon .flow { animation: flow 14s linear infinite; }
-@keyframes flow { to { stroke-dashoffset: -400; } }
+/* Scroll-linked (motion.js sets --d and --f from how far the section has
+   travelled through the screen): the outline draws itself in and the soft
+   capsules slide along the line as you scroll. Without JS the line is
+   simply drawn, and still. */
+.ribbon .draw { stroke-dasharray: 1 1; stroke-dashoffset: var(--d, 0); }
+.ribbon .flow { stroke-dashoffset: var(--f, 0); }
+/* Lens circles turn, drift and breathe with the scroll. --c runs from -1
+   (section entering at the bottom) to 1 (leaving at the top). */
 .lens { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: #fff; z-index: 2; }
-.lens g { transform-origin: 50% 50%; animation: spin 90s linear infinite; }
+.lens g { transform-origin: 50% 50%; transform: rotate(calc(var(--c, 0) * 28deg)); }
+.lens circle { transform-box: fill-box; transform-origin: center; }
+.lens .l1 { transform: scale(calc(1 + var(--c, 0) * .07)); }
+.lens .l2 { transform: scale(calc(1 - var(--c, 0) * .05)); }
+.lens .l3 { transform: translate(calc(var(--c, 0) * -7px), calc(var(--c, 0) * 9px)); }
+.lens .l4 { transform: translate(calc(var(--c, 0) * 8px), calc(var(--c, 0) * -6px)); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── Reveal (main.js adds .is-in) ───────────────────────────────────── */
@@ -110,7 +122,7 @@ address { font-style: normal; }
 .btn .ic svg { width: 14px; height: 14px; transition: transform .5s var(--ease); }
 .btn:hover { background: var(--pink-hi); box-shadow: 0 10px 30px -12px rgba(173, 30, 135, .55); }
 .btn:hover .ic svg { transform: translateX(2px) rotate(-45deg); }
-.btn--ghost { background: rgba(255,255,255,.6); color: var(--ink); border-color: rgba(43,36,71,.14); padding: 0 22px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.btn--ghost { background: rgba(255,255,255,.8); color: var(--ink); border-color: rgba(43,36,71,.14); padding: 0 22px; }
 .btn--ghost:hover { background: #fff; box-shadow: none; }
 .btn--ghost svg { width: 18px; height: 18px; fill: currentColor; }
 .btn--sm { height: 44px; padding: 0 6px 0 18px; font-size: .88rem; }
@@ -123,8 +135,7 @@ address { font-style: normal; }
 
 .pill {
   display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 6px; border-radius: 999px;
-  background: rgba(255,255,255,.66); border: 1px solid rgba(255,255,255,.85);
-  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  background: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.85);
   font-size: .84rem; font-weight: 500; color: var(--ink); white-space: nowrap;
   box-shadow: 0 8px 24px -14px rgba(43,36,71,.35);
 }
@@ -181,6 +192,8 @@ address { font-style: normal; }
 .hx__stage { position: relative; height: clamp(320px, 46cqi, 600px); margin-top: clamp(18px, 3cqi, 40px); isolation: isolate; }
 .hx__orb { position: absolute; left: 50%; top: 50%; height: 92%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; overflow: hidden; box-shadow: 0 30px 80px -40px rgba(90,107,190,.6); background: var(--mist); }
 .hx__orb img { width: 100%; height: 100%; object-fit: cover; }
+/* Parallax: motion.js slides .par photos up to 6% each way; the 1.14 scale keeps the edges hidden */
+.par { scale: 1.14; }
 .hx__orb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(203,212,245,.35), rgba(243,190,219,.22) 60%, rgba(173,30,135,.16)); mix-blend-mode: soft-light; pointer-events: none; }
 .hx__marq { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; white-space: nowrap; overflow: hidden; pointer-events: none; font-size: clamp(1.9rem, 5.6cqi, 4.6rem); font-weight: 400; letter-spacing: -.035em; line-height: 1.15; color: var(--peri); }
 .hx__marq--in { color: #fff; clip-path: circle(var(--r, 0px) at var(--cx, 50%) 50%); z-index: 1; }
@@ -206,7 +219,7 @@ address { font-style: normal; }
 /* ── Mission: fills word by word as you read ────────────────────────── */
 .mission { text-align: center; padding: clamp(64px, 10vw, 150px) clamp(20px, 7vw, 140px); }
 .mission .fill { font-size: clamp(1.6rem, 3.5vw, 3rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.22; max-width: 30ch; margin: 26px auto 0; text-wrap: balance; }
-.js .fill .w { color: var(--ink-faint); transition: color .5s var(--ease); }
+.js .fill .w { color: #938DA8; transition: color .5s var(--ease); } /* unlit words: 3:1, enough for text this large */
 .js .fill .w.on { color: var(--ink); }
 .js .fill .pk .w.on { color: var(--pink); }
 .chip-img { display: inline-block; vertical-align: -.12em; width: 1.9em; height: .92em; border-radius: 999px; overflow: hidden; margin: 0 .08em; background: var(--mist); transition: transform .8s var(--ease), opacity .8s var(--ease); }
@@ -308,16 +321,6 @@ address { font-style: normal; }
 .step p { color: var(--ink-2); margin-top: 10px; max-width: 44ch; }
 .step .ribbon { color: var(--peri-soft); }
 
-/* ── Inside the clinic: a rail that drifts with the scroll ──────────── */
-.gal { padding: var(--pad) 0; }
-.gal__head { padding: 0 var(--pad); display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
-.rail { margin-top: clamp(28px, 4vw, 48px); overflow: hidden; }
-.rail__track { display: flex; gap: 14px; padding: 0 var(--pad); width: max-content; will-change: transform; }
-.shot { position: relative; height: clamp(260px, 30vw, 420px); border-radius: var(--r-lg); overflow: hidden; isolation: isolate; flex: none; background: var(--mist); margin: 0; }
-.shot--w { aspect-ratio: 16 / 10; } .shot--s { aspect-ratio: 1; } .shot--t { aspect-ratio: 4 / 5; }
-.shot img { width: 100%; height: 100%; object-fit: cover; }
-.shot figcaption { position: absolute; left: 12px; bottom: 12px; z-index: 3; }
-
 /* ── Instagram reels ────────────────────────────────────────────────── */
 .reels__head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
 .reels__rail { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin: clamp(28px, 4vw, 44px) calc(var(--pad) * -1) 0; padding: 4px var(--pad) 18px; scrollbar-width: thin; scrollbar-color: var(--peri-soft) transparent; overscroll-behavior-x: contain; }
@@ -405,9 +408,10 @@ address { font-style: normal; }
 .foot { padding: var(--pad) var(--pad) 28px; background: var(--ink); color: #fff; }
 .foot .ribbon { color: rgba(203,212,245,.45); opacity: .4; }
 .foot .brand { color: #fff; }
+.foot .brand em { color: var(--pink-soft); }
 .foot .brand small { color: rgba(255,255,255,.55); }
 .foot__grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 28px; font-size: .92rem; margin-top: 36px; }
-.foot__grid h4 { margin: 0 0 10px; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.55); font-weight: 600; }
+.foot__grid h2 { margin: 0 0 10px; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.55); font-weight: 600; }
 .foot__grid p, .foot__grid a, .foot__grid span { color: rgba(255,255,255,.86); text-decoration: none; display: block; line-height: 1.8; }
 .foot__grid a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 .foot__mega { font-weight: 500; font-size: clamp(3rem, 12.4vw, 12rem); line-height: .92; letter-spacing: -.055em; margin: clamp(44px, 7vw, 100px) 0 18px; white-space: nowrap; }
@@ -477,7 +481,6 @@ address { font-style: normal; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .js [data-reveal] { opacity: 1; transform: none; }
-  .js .ribbon:not(.on) .draw { stroke-dashoffset: 0; }
   .js .fill .w { color: var(--ink); }
   .js .fill .pk .w { color: var(--pink); }
   .js .chip-img { transform: none; opacity: 1; }

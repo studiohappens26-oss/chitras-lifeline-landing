@@ -24,8 +24,7 @@
       s = new URLSearchParams(location.search).get('s'),
       HERO = { wrinkle: 'cl-anatomy', laser: 'cl-laser-2', facial: 'cl-hydra' },
       img = HERO[s] || 'cl-sign';
-  h.className += ' js';
-  h.setAttribute('data-pl', 'skip');
+  h.className += location.hash ? ' js all-drawn' : ' js'; // arriving at a section: draw them all (styles.css, .frame)
   h.setAttribute('data-hero', img);
   var l = d.createElement('link');
   l.rel = 'preload'; l.as = 'image'; l.setAttribute('fetchpriority', 'high');
@@ -34,8 +33,8 @@
   d.head.appendChild(l);
 })(document);
 </script>
-<link rel="stylesheet" href="/assets/css/fonts.css">
-<link rel="stylesheet" href="/assets/css/styles.css">
+<link rel="stylesheet" href="/assets/css/fonts.css?v=41358d86bd">
+<link rel="stylesheet" href="/assets/css/styles.css?v=82093c150d">
 <link rel="icon" href="/assets/img/logo-mark.png" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/logo-mark.png">
 </head>
@@ -52,7 +51,6 @@
       <a href="#treatments">Treatments</a>
       <a href="#doctor">Doctor</a>
       <a href="#visit">Your visit</a>
-      <a href="#clinic">Clinic</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav__cta">
@@ -131,10 +129,10 @@
       <h2 class="h2">Find your <span class="pk">treatment</span></h2>
       <p class="lede">Pick what you'd like help with, then book a consultation to find out what suits you.</p>
       <ul class="sel__list" role="tablist" aria-label="Treatments" data-tabs>
-        <li><button class="sel__tab" role="tab" id="t-wrinkle" aria-controls="p-wrinkle" aria-selected="true" data-tab="wrinkle">Anti-wrinkle injections<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
-        <li><button class="sel__tab" role="tab" id="t-laser" aria-controls="p-laser" aria-selected="false" data-tab="laser" tabindex="-1">Laser hair reduction<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
-        <li><button class="sel__tab" role="tab" id="t-facial" aria-controls="p-facial" aria-selected="false" data-tab="facial" tabindex="-1">Medi-facials<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
-        <li><button class="sel__tab" role="tab" id="t-skinlaser" aria-controls="p-skinlaser" aria-selected="false" data-tab="skinlaser" tabindex="-1">Laser skin treatments<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
+        <li role="presentation"><button class="sel__tab" role="tab" id="t-wrinkle" aria-controls="p-wrinkle" aria-selected="true" data-tab="wrinkle">Anti-wrinkle injections<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
+        <li role="presentation"><button class="sel__tab" role="tab" id="t-laser" aria-controls="p-laser" aria-selected="false" data-tab="laser" tabindex="-1">Laser hair reduction<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
+        <li role="presentation"><button class="sel__tab" role="tab" id="t-facial" aria-controls="p-facial" aria-selected="false" data-tab="facial" tabindex="-1">Medi-facials<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
+        <li role="presentation"><button class="sel__tab" role="tab" id="t-skinlaser" aria-controls="p-skinlaser" aria-selected="false" data-tab="skinlaser" tabindex="-1">Laser skin treatments<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
       </ul>
     </div>
 
@@ -254,30 +252,6 @@
   </div>
 </section>
 
-<!-- ══ INSIDE THE CLINIC ═════════════════════════════════════════════════
-     Real photographs from the clinic's own footage (February 2026). -->
-<section class="frame gal" id="clinic" data-mochi="happy" data-mochi-say="That's the real reception, in Yelahanka New Town.">
-  <div class="gal__head">
-    <div data-reveal>
-      <p class="eyebrow">Inside the clinic</p>
-      <h2 class="h2">Yelahanka New Town, <span class="pk">as it is</span></h2>
-    </div>
-    <p class="lede" data-reveal data-reveal-delay="2" style="margin:0">Every photograph here was taken at the clinic.</p>
-  </div>
-  <div class="rail" data-rail>
-    <div class="rail__track">
-      <figure class="shot shot--w"><img src="/assets/img/cl-sign.jpg" srcset="/assets/img/cl-sign-480.webp 480w, /assets/img/cl-sign-800.webp 800w, /assets/img/cl-sign-1200.webp 1200w, /assets/img/cl-sign-1800.webp 1800w, /assets/img/cl-sign-2160.webp 2160w" sizes="(max-width: 860px) 80vw, 680px" width="2400" height="1350" loading="lazy" decoding="async" alt="The clinic sign on the wood-slat wall at reception"><figcaption class="pill"><i></i>Reception</figcaption></figure>
-      <figure class="shot shot--t"><img src="/assets/img/cl-hourglass.jpg" srcset="/assets/img/cl-hourglass-480.webp 480w, /assets/img/cl-hourglass-800.webp 800w, /assets/img/cl-hourglass-1200.webp 1200w, /assets/img/cl-hourglass-1800.webp 1800w, /assets/img/cl-hourglass-2160.webp 2160w" sizes="340px" width="2400" height="1350" loading="lazy" decoding="async" alt="An hourglass on the marble reception counter"><span data-lens></span></figure>
-      <figure class="shot shot--w"><img src="/assets/img/cl-laser-2.jpg" srcset="/assets/img/cl-laser-2-480.webp 480w, /assets/img/cl-laser-2-800.webp 800w, /assets/img/cl-laser-2-1200.webp 1200w, /assets/img/cl-laser-2-1440.webp 1440w" sizes="(max-width: 860px) 80vw, 680px" width="2400" height="1350" loading="lazy" decoding="async" alt="Laser machines in the treatment room"><figcaption class="pill"><i></i>Laser room</figcaption></figure>
-      <figure class="shot shot--s"><img src="/assets/img/cl-hydra.jpg" srcset="/assets/img/cl-hydra-480.webp 480w, /assets/img/cl-hydra-800.webp 800w, /assets/img/cl-hydra-1200.webp 1200w, /assets/img/cl-hydra-1440.webp 1440w" sizes="420px" width="2400" height="1350" loading="lazy" decoding="async" alt="The medi-facial machine"><figcaption class="pill"><i></i>Medi-facials</figcaption></figure>
-      <figure class="shot shot--w"><img src="/assets/img/cl-waiting.jpg" srcset="/assets/img/cl-waiting-480.webp 480w, /assets/img/cl-waiting-800.webp 800w, /assets/img/cl-waiting-1200.webp 1200w, /assets/img/cl-waiting-1440.webp 1440w" sizes="(max-width: 860px) 80vw, 680px" width="2400" height="1350" loading="lazy" decoding="async" alt="Seating in the waiting area"><figcaption class="pill"><i></i>Waiting area</figcaption></figure>
-      <figure class="shot shot--t"><img src="/assets/img/cl-decal.jpg" srcset="/assets/img/cl-decal-480.webp 480w, /assets/img/cl-decal-800.webp 800w, /assets/img/cl-decal-1200.webp 1200w, /assets/img/cl-decal-1800.webp 1800w, /assets/img/cl-decal-2160.webp 2160w" sizes="340px" width="2400" height="1350" loading="lazy" decoding="async" alt="The clinic logo on a frosted glass door"><span data-lens></span></figure>
-      <figure class="shot shot--w"><img src="/assets/img/cl-desk.jpg" srcset="/assets/img/cl-desk-480.webp 480w, /assets/img/cl-desk-800.webp 800w, /assets/img/cl-desk-1200.webp 1200w, /assets/img/cl-desk-1800.webp 1800w, /assets/img/cl-desk-2252.webp 2252w" sizes="(max-width: 860px) 80vw, 680px" width="2400" height="1351" loading="lazy" decoding="async" alt="The consultation desk"><figcaption class="pill"><i></i>Consultation</figcaption></figure>
-      <figure class="shot shot--s"><img src="/assets/img/cl-pharmacy.jpg" srcset="/assets/img/cl-pharmacy-480.webp 480w, /assets/img/cl-pharmacy-800.webp 800w, /assets/img/cl-pharmacy-1200.webp 1200w, /assets/img/cl-pharmacy-1800.webp 1800w, /assets/img/cl-pharmacy-2160.webp 2160w" sizes="420px" width="2400" height="1350" loading="lazy" decoding="async" alt="Shelves of the clinic's pharmacy"><figcaption class="pill"><i></i>Pharmacy</figcaption></figure>
-    </div>
-  </div>
-</section>
-
 <!-- ══ INSTAGRAM ═════════════════════════════════════════════════════════
      Dr. Bindiya's reels, through Instagram's own embed. They load only when
      the rail scrolls near the view (main.js). -->
@@ -296,17 +270,17 @@
   </div>
   <div class="reels__rail" data-reels-rail tabindex="0" aria-label="Instagram videos by Dr. Bindiya">
     <!-- Reels supplied by the clinic, November 2026. -->
-    <div class="reel" data-ig="DYw1-rZTaoq"></div>
-    <div class="reel" data-ig="DZCyS_ezZAc"></div>
-    <div class="reel" data-ig="DaK2jUPvYm4"></div>
-    <div class="reel" data-ig="Dakn0D6v86f"></div>
-    <div class="reel" data-ig="Dau67jHoVNN"></div>
-    <div class="reel" data-ig="DbVetyGTO6g"></div>
-    <div class="reel" data-ig="Dbf5DPKzdZ9"></div>
-    <div class="reel" data-ig="Db3JjUFzdRq"></div>
-    <div class="reel" data-ig="DcTDE_bxWgh"></div>
-    <div class="reel" data-ig="DdGLg5_tAjT"></div>
-    <div class="reel" data-ig="Dd1ZbdATo5r"></div>
+    <div class="reel" data-ig="DYw1-rZTaoq"><div class="reel__wait"><span>Loading video 1 of 11</span><a href="https://www.instagram.com/p/DYw1-rZTaoq/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
+    <div class="reel" data-ig="DZCyS_ezZAc"><div class="reel__wait"><span>Loading video 2 of 11</span><a href="https://www.instagram.com/p/DZCyS_ezZAc/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
+    <div class="reel" data-ig="DaK2jUPvYm4"><div class="reel__wait"><span>Loading video 3 of 11</span><a href="https://www.instagram.com/p/DaK2jUPvYm4/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
+    <div class="reel" data-ig="Dakn0D6v86f"><div class="reel__wait"><span>Loading video 4 of 11</span><a href="https://www.instagram.com/p/Dakn0D6v86f/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
+    <div class="reel" data-ig="Dau67jHoVNN"><div class="reel__wait"><span>Loading video 5 of 11</span><a href="https://www.instagram.com/p/Dau67jHoVNN/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
+    <div class="reel" data-ig="DbVetyGTO6g"><div class="reel__wait"><span>Loading video 6 of 11</span><a href="https://www.instagram.com/p/DbVetyGTO6g/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
+    <div class="reel" data-ig="Dbf5DPKzdZ9"><div class="reel__wait"><span>Loading video 7 of 11</span><a href="https://www.instagram.com/p/Dbf5DPKzdZ9/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
+    <div class="reel" data-ig="Db3JjUFzdRq"><div class="reel__wait"><span>Loading video 8 of 11</span><a href="https://www.instagram.com/p/Db3JjUFzdRq/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
+    <div class="reel" data-ig="DcTDE_bxWgh"><div class="reel__wait"><span>Loading video 9 of 11</span><a href="https://www.instagram.com/p/DcTDE_bxWgh/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
+    <div class="reel" data-ig="DdGLg5_tAjT"><div class="reel__wait"><span>Loading video 10 of 11</span><a href="https://www.instagram.com/p/DdGLg5_tAjT/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
+    <div class="reel" data-ig="Dd1ZbdATo5r"><div class="reel__wait"><span>Loading video 11 of 11</span><a href="https://www.instagram.com/p/Dd1ZbdATo5r/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>
   </div>
 </section>
 
@@ -393,10 +367,10 @@
   <span data-ribbon="high"></span>
   <a class="brand" href="#top" aria-label="Chitra's Lifeline Clinic, back to top"><img src="/assets/img/logo-mark.png" width="240" height="283" alt="" loading="lazy"><span><b>Chitra's <em>Lifeline</em></b><small>Skin · Lasers · Aesthetics</small></span></a>
   <div class="foot__grid">
-    <div><h4>Clinic</h4><p>Dermatology, cosmetology, skin and laser · Neurosurgery and spine surgery · In-house laboratory and pharmacy</p></div>
-    <div><h4>Treatments</h4><a href="/anti-wrinkle-injections">Anti-wrinkle injections</a><a href="/laser-hair-reduction">Laser hair reduction</a><a href="/medi-facials">Medi-facials</a><a href="/#treatments">All treatments</a></div>
-    <div><h4>Visit</h4><a href="#doctor">Dr. Bindiya G P</a><a href="/#clinic">Inside the clinic</a><a href="#faq">Questions</a><a href="#location">Location</a></div>
-    <div><h4>Contact</h4><a href="tel:+918197516940">+91 81975 16940</a><a href="tel:+919986086610">+91 99860 86610</a><a href="https://wa.me/918197516940" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener">@chitraslifelineclinic</a></div>
+    <div><h2>Clinic</h2><p>Dermatology, cosmetology, skin and laser · Neurosurgery and spine surgery · In-house laboratory and pharmacy</p></div>
+    <div><h2>Treatments</h2><a href="/anti-wrinkle-injections">Anti-wrinkle injections</a><a href="/laser-hair-reduction">Laser hair reduction</a><a href="/medi-facials">Medi-facials</a><a href="/#treatments">All treatments</a></div>
+    <div><h2>Visit</h2><a href="#doctor">Dr. Bindiya G P</a><a href="#faq">Questions</a><a href="#location">Location</a></div>
+    <div><h2>Contact</h2><a href="tel:+918197516940">+91 81975 16940</a><a href="tel:+919986086610">+91 99860 86610</a><a href="https://wa.me/918197516940" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener">@chitraslifelineclinic</a></div>
   </div>
   <p class="foot__mega" aria-hidden="true">Chitra's <em>Lifeline</em></p>
   <div class="foot__legal">
@@ -569,12 +543,12 @@
 }
 </script>
 
-<script src="/assets/js/main.js" defer></script>
+<script src="/assets/js/main.js?v=d0dc5f750d" defer></script>
 <!-- Motion loads second: main.js carries the booking form and tracking, and
      must never be at risk from an animation change. -->
-<script src="/assets/js/motion.js" defer></script>
+<script src="/assets/js/motion.js?v=77b43b22a8" defer></script>
 <!-- Mochi, the mascot (MOCHI.md). Optional: delete this line and every
      data-mochi attribute is inert. -->
-<script src="/assets/js/mochi.js" defer></script>
+<script src="/assets/js/mochi.js?v=5ff7f6d1c1" defer></script>
 </body>
 </html>

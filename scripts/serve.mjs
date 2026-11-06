@@ -1,6 +1,7 @@
 /**
  * Minimal static preview server. Cloudflare Pages serves these files directly,
- * so this only needs to mirror its path resolution — no build step exists.
+ * so this only needs to mirror its path resolution, its 404 page and its
+ * Brotli compression (so a local Lighthouse run scores what production will).
  *
  * For the /api/lead Function you need the real runtime:
  *   npx wrangler pages dev .
@@ -10,6 +11,7 @@ import { readFile, stat } from 'node:fs/promises';
 import { extname, join, normalize, resolve } from 'node:path';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { brotliCompressSync, constants as Z } from 'node:zlib';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const PORT = Number(process.env.PORT) || 4321;
@@ -57,14 +59,20 @@ createServer(async (req, res) => {
     const info = await stat(file).catch(() => (extname(file) ? null : stat(`${file}.html`).then(() => 'html')));
     if (!info) throw new Error('not found');
     const target = info === 'html' ? `${file}.html` : info.isDirectory() ? join(file, 'index.html') : file;
-    const buf = await readFile(target);
-    res.writeHead(200, {
-      'Content-Type': TYPES[extname(target).toLowerCase()] ?? 'application/octet-stream',
-      'Cache-Control': 'no-store',
-    });
+    let buf = await readFile(target);
+    const type = TYPES[extname(target).toLowerCase()] ?? 'application/octet-stream';
+    const headers = { 'Content-Type': type, 'Cache-Control': 'no-store' };
+    if (/text|javascript|json|svg/.test(type) && /\bbr\b/.test(req.headers['accept-encoding'] || '')) {
+      buf = brotliCompressSync(buf, { params: { [Z.BROTLI_PARAM_QUALITY]: 5 } });
+      headers['Content-Encoding'] = 'br';
+      headers.Vary = 'Accept-Encoding';
+    }
+    res.writeHead(200, headers);
     res.end(buf);
   } catch {
+    // Pages serves 404.html with a real 404 status when it exists.
+    const page = await readFile(join(ROOT, '404.html')).catch(() => '<h1>404</h1>');
     res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8' });
-    res.end('<h1>404</h1>');
+    res.end(page);
   }
 }).listen(PORT, () => console.log(`Preview running at http://localhost:${PORT}`));
