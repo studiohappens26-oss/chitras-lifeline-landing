@@ -1,7 +1,7 @@
 /**
  * Responsive image build. For every JPEG in assets/img it writes WebP copies at
  * a ladder of widths (never upscaling), then rewrites the matching <img> tags
- * in index.html so each carries a srcset pointing at them.
+ * in every top-level HTML page so each carries a srcset pointing at them.
  *
  * Why: the source photos are 1200–1800px wide and up to 440 KB. A phone on a
  * paid click needs perhaps a fifth of that. With srcset + sizes the browser
@@ -21,7 +21,8 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const IMG = resolve(ROOT, 'assets/img');
-const HTML = resolve(ROOT, 'index.html');
+// Every page at the root (index, botox, privacy, ...), not the scratch pages.
+const PAGES = (await readdir(ROOT)).filter((f) => f.endsWith('.html') && !['type.html', 'mochi.html'].includes(f));
 const FORCE = process.argv.includes('--force');
 
 // Chosen to land near the common rendered widths at 1x and 2x: floats and
@@ -59,21 +60,24 @@ for (const file of jpgs) {
    left alone where it already exists — it describes the layout, which only a
    person can judge — and defaults to a sensible two-column guess otherwise. */
 const DEFAULT_SIZES = '(max-width: 860px) 100vw, 50vw';
-let html = await readFile(HTML, 'utf8');
 let tagged = 0;
 
-html = html.replace(/<img\b[^>]*>/g, (tag) => {
-  const m = tag.match(/\ssrc="\/assets\/img\/([^"/]+)\.jpe?g"/);
-  if (!m || !manifest[m[1]]) return tag;
-  const name = m[1];
-  const srcset = manifest[name].map((w) => `/assets/img/${name}-${w}.webp ${w}w`).join(', ');
-  let out = tag.replace(/\ssrcset="[^"]*"/, '');
-  out = out.replace(/\ssrc="[^"]*"/, (s) => `${s} srcset="${srcset}"`);
-  if (!/\ssizes="/.test(out)) out = out.replace(/\ssrcset="[^"]*"/, (s) => `${s} sizes="${DEFAULT_SIZES}"`);
-  tagged++;
-  return out;
-});
+for (const page of PAGES) {
+  const file = resolve(ROOT, page);
+  let html = await readFile(file, 'utf8');
+  html = html.replace(/<img\b[^>]*>/g, (tag) => {
+    const m = tag.match(/\ssrc="\/assets\/img\/([^"/]+)\.jpe?g"/);
+    if (!m || !manifest[m[1]]) return tag;
+    const name = m[1];
+    const srcset = manifest[name].map((w) => `/assets/img/${name}-${w}.webp ${w}w`).join(', ');
+    let out = tag.replace(/\ssrcset="[^"]*"/, '');
+    out = out.replace(/\ssrc="[^"]*"/, (s) => `${s} srcset="${srcset}"`);
+    if (!/\ssizes="/.test(out)) out = out.replace(/\ssrcset="[^"]*"/, (s) => `${s} sizes="${DEFAULT_SIZES}"`);
+    tagged++;
+    return out;
+  });
 
-await writeFile(HTML, html);
+  await writeFile(file, html);
+}
 await writeFile(resolve(IMG, 'srcset.json'), JSON.stringify(manifest, null, 2) + '\n');
-console.log(`${jpgs.length} sources, ${built} variants written, ${tagged} <img> tags given a srcset.`);
+console.log(`${jpgs.length} sources, ${built} variants written, ${tagged} <img> tags across ${PAGES.length} pages given a srcset.`);

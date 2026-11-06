@@ -1,6 +1,27 @@
 # Chitra's Lifeline Clinic — Google Ads Landing Page
 ## Creative + Technical Brief
 
+> **November 2026 redesign: these rules override anything below.** Sections 2 to 4 describe the
+> earlier build and are kept for history. The current design system is in `DESIGN.md`.
+>
+> 1. **No "Botox" or "botulinum toxin" on the home page or any ad landing page**, in copy,
+>    headings, alt text, schema or form options. Google Ads does not allow prescription drug terms
+>    in ads, keywords or landing pages in India. Use "anti-wrinkle injections".
+> 2. **`/botox` is for organic search only.** It is not linked from the home page, is listed in
+>    `sitemap.xml`, and must **never** be used as a Google Ads final URL.
+> 3. **Ad groups land on `/?s=wrinkle`, `/?s=laser` or `/?s=facial`.** `?s=botox` still works as an
+>    alias of `wrinkle` so old links don't break; don't use it for new ads.
+> 4. **NMC guidelines (October 2026):** no testimonials, ratings or review counts; no before/after
+>    images; no superlatives or comparisons with other clinics; no guarantees, discounts or offers.
+>    The doctor's photo appears only in the doctor section. Show qualifications and the KMC
+>    registration number (both pending from the clinic: see the `.todo` spans in `index.html`
+>    and `botox.html`).
+> 5. **Photographs are the clinic's own.** No patients, no staff other than the doctor. Patient
+>    footage needs written consent before it is used anywhere on the site.
+> 6. **Say "laser hair reduction", not "removal".** It is long-term reduction, not permanent.
+> 7. **Instagram reels** are embedded from the clinic's account. Before adding one, check it has no
+>    testimonial and no before/after.
+
 **Client:** Chitra's Lifeline Clinic, Yelahanka New Town, Bengaluru
 **Goal:** Single-page, high-conversion landing page for Google Search Ads
 **Focus services:** Botox · Laser Hair Removal · Medi-Facial (+ secondary: PRP, Peels, Hair Fall, Pigmentation)

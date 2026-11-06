@@ -191,9 +191,10 @@
       const vw = innerWidth;
       if (!desktop.matches) return [Math.round(vw * 0.5 - sz / 2), vw - sz - 14];
       // In the margin beside the content column where it fits, so a resting
-      // Mochi never sits on the copy. Mirrors .wrap: min(1280px, 100% - 2 * gut).
-      const gut = Math.min(72, Math.max(20, vw * 0.05));
-      const margin = (vw - Math.min(1280, vw - gut * 2)) / 2;
+      // Mochi never sits on the copy. Mirrors .wrap: min(1320px, 100% - 2 * gut),
+      // with --gut: clamp(12px, 2.2vw, 28px).
+      const gut = Math.min(28, Math.max(12, vw * 0.022));
+      const margin = (vw - Math.min(1320, vw - gut * 2)) / 2;
       const inset = Math.max(8, Math.min(28, margin - sz - 4));
       return [inset, vw - sz - inset];
     };

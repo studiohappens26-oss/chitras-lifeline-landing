@@ -53,8 +53,10 @@ createServer(async (req, res) => {
   }
 
   try {
-    const info = await stat(file);
-    const target = info.isDirectory() ? join(file, 'index.html') : file;
+    // Pages serves /botox from botox.html; mirror that for extensionless paths.
+    const info = await stat(file).catch(() => (extname(file) ? null : stat(`${file}.html`).then(() => 'html')));
+    if (!info) throw new Error('not found');
+    const target = info === 'html' ? `${file}.html` : info.isDirectory() ? join(file, 'index.html') : file;
     const buf = await readFile(target);
     res.writeHead(200, {
       'Content-Type': TYPES[extname(target).toLowerCase()] ?? 'application/octet-stream',

@@ -3,44 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Botox, Laser Hair Removal & Medi-Facials in Yelahanka | Chitra's Lifeline Clinic</title>
-<meta name="description" content="Botox, laser hair removal and medi-facials in Yelahanka New Town, Bengaluru, performed by Dr. Bindiya G P, Aesthetic Dermatologist. Open Monday to Saturday, 11am to 8pm.">
+<title>Dermatologist-led Skin Clinic in Yelahanka | Chitra's Lifeline Clinic</title>
+<meta name="description" content="Anti-wrinkle injections, laser hair reduction and medi-facials in Yelahanka New Town, Bengaluru, planned and performed by Dr. Bindiya G P. Open Monday to Saturday, 11am to 8pm.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://skin.chitraslifelineclinic.com/">
 
 <meta property="og:type" content="website">
-<meta property="og:title" content="Doctor-performed aesthetics in Yelahanka | Chitra's Lifeline Clinic">
-<meta property="og:description" content="Botox, laser hair removal and medi-facials done by a dermatologist rather than a technician. Yelahanka New Town, Bengaluru.">
-<meta property="og:image" content="/assets/img/doctor-consult.jpg">
-<meta name="theme-color" content="#FDF8FA">
+<meta property="og:title" content="Chitra's Lifeline Clinic · Skin, lasers and aesthetics in Yelahanka">
+<meta property="og:description" content="Skin treatments planned and performed by your dermatologist. Yelahanka New Town, Bengaluru.">
+<meta property="og:image" content="/assets/img/cl-sign-1200.webp">
+<meta name="theme-color" content="#EEEDF3">
 
-<!-- Fonts are self-hosted, so there is no third-party DNS/TLS round trip before
-     text can paint. Preload only the two Latin faces the first screen needs. -->
-<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/bodoni-moda-latin-normal.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/jost-latin-normal.woff2" crossorigin>
-<!-- Runs before first paint, and decides three things for this visit:
-       · which hero photograph the ad group gets (?s=), and starts it
-         downloading now, at the right width, before the parser has even
-         reached the <img>;
-       · whether the preloader plays — once per session, never under reduced
-         motion — so a returning visitor never sees it flash;
-       · html.js, which the stylesheet uses to hold back effects that need
-         JavaScript to finish. Without it the page simply renders. -->
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/manrope-latin-normal.woff2" crossorigin>
+<!-- Runs before first paint. Picks the hero photograph for the ad group
+     (?s=) and starts it downloading at the right width before the parser
+     reaches the <img>, and sets html.js for effects that need JavaScript.
+     There is no preloader: ad traffic sees content on the first frame. -->
 <script>
 (function (d) {
   var h = d.documentElement,
       s = new URLSearchParams(location.search).get('s'),
-      HERO = { botox: 'botox-injection', laser: 'laser-handpiece', facial: 'medifacial' },
-      img = HERO[s] || 'botox-injection', seen = false;
+      HERO = { wrinkle: 'cl-anatomy', botox: 'cl-anatomy', laser: 'cl-laser-2', facial: 'cl-hydra' },
+      img = HERO[s] || 'cl-sign';
   h.className += ' js';
+  h.setAttribute('data-pl', 'skip');
   h.setAttribute('data-hero', img);
-  if (HERO[s]) h.setAttribute('data-variant', s);
-  try { seen = sessionStorage.getItem('cl_pl') === '1'; } catch (e) {}
-  h.setAttribute('data-pl', seen || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'skip' : 'active');
   var l = d.createElement('link');
   l.rel = 'preload'; l.as = 'image'; l.setAttribute('fetchpriority', 'high');
   l.setAttribute('imagesrcset', [480, 800, 1200, 1800].map(function (w) { return '/assets/img/' + img + '-' + w + '.webp ' + w + 'w'; }).join(', '));
-  l.setAttribute('imagesizes', '100vw');
+  l.setAttribute('imagesizes', '(max-width: 760px) 88vw, 600px');
   d.head.appendChild(l);
 })(document);
 </script>
@@ -51,847 +42,391 @@
 </head>
 <body>
 
-<!-- ══ PRELOADER ════════════════════════════════════════════════════════════
-     Just Dent's preloader, with Chitra's logo assembling part by part. An
-     overlay, never a gate on paint: the page renders underneath the whole
-     time. It waits for the fonts and the hero photograph, and the meter
-     reports them; it plays once per session and never under reduced motion.
-     motion.js has the timings and the reasoning. If the script never
-     arrives, the stylesheet clears it after 7s. -->
-<div class="pl" aria-hidden="true">
-  <svg class="pl__logo" viewBox="16 17 966 999" width="272" height="281" aria-hidden="true" focusable="false">
-    <g fill="#aa2284"><path class="pl-part pl-hair pl-hair--1" d="M 501 24 C 500 25, 500 29, 500 38 C 500 66, 493 89, 477 114 C 472 122, 461 136, 459 138 C 459 138, 456 142, 453 146 C 449 150, 444 156, 441 160 C 432 170, 429 174, 423 181 C 403 205, 351 256, 303 297 C 284 313, 264 337, 261 347 C 260 348, 259 352, 257 355 C 251 368, 247 384, 247 399 C 247 408, 249 424, 251 429 C 274 482, 282 490, 283 464 C 284 453, 285 449, 290 434 C 294 420, 301 407, 314 389 C 323 375, 337 360, 355 344 C 358 341, 363 336, 366 334 C 369 331, 380 321, 387 316 C 389 315, 393 312, 396 309 C 404 303, 411 300, 432 298 C 442 297, 456 296, 463 296 C 481 295, 487 293, 487 288 C 487 284, 483 283, 475 283 C 452 285, 440 286, 438 287 C 435 288, 425 289, 422 289 C 419 288, 419 288, 420 285 C 421 284, 425 280, 429 276 C 437 270, 475 233, 486 221 C 506 198, 516 182, 525 159 C 537 130, 540 103, 533 77 C 529 62, 516 37, 507 26 C 503 23, 503 22, 501 24"/><path class="pl-part pl-hair pl-hair--2" d="M 470 42 C 453 68, 431 88, 386 121 C 375 129, 360 140, 352 145 C 345 151, 335 158, 330 162 C 325 166, 320 169, 320 170 C 320 170, 318 172, 316 173 C 291 192, 248 236, 234 256 C 233 258, 229 263, 226 267 C 212 288, 204 305, 198 328 C 195 340, 195 363, 198 374 C 199 378, 201 385, 202 389 C 203 393, 205 396, 205 397 C 206 397, 206 398, 206 399 C 206 404, 215 415, 216 411 C 217 411, 217 400, 217 388 C 217 366, 217 365, 220 355 C 222 348, 224 341, 224 339 C 225 333, 235 313, 241 303 C 254 280, 285 244, 324 208 C 339 194, 348 186, 353 182 C 355 180, 361 176, 365 172 C 369 168, 376 163, 380 160 C 393 149, 416 129, 426 119 C 447 98, 470 62, 478 39 C 480 32, 480 32, 478 32 C 477 32, 474 36, 470 42"/></g>
-    <g fill="#070707"><path class="pl-part pl-face" d="M 559 242 C 558 242, 558 246, 558 250 C 558 259, 556 261, 548 265 C 541 268, 543 272, 552 272 C 556 272, 561 272, 563 272 C 574 272, 581 262, 575 254 C 574 253, 573 250, 573 248 C 573 245, 572 244, 566 242 C 559 240, 559 240, 559 242 M 450 335 C 445 340, 436 348, 430 350 C 427 352, 424 354, 423 354 C 421 355, 409 357, 407 357 C 402 357, 389 355, 384 353 C 377 351, 374 350, 372 353 C 369 355, 369 355, 374 359 C 378 363, 378 364, 378 367 C 377 372, 378 373, 382 370 C 387 368, 388 369, 389 376 C 390 381, 390 381, 390 379 C 391 375, 396 371, 398 371 C 399 371, 401 372, 402 374 C 404 375, 406 376, 408 376 C 409 375, 410 376, 411 379 C 412 383, 414 382, 415 378 C 416 372, 421 370, 422 374 C 422 377, 423 377, 427 374 C 428 372, 430 371, 431 372 C 434 373, 440 374, 443 373 C 449 371, 449 370, 449 366 C 448 361, 449 359, 452 359 C 455 359, 456 355, 457 343 C 457 333, 457 332, 455 332 C 454 331, 452 332, 450 335"/></g>
-    <g fill="#aa2284"><path class="pl-part pl-lips" d="M 533 420 C 532 421, 530 422, 530 423 C 529 424, 526 426, 522 427 C 514 432, 511 434, 507 442 C 502 449, 498 453, 491 458 C 484 462, 484 465, 492 469 C 512 479, 537 457, 541 425 C 541 422, 541 420, 539 419 C 537 418, 537 418, 533 420"/></g>
-    <g fill="#45c2da"><path class="pl-part pl-leaf" d="M 653 332 C 652 334, 652 338, 653 344 C 653 350, 653 358, 653 366 C 651 384, 649 387, 624 412 C 603 433, 599 438, 590 453 C 580 470, 576 484, 574 504 C 574 514, 572 516, 559 523 C 554 525, 549 528, 549 528 C 546 530, 522 540, 518 541 C 515 541, 511 542, 508 544 C 506 545, 500 546, 496 547 C 493 548, 486 550, 482 551 C 477 552, 468 552, 453 553 C 431 553, 419 552, 403 548 C 399 547, 395 547, 395 549 C 395 552, 407 559, 422 565 C 437 570, 440 570, 458 570 C 479 571, 484 570, 518 559 C 531 555, 570 534, 582 524 C 600 509, 635 471, 644 457 C 645 454, 648 451, 650 448 C 652 446, 653 443, 653 443 C 653 442, 655 439, 657 437 C 666 427, 665 440, 656 461 C 644 489, 618 521, 591 542 C 580 551, 579 553, 589 555 C 608 560, 618 564, 627 570 C 635 576, 637 579, 635 581 C 634 583, 633 583, 629 581 C 620 578, 616 576, 611 574 C 607 574, 602 572, 598 570 C 587 566, 574 567, 568 573 C 563 577, 567 585, 577 592 C 588 601, 606 605, 635 606 C 653 607, 656 607, 662 610 C 666 611, 671 612, 673 612 C 675 612, 675 612, 675 609 C 675 602, 669 589, 661 576 C 654 566, 654 565, 644 559 C 638 554, 632 551, 627 550 C 619 547, 618 546, 618 544 C 618 541, 618 540, 626 535 C 636 528, 659 507, 668 496 C 673 490, 686 470, 686 469 C 686 469, 687 468, 687 467 C 689 466, 690 462, 695 446 C 697 436, 697 405, 694 395 C 690 378, 672 347, 660 334 C 656 329, 654 329, 653 332"/></g>
-    <g fill="#45c2da"><path class="pl-part pl-w1" d="M 70 710 C 49 715, 34 727, 28 744 C 24 753, 24 755, 23 765 C 21 784, 24 802, 32 815 C 52 849, 112 851, 129 817 C 134 807, 134 806, 133 804 C 131 803, 116 795, 114 795 C 114 795, 112 797, 111 800 C 103 824, 65 826, 54 802 C 47 788, 48 758, 55 746 C 61 735, 76 730, 89 732 C 100 734, 104 737, 109 746 C 112 751, 113 751, 119 747 C 121 745, 125 743, 127 742 C 133 739, 133 736, 126 727 C 119 719, 113 715, 102 711 C 94 710, 75 709, 70 710"/><path class="pl-part pl-w1" d="M 152 704 C 152 705, 152 736, 152 773 L 153 840 162 840 C 166 840, 172 840, 174 840 L 177 839 177 810 C 177 778, 177 776, 183 769 C 189 760, 205 759, 211 767 L 214 770 214 804 C 214 833, 215 838, 216 839 C 217 840, 222 840, 228 840 L 239 840 239 803 C 239 758, 238 754, 227 746 C 214 738, 194 739, 183 750 C 181 753, 178 755, 178 755 C 177 755, 177 744, 177 730 C 177 712, 177 705, 176 704 C 174 702, 153 703, 152 704"/><path class="pl-part pl-w1" d="M 274 703 C 261 705, 259 723, 271 730 C 280 734, 293 727, 293 717 C 293 707, 285 701, 274 703 M 266 791 L 267 840 276 840 C 291 840, 290 844, 290 809 C 291 793, 291 771, 290 761 L 290 743 278 743 L 266 743 266 791"/><path class="pl-part pl-w1" d="M 336 721 C 323 723, 323 723, 322 728 C 322 730, 322 734, 321 737 L 321 742 315 742 C 307 742, 307 742, 307 753 L 308 762 314 762 C 317 762, 320 763, 320 763 C 321 764, 322 777, 322 792 C 323 824, 323 825, 330 832 C 339 842, 357 844, 372 838 C 377 835, 378 834, 375 827 C 371 816, 372 816, 361 819 C 354 821, 349 818, 347 813 C 346 808, 346 765, 347 763 C 348 762, 352 762, 361 762 C 371 762, 373 762, 373 760 C 374 758, 374 744, 373 743 C 372 742, 368 742, 360 742 C 352 742, 348 742, 347 741 C 347 740, 346 735, 346 730 C 345 719, 346 720, 336 721"/><path class="pl-part pl-w1" d="M 434 743 C 430 744, 424 748, 421 752 C 418 757, 417 756, 417 749 L 417 743 405 743 L 393 743 393 791 C 393 834, 393 839, 395 839 C 398 841, 416 840, 417 839 C 418 838, 418 831, 418 812 C 418 779, 419 774, 428 768 C 431 765, 433 765, 438 765 C 442 765, 446 765, 447 765 C 450 766, 451 765, 452 758 C 454 747, 454 744, 451 743 C 448 742, 436 742, 434 743"/><path class="pl-part pl-w1" d="M 490 742 C 478 745, 464 754, 464 758 C 464 760, 473 773, 474 773 C 475 773, 478 771, 482 768 C 499 757, 516 758, 516 770 C 517 776, 513 779, 499 781 C 476 786, 468 790, 463 800 C 460 806, 461 820, 464 826 C 471 841, 491 846, 507 838 C 511 836, 516 830, 517 828 C 518 826, 521 828, 521 830 C 521 832, 527 838, 531 839 C 534 840, 548 840, 551 839 C 553 837, 553 837, 553 830 C 553 821, 552 820, 548 820 C 541 820, 542 821, 541 790 C 541 763, 540 762, 538 757 C 534 749, 528 745, 518 742 C 512 741, 496 741, 490 742 M 513 794 C 512 794, 508 795, 503 796 C 490 800, 487 802, 486 808 C 485 819, 491 824, 503 822 C 509 821, 516 815, 516 808 C 518 797, 518 794, 515 793 C 514 793, 513 793, 513 794"/><path class="pl-part pl-w1" d="M 567 710 C 563 714, 563 714, 563 720 C 563 725, 563 726, 567 729 C 568 731, 571 733, 572 733 C 575 733, 576 736, 576 739 C 575 742, 566 751, 561 754 C 557 756, 557 756, 561 762 C 565 769, 566 768, 580 756 C 589 747, 592 739, 593 727 C 593 716, 592 713, 587 709 C 584 706, 582 706, 577 706 C 571 706, 571 706, 567 710"/><path class="pl-part pl-w1" d="M 638 741 C 615 743, 603 757, 607 776 C 609 784, 618 795, 623 795 C 624 795, 625 795, 625 796 C 626 796, 629 797, 633 798 C 636 799, 642 801, 644 802 C 647 802, 650 803, 650 803 C 654 803, 657 808, 657 813 C 657 817, 656 818, 653 819 C 644 824, 630 820, 623 813 C 620 811, 618 809, 617 809 C 615 809, 603 822, 603 824 C 603 826, 611 833, 617 836 C 643 848, 674 840, 680 819 C 686 800, 676 787, 652 781 C 632 777, 630 775, 630 768 C 631 763, 634 760, 644 761 C 652 761, 657 762, 661 766 C 664 769, 666 768, 672 762 C 679 755, 679 754, 675 751 C 667 743, 652 740, 638 741"/></g>
-    <g fill="#aa2284"><path class="pl-part pl-w2" d="M 27 906 C 26 906, 26 929, 26 958 L 26 1009 59 1009 L 93 1009 93 1001 L 93 993 70 992 C 53 992, 48 992, 47 991 C 46 990, 46 976, 46 947 L 46 906 36 905 C 31 905, 27 905, 27 906"/><path class="pl-part pl-w2" d="M 108 903 C 105 907, 104 911, 107 916 C 111 924, 124 923, 129 915 C 130 911, 130 910, 128 906 C 126 901, 123 899, 117 899 C 112 899, 111 899, 108 903 M 108 932 C 107 933, 107 1006, 108 1008 C 109 1009, 117 1010, 125 1009 C 127 1009, 127 1006, 127 970 L 127 931 118 931 C 113 931, 108 931, 108 932"/><path class="pl-part pl-w2" d="M 170 899 C 157 902, 150 912, 150 926 L 151 931 146 931 L 141 932 141 939 L 141 946 145 946 C 148 946, 150 947, 151 947 C 152 948, 152 959, 152 979 L 153 1009 160 1009 C 173 1010, 171 1013, 172 977 L 173 947 183 946 L 194 946 194 938 L 194 931 184 931 C 172 931, 171 931, 171 924 C 171 916, 177 913, 186 915 C 194 918, 194 918, 196 911 C 199 903, 199 902, 195 900 C 192 899, 174 897, 170 899"/><path class="pl-part pl-w2" d="M 228 931 C 211 935, 202 947, 201 967 C 200 987, 207 1000, 221 1007 C 239 1015, 264 1010, 270 996 C 272 992, 271 991, 264 987 C 259 983, 258 983, 256 987 C 250 995, 232 996, 226 988 C 223 984, 222 981, 222 978 L 222 975 246 975 C 264 975, 271 975, 272 974 C 273 973, 273 969, 273 964 C 273 949, 269 940, 259 934 C 251 929, 238 928, 228 931 M 233 946 C 229 947, 226 950, 224 954 C 221 961, 220 961, 238 961 L 254 961 253 958 C 253 954, 251 950, 249 948 C 246 946, 238 945, 233 946"/><path class="pl-part pl-w2" d="M 290 901 C 288 904, 289 992, 291 997 C 294 1006, 300 1010, 311 1010 C 321 1011, 322 1010, 321 1002 C 321 994, 320 993, 316 993 C 313 993, 312 992, 311 991 C 310 990, 310 974, 310 945 C 310 912, 310 901, 309 900 C 308 899, 304 899, 299 899 C 292 899, 291 899, 290 901"/><path class="pl-part pl-w2" d="M 336 902 C 326 912, 339 926, 352 920 C 356 917, 358 910, 356 905 C 354 901, 351 899, 345 899 C 340 899, 339 899, 336 902 M 335 969 C 335 1014, 334 1010, 345 1010 C 356 1010, 355 1014, 355 969 L 355 931 345 931 L 335 931 335 969"/><path class="pl-part pl-w2" d="M 412 931 C 408 932, 405 934, 402 937 C 397 942, 397 942, 397 936 L 397 932 387 932 L 378 932 377 969 C 377 993, 377 1008, 378 1008 C 379 1010, 389 1010, 394 1009 L 397 1009 397 984 L 398 960 400 955 C 405 947, 414 944, 421 947 C 427 951, 427 951, 427 980 C 427 1002, 427 1007, 428 1008 C 430 1010, 446 1010, 447 1008 C 448 1007, 448 994, 448 978 C 447 944, 447 942, 440 936 C 433 929, 423 927, 412 931"/><path class="pl-part pl-w2" d="M 492 930 C 478 934, 469 943, 465 959 C 462 976, 467 994, 477 1002 C 485 1009, 491 1010, 503 1010 C 518 1010, 526 1007, 533 997 C 537 992, 537 993, 530 988 C 523 983, 522 983, 520 987 C 516 991, 512 993, 504 993 C 493 993, 487 988, 486 979 L 486 976 510 975 C 531 975, 535 974, 536 973 C 538 971, 536 953, 534 948 C 532 942, 526 936, 522 933 C 514 929, 501 928, 492 930 M 497 946 C 493 947, 490 950, 488 955 C 484 961, 484 961, 501 961 C 510 961, 517 961, 517 960 C 518 959, 516 951, 513 949 C 510 946, 503 945, 497 946"/><path class="pl-part pl-w2" d="M 619 905 C 597 911, 585 930, 585 957 C 585 992, 606 1013, 639 1010 C 651 1009, 657 1007, 665 999 C 669 995, 675 985, 675 982 C 674 980, 661 973, 659 973 C 659 974, 658 975, 657 976 C 653 989, 640 995, 627 992 C 619 989, 614 986, 610 978 C 606 970, 606 947, 610 938 C 615 925, 628 919, 642 923 C 647 924, 651 927, 655 933 C 657 936, 658 937, 660 936 C 662 936, 674 928, 674 927 C 674 927, 673 926, 673 924 C 669 916, 659 908, 649 905 C 642 904, 625 904, 619 905"/><path class="pl-part pl-w2" d="M 689 901 C 689 902, 689 924, 689 950 C 690 996, 690 997, 692 1001 C 696 1008, 705 1012, 715 1010 C 721 1010, 722 1008, 721 1001 C 719 993, 719 993, 716 993 C 709 993, 710 994, 709 945 L 709 900 699 899 C 690 899, 690 899, 689 901"/><path class="pl-part pl-w2" d="M 737 901 C 732 906, 732 915, 737 919 C 740 921, 749 922, 752 920 C 758 916, 759 906, 753 901 C 749 898, 740 898, 737 901 M 735 969 C 735 1005, 735 1008, 737 1009 C 739 1010, 753 1009, 754 1008 C 755 1007, 755 990, 755 969 L 755 932 745 931 L 735 931 735 969"/><path class="pl-part pl-w2" d="M 813 930 C 808 932, 804 934, 801 938 C 797 942, 796 942, 796 936 L 796 931 787 931 L 777 931 777 969 C 777 1000, 777 1007, 778 1008 C 780 1010, 794 1011, 796 1009 C 797 1008, 797 1001, 797 986 C 797 963, 798 958, 801 953 C 807 944, 821 944, 826 952 C 827 955, 828 959, 828 982 C 828 1001, 828 1009, 829 1009 C 831 1010, 842 1010, 845 1009 L 848 1008 848 982 C 848 948, 847 941, 839 934 C 832 929, 821 928, 813 930"/><path class="pl-part pl-w2" d="M 871 901 C 863 907, 867 920, 876 921 C 882 921, 884 921, 887 918 C 892 914, 892 906, 887 902 C 884 898, 875 898, 871 901 M 869 932 C 868 932, 868 949, 868 970 C 868 1013, 867 1010, 879 1010 C 883 1010, 887 1009, 888 1008 C 889 1007, 890 947, 888 936 L 888 931 879 931 C 873 931, 869 931, 869 932"/><path class="pl-part pl-w2" d="M 934 930 C 922 934, 913 943, 909 954 C 906 961, 906 980, 909 986 C 915 1003, 927 1011, 946 1010 C 960 1010, 969 1005, 975 994 C 978 989, 977 987, 971 984 C 963 980, 963 980, 961 983 C 957 991, 953 993, 945 993 C 933 993, 926 984, 927 968 C 928 954, 935 946, 945 946 C 950 946, 956 949, 959 953 C 960 955, 962 957, 963 957 C 965 957, 976 948, 976 946 C 976 944, 969 935, 965 933 C 957 929, 943 928, 934 930"/></g>
-  </svg>
-  <div class="pl__meter">
-    <div class="pl__track"><span class="pl__bar"></span></div>
-    <span class="pl__pct">0%</span>
-  </div>
-</div>
-
-<!-- Decorative: slow-drifting pink/plum mesh + film grain. Sits behind everything. -->
-<div class="ambient" aria-hidden="true">
-  <span class="ambient__blob ambient__blob--1"></span>
-  <span class="ambient__blob ambient__blob--2"></span>
-  <span class="ambient__blob ambient__blob--3"></span>
-</div>
-<div class="grain" aria-hidden="true"></div>
-<div class="cursor-glow" aria-hidden="true"></div>
-
 <a href="#book" class="skip-link">Skip to booking form</a>
 
 <!-- ══ NAV ═══════════════════════════════════════════════════════════════ -->
 <header class="nav" id="nav">
-  <div class="nav__inner">
-    <a class="nav__brand" href="#top" aria-label="Chitra's Lifeline Clinic, home">
-      <img class="nav__mark" src="/assets/img/logo-mark.png" width="240" height="283" alt="" aria-hidden="true">
-      <span class="nav__name">
-        <strong>Chitra's Lifeline Clinic</strong>
-        <em>Skin, Lasers &amp; Aesthetics · Yelahanka</em>
-      </span>
+  <div class="wrap nav__bar">
+    <a class="brand" href="#top" aria-label="Chitra's Lifeline Clinic, home">
+      <img src="/assets/img/logo-mark.png" width="240" height="283" alt="">
+      <span><b>Chitra's <em>Lifeline</em></b><small>Skin · Lasers · Aesthetics</small></span>
     </a>
     <nav class="nav__links" aria-label="Sections">
-      <a href="#botox">Botox</a>
-      <a href="#laser">Laser Hair Removal</a>
-      <a href="#facial">Medi-Facials</a>
-      <a href="#doctor">The Doctor</a>
-      <a href="#faq">FAQs</a>
+      <a href="#treatments">Treatments</a>
+      <a href="#doctor">Doctor</a>
+      <a href="#visit">Your visit</a>
+      <a href="#clinic">Clinic</a>
+      <a href="#faq">FAQ</a>
     </nav>
     <div class="nav__cta">
-      <a class="btn btn--ghost btn--sm" href="tel:+918197516940" data-track="call-nav">
+      <a class="btn btn--ghost btn--sm nav__call" href="tel:+918197516940" data-track="call-nav">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2Z"/></svg>
-        Call
+        +91 81975 16940
       </a>
-      <a class="btn btn--accent btn--sm" href="#book" data-track="book-nav" aria-label="Book a consultation"><span>Book<span class="nav__cta-long"> a consultation</span><span class="nav__cta-short"> now</span></span></a>
+      <a class="btn btn--sm" href="#book" data-track="book-nav">Book <span class="ic"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
     </div>
   </div>
 </header>
 
-<main id="top">
+<main id="top" class="wrap page">
 
 <!-- ══ HERO ══════════════════════════════════════════════════════════════
-     JustDent's split hero: two screens tall, a sticky stage, and a photo
-     window that opens from the right half to the whole screen as you scroll.
-     Driven by motion.js through --hp; see MOTION.md. -->
-<section class="hx" data-hx>
-  <!-- The real heading. The display headline below is decorative and rotates,
-       so it is hidden from assistive tech; this one carries the words, and the
-       ad-group variants swap it. -->
-  <h1 class="sr-only" data-variant-title>Botox, Laser Hair Removal &amp; Medi-Facials in Yelahanka, performed by a dermatologist.</h1>
-
+     The clinic photograph sits in a circle; the treatment names run across
+     it, periwinkle outside the circle and white inside (motion.js clips the
+     second copy to the circle). The ad group (?s=) swaps the headline and the
+     photograph. -->
+<section class="frame hx" data-mochi="idle" data-mochi-say="I'm Mochi. I'll keep you company while you look around.">
+  <div class="mesh" aria-hidden="true">
+    <i style="--c:var(--peri-soft);--x:40%;--y:32%;--s:55%"></i>
+    <i style="--c:var(--pink-soft);--x:8%;--y:48%;--s:50%;--o:.75"></i>
+    <i style="--c:var(--mist);--x:70%;--y:-12%;--s:50%"></i>
+  </div>
+  <div class="hx__top">
+    <div data-rise>
+      <p class="eyebrow">Dermatology and aesthetics · Yelahanka New Town</p>
+      <h1 data-variant-title>Skin treatments planned and performed <em>by your dermatologist.</em></h1>
+    </div>
+    <div data-rise>
+      <p class="hx__lede" data-variant-sub><strong>Dr. Bindiya G P</strong> examines your skin, gives you the plan and its cost in writing, and does the procedure herself.</p>
+      <div class="btn-row">
+        <a class="btn" href="#book" data-track="book-hero">Book a consultation <span class="ic"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn--ghost" href="https://wa.me/918197516940?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation%20at%20Chitra%27s%20Lifeline%20Clinic." target="_blank" rel="noopener" data-track="whatsapp-hero">WhatsApp us</a>
+      </div>
+      <ul class="hx__facts"><li>Mon to Sat, 11am to 8pm</li><li>7+ years in aesthetic dermatology</li></ul>
+    </div>
+  </div>
   <div class="hx__stage">
-    <p class="eyebrow hx__eyebrow hx-fade">
-      <span class="eyebrow__dot" aria-hidden="true"></span>
-      Yelahanka New Town · Opposite Rail Wheel Factory
-    </p>
-
-    <div class="hx__frame">
-      <div class="hx__counter">
-        <div class="hx__photo">
-          <div class="hx__media">
-            <!-- No src in the markup: the script straight after it picks the
-                 photograph for this ad group (chosen in <head>, which has
-                 already started the download), so the wrong one is never
-                 fetched. Every hero photo needs all four widths, 480-1800 — the
-                 head script requests them by name. -->
-            <img class="hx__img" width="1800" height="1200" fetchpriority="high" sizes="100vw"
-                 alt="A skin treatment in progress at Chitra's Lifeline Clinic" data-slot="1.1">
-            <script>(function(i,h){i.srcset=[480,800,1200,1800].map(function(w){return'/assets/img/'+h+'-'+w+'.webp '+w+'w'}).join(', ');i.src='/assets/img/'+h+'.jpg'})(document.currentScript.previousElementSibling,document.documentElement.getAttribute('data-hero')||'doctor-procedure')</script>
-            <noscript><img class="hx__img" src="/assets/img/botox-injection.jpg" srcset="/assets/img/botox-injection-480.webp 480w, /assets/img/botox-injection-800.webp 800w, /assets/img/botox-injection-1200.webp 1200w, /assets/img/botox-injection-1800.webp 1800w" sizes="100vw" width="1800" height="1200" alt="A skin treatment in progress at Chitra's Lifeline Clinic"></noscript>
-          </div>
-        </div>
-        <div class="hx__tint" aria-hidden="true"></div>
-        <div class="hx__fadebot" aria-hidden="true"></div>
-        <div class="hx__shade" aria-hidden="true"></div>
-
-        <div class="hx__note hx-fade">
-          <p class="hx__note-lead">Every procedure,<br><em>done by the doctor.</em></p>
-          <p class="hx__note-by">Dr. Bindiya G P<br>Aesthetic Dermatologist<br>&amp; Cosmetologist</p>
-        </div>
-
-        <div class="hx__note-m hx-fade">
-          <p><span data-variant-sub>At most chains a technician holds the device. Here, <strong>Dr. Bindiya G P</strong>, an aesthetic dermatologist and cosmetologist with more than seven years of practice, examines your skin and does the procedure herself.</span></p>
-          <ul class="hx__trust">
-            <li><strong>4.8</strong><span>★ Justdial<br>160+ ratings</span></li>
-            <li><strong>7+</strong><span>years in<br>aesthetics</span></li>
-            <li><strong>IADVL</strong><span>IMA · CDSI<br>ACSI</span></li>
-          </ul>
-        </div>
-
-        <p class="hx__title2 text-metal" aria-hidden="true">Your skin,<br><em>in a doctor&rsquo;s hands</em></p>
-
-        <ul class="hx__tips" aria-hidden="true">
-          <li class="rise-mask"><span style="--i:0">Botox</span></li>
-          <li class="rise-mask"><span style="--i:1">Laser Hair Removal</span></li>
-          <li class="rise-mask"><span style="--i:2">Medi-Facials</span></li>
-        </ul>
-      </div>
+    <div class="hx__marq" aria-hidden="true"><div class="hx__track"><span>Anti-wrinkle injections /</span><span>Laser hair reduction /</span><span>Medi-facials /</span><span>Pigmentation care /</span><span>Acne and scars /</span><span>Anti-wrinkle injections /</span><span>Laser hair reduction /</span><span>Medi-facials /</span><span>Pigmentation care /</span><span>Acne and scars /</span></div></div>
+    <div class="hx__orb">
+      <img class="hx__img" id="hx-img" width="2400" height="1350" alt="Inside Chitra's Lifeline Clinic, Yelahanka New Town" fetchpriority="high" decoding="async">
+      <script>
+        (function () {
+          var n = document.documentElement.getAttribute('data-hero') || 'cl-sign',
+              i = document.getElementById('hx-img'),
+              alt = { 'cl-anatomy': 'Facial anatomy models in the consultation room', 'cl-laser-2': 'The clinic\'s laser hair reduction machine', 'cl-hydra': 'The clinic\'s medi-facial machine', 'cl-sign': 'The Chitra\'s Lifeline Clinic sign at reception' };
+          i.sizes = '(max-width: 760px) 88vw, 600px';
+          i.srcset = [480, 800, 1200, 1800].map(function (w) { return '/assets/img/' + n + '-' + w + '.webp ' + w + 'w'; }).join(', ');
+          i.src = '/assets/img/' + n + '-1200.webp';
+          if (alt[n]) i.alt = alt[n];
+        })();
+      </script>
+      <noscript><img class="hx__img" src="/assets/img/cl-sign-1200.webp" width="2400" height="1350" alt="The Chitra's Lifeline Clinic sign at reception"></noscript>
+      <span data-lens></span>
     </div>
+    <div class="hx__marq hx__marq--in" aria-hidden="true"><div class="hx__track"><span>Anti-wrinkle injections /</span><span>Laser hair reduction /</span><span>Medi-facials /</span><span>Pigmentation care /</span><span>Acne and scars /</span><span>Anti-wrinkle injections /</span><span>Laser hair reduction /</span><span>Medi-facials /</span><span>Pigmentation care /</span><span>Acne and scars /</span></div></div>
+    <span class="pill hx__pill hx__pill--a" aria-hidden="true"><i></i>Diagnosis before treatment</span>
+    <span class="pill hx__pill hx__pill--b" aria-hidden="true"><i></i>Plan and cost in writing</span>
+    <span class="pill hx__pill hx__pill--c" aria-hidden="true"><i></i>Done by the doctor</span>
+  </div>
+</section>
 
-    <div class="hx__intro hx-fade">
-      <p class="hx__sub"><span data-variant-sub>At most chains a technician holds the device. Here, <strong>Dr. Bindiya G P</strong>, an aesthetic dermatologist and cosmetologist with more than seven years of practice, examines your skin and does the procedure herself.</span></p>
-      <div class="hx__actions">
-        <a class="btn btn--accent btn--lg magnetic" href="#book" data-track="book-hero">
-          Book a consultation
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg>
-        </a>
-        <a class="btn btn--outline btn--lg hx__wa" href="https://wa.me/918197516940?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation%20at%20Chitra%27s%20Lifeline%20Clinic." target="_blank" rel="noopener" data-track="whatsapp-hero" aria-label="WhatsApp us">
-          <svg viewBox="0 0 24 24" aria-hidden="true" class="ico-wa"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.1 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.5-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.3.3c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>
-          <span class="hx__wa-t">WhatsApp us</span>
-        </a>
-      </div>
-      <ul class="hx__trust">
-        <li><strong class="text-metal-rose" data-count="4.8" data-decimals="1">4.8</strong><span>★ on Justdial<br>160+ ratings</span></li>
-        <li><strong class="text-metal-rose" data-count="7">7</strong><span>+ years<br>in aesthetics</span></li>
-        <li><strong class="text-metal-rose">IADVL</strong><span>IMA · CDSI<br>ACSI member</span></li>
+<!-- ══ MISSION ═══════════════════════════════════════════════════════════ -->
+<section class="frame mission" aria-labelledby="mission-h">
+  <p class="eyebrow" id="mission-h">Why the clinic exists</p>
+  <p class="fill" data-fill>Chitra's Lifeline is a doctor-run clinic <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-desk.jpg" srcset="/assets/img/cl-desk-480.webp 480w, /assets/img/cl-desk-800.webp 800w, /assets/img/cl-desk-1200.webp 1200w, /assets/img/cl-desk-1800.webp 1800w, /assets/img/cl-desk-2252.webp 2252w" sizes="120px" width="2400" height="1351" alt="" loading="lazy" decoding="async"></span> where every skin treatment starts with a <span class="pk">diagnosis,</span> <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-decal.jpg" srcset="/assets/img/cl-decal-480.webp 480w, /assets/img/cl-decal-800.webp 800w, /assets/img/cl-decal-1200.webp 1200w, /assets/img/cl-decal-1800.webp 1800w, /assets/img/cl-decal-2160.webp 2160w" sizes="120px" width="2400" height="1350" alt="" loading="lazy" decoding="async"></span> comes with a written plan and cost, and is carried out by the <span class="pk">dermatologist who planned it.</span> <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-hourglass.jpg" srcset="/assets/img/cl-hourglass-480.webp 480w, /assets/img/cl-hourglass-800.webp 800w, /assets/img/cl-hourglass-1200.webp 1200w, /assets/img/cl-hourglass-1800.webp 1800w, /assets/img/cl-hourglass-2160.webp 2160w" sizes="120px" width="2400" height="1350" alt="" loading="lazy" decoding="async"></span></p>
+</section>
+
+<!-- ══ TREATMENTS ════════════════════════════════════════════════════════
+     A tab list with one panel per treatment. Without JavaScript every panel
+     shows, stacked. The ad group's treatment is selected on arrival. -->
+<section class="frame frame--soft pad" id="treatments" data-mochi="think" data-mochi-say="Not sure which one you need? Choose 'Not sure yet' in the form and the doctor will advise.">
+  <div class="sel">
+    <div data-reveal>
+      <p class="eyebrow">Treatments</p>
+      <h2 class="h2">Find your <span class="pk">treatment</span></h2>
+      <p class="lede">Pick what you'd like help with. Every option starts with an in-person consultation.</p>
+      <ul class="sel__list" role="tablist" aria-label="Treatments" data-tabs>
+        <li><button class="sel__tab" role="tab" id="t-wrinkle" aria-controls="p-wrinkle" aria-selected="true" data-tab="wrinkle">Anti-wrinkle injections<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
+        <li><button class="sel__tab" role="tab" id="t-laser" aria-controls="p-laser" aria-selected="false" data-tab="laser" tabindex="-1">Laser hair reduction<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
+        <li><button class="sel__tab" role="tab" id="t-facial" aria-controls="p-facial" aria-selected="false" data-tab="facial" tabindex="-1">Medi-facials<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
+        <li><button class="sel__tab" role="tab" id="t-pigment" aria-controls="p-pigment" aria-selected="false" data-tab="pigment" tabindex="-1">Pigmentation and peels<span class="ar"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button></li>
       </ul>
     </div>
 
-    <!-- Over the seam. A direct child of the stage so its difference blend can
-         see the photograph; decorative, since the H1 above carries the text. -->
-    <div class="hx__headline title-difference" aria-hidden="true">
-      <div class="hx__stack">
-        <div class="hx__set" data-set="botox">
-          <span class="rise-mask"><span style="--i:0">Botox,</span></span>
-          <span class="rise-mask"><span style="--i:1">by a <b>dermatologist</b></span></span>
+    <div class="panels" data-reveal data-reveal-delay="2">
+      <article class="card panel" role="tabpanel" id="p-wrinkle" aria-labelledby="t-wrinkle" data-service="wrinkle">
+        <div class="card__media"><img src="/assets/img/cl-anatomy.jpg" srcset="/assets/img/cl-anatomy-480.webp 480w, /assets/img/cl-anatomy-800.webp 800w, /assets/img/cl-anatomy-1200.webp 1200w, /assets/img/cl-anatomy-1800.webp 1800w, /assets/img/cl-anatomy-2160.webp 2160w" sizes="(max-width: 860px) 92vw, 46vw" width="2400" height="1350" loading="lazy" decoding="async" alt="Facial anatomy models in the consultation room"><span data-lens></span></div>
+        <div class="card__body">
+          <h3>Anti-wrinkle injections</h3>
+          <p>A prescription injection that relaxes the muscles which fold skin into expression lines: forehead lines, frown lines and crow's feet. The dose is planned around your own facial anatomy, so the lines soften and your face still moves.</p>
+          <dl class="facts"><div><dt>Session</dt><dd>15-20 min</dd></div><div><dt>Results show</dt><dd>3-7 days</dd></div><div><dt>Downtime</dt><dd>None</dd></div></dl>
+          <div class="card__foot"><a class="btn btn--sm" href="#book" data-prefill="Anti-wrinkle injections" data-track="book-wrinkle">Book a consultation <span class="ic"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><small>Prescription treatment. Suitability is confirmed in person.</small></div>
         </div>
-        <div class="hx__set" data-set="laser">
-          <span class="rise-mask"><span style="--i:0">Laser hair</span></span>
-          <span class="rise-mask"><span style="--i:1">removal, <b>doctor-led</b></span></span>
-        </div>
-        <div class="hx__set" data-set="facial">
-          <span class="rise-mask"><span style="--i:0">Medi-facials,</span></span>
-          <span class="rise-mask"><span style="--i:1">with a <b>diagnosis</b></span></span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Treatments strip — once the old hero's foot, now its own band. -->
-<div class="marquee" aria-hidden="true">
-  <div class="marquee__track">
-    <span>Botox</span><i>·</i><span>Laser Hair Removal</span><i>·</i><span>Medi-Facials</span><i>·</i>
-    <span>PRP Therapy</span><i>·</i><span>Chemical Peels</span><i>·</i><span>Hair Fall Treatment</span><i>·</i>
-    <span>Dermal Fillers</span><i>·</i><span>Pigmentation</span><i>·</i>
-    <span>Botox</span><i>·</i><span>Laser Hair Removal</span><i>·</i><span>Medi-Facials</span><i>·</i>
-    <span>PRP Therapy</span><i>·</i><span>Chemical Peels</span><i>·</i><span>Hair Fall Treatment</span><i>·</i>
-    <span>Dermal Fillers</span><i>·</i><span>Pigmentation</span><i>·</i>
-  </div>
-</div>
-
-<!-- ══ THE DIFFERENCE ════════════════════════════════════════════════════ -->
-<section class="section section--light compare" id="difference" data-mochi="think" data-mochi-say="Worth asking any clinic who actually holds the device. Here, it's Dr. Bindiya.">
-  <div class="wrap">
-    <header class="sect-head">
-      <p class="kicker reveal" data-reveal>The difference</p>
-      <h2 data-lines>Who is actually holding the device?</h2>
-      <p class="lede reveal" data-reveal data-reveal-delay="2">
-        Almost nobody asks this before booking, yet it's what decides your result.
-      </p>
-    </header>
-
-    <div class="compare__grid">
-      <article class="compare__card compare__card--them reveal" data-reveal>
-        <h3>At a typical chain</h3>
-        <ul>
-          <li>You meet a sales counsellor before you meet anyone medical</li>
-          <li>The procedure is often done by a trained therapist rather than a doctor</li>
-          <li>Packages are pitched before your skin is properly diagnosed</li>
-          <li>Staff rotate, so you rarely see the same person twice</li>
-          <li>The machine runs on the same presets for every skin type</li>
-        </ul>
       </article>
-
-      <article class="compare__card compare__card--us reveal" data-reveal data-reveal-delay="1">
-        <span class="compare__flag">Here</span>
-        <h3>At Chitra's Lifeline Clinic</h3>
-        <ul>
-          <li>You see <strong>Dr. Bindiya</strong> from the first consultation onward</li>
-          <li>A dermatologist performs the injection or laser pass herself</li>
-          <li>You get a diagnosis first, then a written plan, and nobody pushes a package on you</li>
-          <li>The same doctor tracks your progress start to finish</li>
-          <li>Settings are chosen for <strong>your</strong> skin type instead of left on the default</li>
-        </ul>
+      <article class="card panel" role="tabpanel" id="p-laser" aria-labelledby="t-laser" data-service="laser">
+        <div class="card__media"><img src="/assets/img/cl-laser-2.jpg" srcset="/assets/img/cl-laser-2-480.webp 480w, /assets/img/cl-laser-2-800.webp 800w, /assets/img/cl-laser-2-1200.webp 1200w, /assets/img/cl-laser-2-1440.webp 1440w" sizes="(max-width: 860px) 92vw, 46vw" width="2400" height="1350" loading="lazy" decoding="async" alt="The clinic's laser hair reduction machine"><span data-lens></span></div>
+        <div class="card__body">
+          <h3>Laser hair reduction</h3>
+          <p>Most Indian skin carries far more melanin than these machines are preset for. Too much energy causes burns or fresh pigmentation; too little and the hair comes back. Settings are chosen for your skin and hair type, after checking for hormonal causes such as PCOS.</p>
+          <dl class="facts"><div><dt>Underarms</dt><dd>15-20 min</dd></div><div><dt>Typical course</dt><dd>6-8 sessions</dd></div><div><dt>Spacing</dt><dd>4-6 weeks</dd></div></dl>
+          <div class="card__foot"><a class="btn btn--sm" href="#book" data-prefill="Laser hair reduction" data-track="book-laser">Book a consultation <span class="ic"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><small>Long-term reduction, not permanent removal. Response varies with hormones, hair and skin type.</small></div>
+        </div>
+      </article>
+      <article class="card panel" role="tabpanel" id="p-facial" aria-labelledby="t-facial" data-service="facial">
+        <div class="card__media"><img src="/assets/img/cl-hydra.jpg" srcset="/assets/img/cl-hydra-480.webp 480w, /assets/img/cl-hydra-800.webp 800w, /assets/img/cl-hydra-1200.webp 1200w, /assets/img/cl-hydra-1440.webp 1440w" sizes="(max-width: 860px) 92vw, 46vw" width="2400" height="1350" loading="lazy" decoding="async" alt="The clinic's medi-facial machine"><span data-lens></span></div>
+        <div class="card__body">
+          <h3>Medi-facials</h3>
+          <p>A salon facial is the same for everyone who walks in. A medi-facial is picked after your skin has been examined, for acne, dullness, pigmentation, open pores or an event you're preparing for, and uses medical-grade actives at clinical strengths.</p>
+          <dl class="facts"><div><dt>Session</dt><dd>45-60 min</dd></div><div><dt>Suggested</dt><dd>Monthly</dd></div><div><dt>Downtime</dt><dd>None</dd></div></dl>
+          <div class="card__foot"><a class="btn btn--sm" href="#book" data-prefill="Medi-facial" data-track="book-facial">Book a consultation <span class="ic"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><small>Chosen after a skin assessment.</small></div>
+        </div>
+      </article>
+      <article class="card panel" role="tabpanel" id="p-pigment" aria-labelledby="t-pigment" data-service="pigment">
+        <div class="card__media"><img src="/assets/img/cl-laser.jpg" srcset="/assets/img/cl-laser-480.webp 480w, /assets/img/cl-laser-800.webp 800w, /assets/img/cl-laser-1200.webp 1200w, /assets/img/cl-laser-1440.webp 1440w" sizes="(max-width: 860px) 92vw, 46vw" width="2400" height="1350" loading="lazy" decoding="async" alt="Laser equipment used for pigmentation treatment"><span data-lens></span></div>
+        <div class="card__body">
+          <h3>Pigmentation and peels</h3>
+          <p>Melasma, tanning, dark patches and uneven tone have different causes, so the cause is diagnosed first. The plan may combine chemical peels, laser and home care, and is given to you in writing.</p>
+          <dl class="facts"><div><dt>Starts with</dt><dd>Diagnosis</dd></div><div><dt>Course</dt><dd>In writing</dd></div><div><dt>Follow-up</dt><dd>Each visit</dd></div></dl>
+          <div class="card__foot"><a class="btn btn--sm" href="#book" data-prefill="Pigmentation / peels" data-track="book-pigment">Book a consultation <span class="ic"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a><small>The plan depends on the cause.</small></div>
+        </div>
       </article>
     </div>
   </div>
-</section>
 
-<!-- ══ SERVICE CARDS ═════════════════════════════════════════════════════ -->
-<section class="section section--light services" id="services" data-mochi="peek">
-  <div class="wrap">
-    <header class="sect-head">
-      <p class="kicker reveal" data-reveal>What we're known for</p>
-      <h2 data-lines>Three treatments, done properly</h2>
-    </header>
-
-    <div class="services__grid" data-mochi-spot="cards">
-      <a class="svc reveal" href="#botox" data-reveal data-tilt>
-        <div class="svc__img"><img decoding="async" src="/assets/img/botox-injection.jpg" srcset="/assets/img/botox-injection-480.webp 480w, /assets/img/botox-injection-800.webp 800w, /assets/img/botox-injection-1200.webp 1200w, /assets/img/botox-injection-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Botox being administered by a dermatologist" data-slot="1.6"></div>
-        <div class="svc__body">
-          <span class="svc__n">01</span>
-          <h3>Botox</h3>
-          <p>Softens expression lines and leaves your expressions alone. Each dose is worked out from your own facial anatomy.</p>
-          <span class="svc__go">Read more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
-        </div>
-      </a>
-
-      <a class="svc reveal" href="#laser" data-reveal data-reveal-delay="1" data-tilt>
-        <div class="svc__img"><img decoding="async" src="/assets/img/laser-handpiece.jpg" srcset="/assets/img/laser-handpiece-480.webp 480w, /assets/img/laser-handpiece-800.webp 800w, /assets/img/laser-handpiece-1200.webp 1200w, /assets/img/laser-handpiece-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Laser hair removal handpiece being used on a patient" data-slot="1.5"></div>
-        <div class="svc__body">
-          <span class="svc__n">02</span>
-          <h3>Laser Hair Removal</h3>
-          <p>The settings come from your skin and hair type. On Indian skin, that's what decides whether it works.</p>
-          <span class="svc__go">Read more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
-        </div>
-      </a>
-
-      <a class="svc reveal" href="#facial" data-reveal data-reveal-delay="2" data-tilt>
-        <div class="svc__img"><img decoding="async" src="/assets/img/medifacial.jpg" srcset="/assets/img/medifacial-480.webp 480w, /assets/img/medifacial-800.webp 800w, /assets/img/medifacial-1200.webp 1200w, /assets/img/medifacial-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Medi-facial treatment in progress" data-slot="1.7"></div>
-        <div class="svc__body">
-          <span class="svc__n">03</span>
-          <h3>Medi-Facials</h3>
-          <p>Your skin is examined first, and the medical-grade actives are chosen to suit it.</p>
-          <span class="svc__go">Read more <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ══ DEEP DIVES ════════════════════════════════════════════════════════ -->
-<div id="deep-dives">
-
-<!-- ── Botox ──────────────────────────────────────────────────────────── -->
-<section class="section deep" id="botox" data-service="botox" data-mochi="idle" data-mochi-say="Every Botox dose here is worked out from your own facial anatomy.">
-  <div class="wrap deep__grid">
-    <div class="deep__media reveal" data-reveal>
-      <div data-px="-0.4" class="deep__frame flip" data-flip-media data-direction="up">
-        <div class="flip__layer flip__layer--down"><img decoding="async" src="/assets/img/doctor-procedure.jpg" srcset="/assets/img/doctor-procedure-480.webp 480w, /assets/img/doctor-procedure-800.webp 800w, /assets/img/doctor-procedure-1200.webp 1200w, /assets/img/doctor-procedure-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1201" loading="lazy" alt="A dermatologist's gloved hands during a skin treatment" data-slot="1.3"></div>
-        <div class="flip__layer flip__layer--up"><img decoding="async" src="/assets/img/botox-injection.jpg" srcset="/assets/img/botox-injection-480.webp 480w, /assets/img/botox-injection-800.webp 800w, /assets/img/botox-injection-1200.webp 1200w, /assets/img/botox-injection-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Precise botulinum toxin injection performed by a dermatologist" data-slot="1.6"></div>
-      </div>
-
-    </div>
-
-    <div class="deep__copy">
-      <p class="kicker reveal" data-reveal>01 · Botox</p>
-      <h2 data-lines>Softened lines. Still your face.</h2>
-      <p class="lede reveal" data-reveal data-reveal-delay="2">
-        Botulinum toxin relaxes the muscles that fold your skin into lines. Done well, the line softens and
-        your face still moves the way it always has. Done badly, everyone can tell. What separates the two
-        is anatomy: which muscle, how many units, and how deep.
-      </p>
-
-      <ul class="taglist reveal" data-reveal data-reveal-delay="3">
-        <li>Forehead lines</li><li>Frown lines (glabella)</li><li>Crow's feet</li>
-        <li>Bunny lines</li><li>Brow lift</li><li>Gummy smile</li>
-        <li>Jaw slimming (masseter)</li><li>Underarm sweating</li>
-      </ul>
-
-      <dl class="facts reveal" data-reveal data-reveal-delay="4">
-        <div><dt>Session</dt><dd>15<span class="rng">-</span>20 min</dd></div>
-        <div><dt>Results show</dt><dd>3<span class="rng">-</span>7 days</dd></div>
-        <div><dt>Typically lasts</dt><dd>3<span class="rng">-</span>6 months</dd></div>
-        <div><dt>Downtime</dt><dd>None</dd></div>
-      </dl>
-
-      <p class="rx reveal" data-reveal data-reveal-delay="5">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg>
-        Prescription treatment. Suitability is confirmed only after an in-person consultation.
-      </p>
-
-      <a class="btn btn--accent magnetic reveal" data-reveal data-reveal-delay="5" href="#book" data-prefill="Botox" data-track="book-botox">Book a Botox consultation</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── Laser hair removal ─────────────────────────────────────────────── -->
-<section class="section section--tint deep deep--flip" id="laser" data-service="laser" data-mochi="look" data-mochi-say="Tap an area to see how long a session usually takes.">
-  <div class="wrap deep__grid">
-    <div class="deep__media reveal" data-reveal>
-      <div data-px="-0.4" class="deep__frame laser-frame flip" data-flip-media data-direction="left">
-        <div class="flip__layer flip__layer--down"><img decoding="async" src="/assets/img/laser-machine.jpg" srcset="/assets/img/laser-machine-480.webp 480w, /assets/img/laser-machine-800.webp 800w, /assets/img/laser-machine-1200.webp 1200w, /assets/img/laser-machine-1350.webp 1350w" sizes="(max-width: 860px) 100vw, 50vw" width="1350" height="1800" loading="lazy" alt="A laser hair removal machine in the treatment room" data-slot="1.4"></div>
-        <div class="flip__layer flip__layer--up"><img decoding="async" src="/assets/img/laser-handpiece.jpg" srcset="/assets/img/laser-handpiece-480.webp 480w, /assets/img/laser-handpiece-800.webp 800w, /assets/img/laser-handpiece-1200.webp 1200w, /assets/img/laser-handpiece-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Diode laser handpiece treating underarm hair" data-slot="1.5"></div>
-        <!-- Light bar travels across the image as the section scrolls past. -->
-        <span class="laser-sweep" aria-hidden="true"></span>
-      </div>
-    </div>
-
-    <div class="deep__copy">
-      <p class="kicker reveal" data-reveal>02 · Laser Hair Removal</p>
-      <h2 data-lines>Indian skin needs different settings.</h2>
-      <p class="lede reveal" data-reveal data-reveal-delay="2">
-        Most Indian skin is Fitzpatrick type IV or V, with far more melanin than the skin these machines are
-        preset for. Too much energy causes burns or fresh pigmentation. Too little, and the hair comes back.
-        Reading your skin type correctly is the whole job, and it takes a clinical judgement that no preset
-        can make for you.
-      </p>
-
-      <p class="chips-label reveal" data-reveal data-reveal-delay="3">Areas treated (tap one to see the usual session time)</p>
-      <div class="chips reveal" data-mochi-target data-reveal data-reveal-delay="3" role="group" aria-label="Treatment areas">
-        <button type="button" class="chip is-on" data-time="15-20 min" data-area="Underarms">Underarms</button>
-        <button type="button" class="chip" data-time="10-15 min" data-area="Upper lip &amp; chin">Upper lip &amp; chin</button>
-        <button type="button" class="chip" data-time="20-30 min" data-area="Full face">Full face</button>
-        <button type="button" class="chip" data-time="30-45 min" data-area="Full arms">Full arms</button>
-        <button type="button" class="chip" data-time="40-60 min" data-area="Full legs">Full legs</button>
-        <button type="button" class="chip" data-time="20-30 min" data-area="Bikini">Bikini</button>
-        <button type="button" class="chip" data-time="30-40 min" data-area="Back or chest">Back or chest</button>
-        <button type="button" class="chip" data-time="90-120 min" data-area="Full body">Full body</button>
-      </div>
-
-      <dl class="facts facts--dark reveal" data-reveal data-reveal-delay="4">
-        <div><dt>Selected area</dt><dd data-chip-out="area">Underarms</dd></div>
-        <div><dt>Session time</dt><dd data-chip-out="time">15<span class="rng">-</span>20 min</dd></div>
-        <div><dt>Typical course</dt><dd>6<span class="rng">-</span>8 sessions</dd></div>
-        <div><dt>Spacing</dt><dd>4<span class="rng">-</span>6 weeks apart</dd></div>
-      </dl>
-
-      <p class="rx rx--dark reveal" data-reveal data-reveal-delay="5">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 3 6v6c0 5 3.8 9.4 9 10 5.2-.6 9-5 9-10V6l-9-4Z"/></svg>
-        <span>Laser achieves long-term hair <em>reduction</em>. Response varies with hormones, hair colour and skin type.</span>
-      </p>
-
-      <a class="btn btn--accent magnetic reveal" data-reveal data-reveal-delay="5" href="#book" data-prefill="Laser Hair Removal" data-track="book-laser">Book a laser consultation</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── Medi-facials ───────────────────────────────────────────────────── -->
-<section class="section deep" id="facial" data-service="facial" data-mochi="happy" data-mochi-say="Your skin gets examined first. Then the actives are chosen to suit it.">
-  <div class="wrap deep__grid">
-    <div class="deep__media reveal" data-reveal>
-      <div data-px="-0.4" class="deep__frame flip" data-flip-media data-direction="up">
-        <div class="flip__layer flip__layer--down"><img decoding="async" src="/assets/img/skin-macro.jpg" srcset="/assets/img/skin-macro-480.webp 480w, /assets/img/skin-macro-800.webp 800w, /assets/img/skin-macro-1200.webp 1200w, /assets/img/skin-macro-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Close-up of clear, even skin" data-slot="2.4"></div>
-        <div class="flip__layer flip__layer--up"><img decoding="async" src="/assets/img/medifacial.jpg" srcset="/assets/img/medifacial-480.webp 480w, /assets/img/medifacial-800.webp 800w, /assets/img/medifacial-1200.webp 1200w, /assets/img/medifacial-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Medi-facial serum application during treatment" data-slot="1.7"></div>
-      </div>
-      <span class="float float--inset" data-px="1.2" aria-hidden="true"><img decoding="async" src="/assets/img/detail-serum.jpg" srcset="/assets/img/detail-serum-480.webp 480w, /assets/img/detail-serum-800.webp 800w, /assets/img/detail-serum-1200.webp 1200w, /assets/img/detail-serum-1800.webp 1800w" sizes="220px" width="1800" height="1200" loading="lazy" alt=""></span>
-    </div>
-
-    <div class="deep__copy">
-      <p class="kicker reveal" data-reveal>03 · Medi-Facials</p>
-      <h2 data-lines>A facial with a diagnosis behind it.</h2>
-      <p class="lede reveal" data-reveal data-reveal-delay="2">
-        A salon facial is the same for everyone who walks in. A medi-facial is picked after your skin has been
-        examined, whether the concern is acne, dullness, pigmentation, open pores or an event you're
-        preparing for, and it uses medical-grade actives at clinical strengths.
-      </p>
-
-      <div class="ftypes reveal" data-reveal data-reveal-delay="3">
-        <article><h4>Deep-cleanse hydration</h4><p>Congestion, blackheads, dull texture.</p></article>
-        <article><h4>Vitamin C brightening</h4><p>Uneven tone and early pigmentation.</p></article>
-        <article><h4>Salicylic / acne</h4><p>Active breakouts and oily, acne-prone skin.</p></article>
-        <article><h4>Pigmentation-targeted</h4><p>Melasma, tanning and dark patches.</p></article>
-        <article><h4>Peptide anti-ageing</h4><p>Fine lines, laxity and loss of glow.</p></article>
-        <article><h4>Bridal &amp; pre-event</h4><p>Planned as a course, timed to your date.</p></article>
-      </div>
-
-      <dl class="facts reveal" data-reveal data-reveal-delay="4">
-        <div><dt>Session</dt><dd>45<span class="rng">-</span>60 min</dd></div>
-        <div><dt>Glow shows</dt><dd>Same day</dd></div>
-        <div><dt>Suggested</dt><dd>Monthly</dd></div>
-        <div><dt>Downtime</dt><dd>None</dd></div>
-      </dl>
-
-      <a class="btn btn--accent magnetic reveal" data-reveal data-reveal-delay="5" href="#book" data-prefill="Medi-Facial" data-track="book-facial">Book a medi-facial</a>
-    </div>
-  </div>
-</section>
-</div>
-
-<!-- ══ ALSO OFFERED ══════════════════════════════════════════════════════ -->
-<section class="section section--light also" data-mochi="peek">
-  <div class="wrap">
-    <header class="sect-head">
-      <p class="kicker reveal" data-reveal>Also at the clinic</p>
-      <h2 data-lines>The full dermatology list</h2>
-    </header>
-    <ul class="also__grid" data-mochi-spot="cards">
-      <li class="reveal" data-reveal><h3>PRP Therapy</h3><p>For hair thinning and skin rejuvenation.</p></li>
-      <li class="reveal" data-reveal data-reveal-delay="1"><h3>Chemical Peels</h3><p>Acne, pigmentation, tone and texture.</p></li>
-      <li class="reveal" data-reveal data-reveal-delay="2"><h3>Hair Fall Treatment</h3><p>Diagnosed properly before it's treated.</p></li>
-      <li class="reveal" data-reveal data-reveal-delay="3"><h3>Dermal Fillers</h3><p>Volume and contour, conservatively done.</p></li>
-      <li class="reveal" data-reveal data-reveal-delay="4"><h3>Skin Biopsy</h3><p>In-clinic, with lab support on site.</p></li>
-      <li class="reveal" data-reveal data-reveal-delay="5"><h3>Nail Fungus</h3><p>Confirmed by testing, then treated.</p></li>
+  <div class="also">
+    <p class="eyebrow">Also at the clinic</p>
+    <ul>
+      <li data-reveal><h3>PRP therapy</h3><p>For hair thinning and skin rejuvenation.</p></li>
+      <li data-reveal data-reveal-delay="1"><h3>Acne and acne scars</h3><p>Treated by type and severity, with a written plan.</p></li>
+      <li data-reveal data-reveal-delay="2"><h3>Hair fall treatment</h3><p>Diagnosed properly before it's treated.</p></li>
+      <li data-reveal data-reveal-delay="3"><h3>Dermal fillers</h3><p>Volume and contour, planned conservatively.</p></li>
+      <li data-reveal data-reveal-delay="4"><h3>Skin biopsy</h3><p>In-clinic, with lab support on site.</p></li>
+      <li data-reveal data-reveal-delay="5"><h3>Nail fungus</h3><p>Confirmed by testing, then treated.</p></li>
     </ul>
   </div>
 </section>
 
-<!-- ══ INSTAGRAM ═════════════════════════════════════════════════════════ -->
-<section class="section section--tint instagram" id="instagram" data-mochi="happy" data-mochi-say="Dr. Bindiya's short videos are worth two minutes before you book anything.">
-  <div class="wrap">
-    <div class="ig__head">
-      <div class="sect-head" style="margin-bottom:0">
-        <p class="kicker reveal" data-reveal>On Instagram</p>
-        <h2 data-lines>Hear it from the doctor</h2>
-        <p class="lede reveal" data-reveal data-reveal-delay="2">
-          Dr. Bindiya posts short videos on treatments, common myths and aftercare. They're worth two
-          minutes before you book anything, here or anywhere else.
-        </p>
-      </div>
-
-      <a class="ig__handle reveal" data-reveal data-reveal-delay="2"
-         href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener"
-         data-track="instagram-profile">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/>
-          <circle cx="12" cy="12" r="4.2"/>
-          <circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
-        </svg>
-        @chitraslifelineclinic
-      </a>
-    </div>
-
-    <!-- PLACEHOLDER REELS. Swap each href for the real Instagram reel URL and
-         each poster for a frame grabbed from that reel — see BRIEF.md §4 (4.x). -->
-    <div class="ig__grid">
-      <a class="reel reveal" data-reveal href="https://www.instagram.com/chitraslifelineclinic/reels/" target="_blank" rel="noopener" data-track="instagram-reel">
-        <img decoding="async" src="/assets/img/reel-1.jpg" srcset="/assets/img/reel-1-480.webp 480w, /assets/img/reel-1-800.webp 800w, /assets/img/reel-1-1200.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="2133" loading="lazy" alt="Dr. Bindiya explaining what botox actually does" data-slot="4.1">
-        <span class="reel__badge">Botox</span>
-        <span class="reel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        <span class="reel__cap"><strong>What botox actually does</strong><span>And what it can't fix</span></span>
-      </a>
-
-      <a class="reel reveal" data-reveal data-reveal-delay="1" href="https://www.instagram.com/chitraslifelineclinic/reels/" target="_blank" rel="noopener" data-track="instagram-reel">
-        <img decoding="async" src="/assets/img/reel-2.jpg" srcset="/assets/img/reel-2-480.webp 480w, /assets/img/reel-2-800.webp 800w, /assets/img/reel-2-1200.webp 1200w, /assets/img/reel-2-1351.webp 1351w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="2133" loading="lazy" alt="Dr. Bindiya on laser settings for Indian skin" data-slot="4.2">
-        <span class="reel__badge">Laser</span>
-        <span class="reel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        <span class="reel__cap"><strong>Laser on Indian skin</strong><span>Why the settings matter</span></span>
-      </a>
-
-      <a class="reel reveal" data-reveal data-reveal-delay="2" href="https://www.instagram.com/chitraslifelineclinic/reels/" target="_blank" rel="noopener" data-track="instagram-reel">
-        <img decoding="async" src="/assets/img/reel-3.jpg" srcset="/assets/img/reel-3-480.webp 480w, /assets/img/reel-3-800.webp 800w, /assets/img/reel-3-1200.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="2133" loading="lazy" alt="Medi-facial aftercare explained" data-slot="4.3">
-        <span class="reel__badge">Medi-Facial</span>
-        <span class="reel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        <span class="reel__cap"><strong>Salon facial vs medi-facial</strong><span>The honest difference</span></span>
-      </a>
-
-      <a class="reel reveal" data-reveal data-reveal-delay="3" href="https://www.instagram.com/chitraslifelineclinic/reels/" target="_blank" rel="noopener" data-track="instagram-reel">
-        <img decoding="async" src="/assets/img/reel-4.jpg" srcset="/assets/img/reel-4-480.webp 480w, /assets/img/reel-4-800.webp 800w, /assets/img/reel-4-1200.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="2133" loading="lazy" alt="When hair fall needs a dermatologist" data-slot="4.4">
-        <span class="reel__badge">Hair fall</span>
-        <span class="reel__play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-        <span class="reel__cap"><strong>When hair fall needs a doctor</strong><span>The signs to watch for</span></span>
-      </a>
-    </div>
-
-    <p class="ig__note reveal" data-reveal>
-      <strong>Build note:</strong> these four cards are placeholders. Send the reel links you want featured
-      and I'll swap in the real videos and their cover frames. The layout doesn't change.
-    </p>
-  </div>
-</section>
-
-<!-- ══ THE DOCTOR ════════════════════════════════════════════════════════ -->
-<section class="section section--light doctor" id="doctor" data-mochi="idle" data-mochi-say="Dr. Bindiya sees every patient herself, from the consultation to the follow-up.">
-  <div class="wrap doctor__grid">
-    <figure class="doctor__media reveal" data-reveal>
-      <div data-px="-0.5" class="doctor__frame flip" data-flip-media data-direction="down">
-        <div class="flip__layer flip__layer--down"><img decoding="async" src="/assets/img/hero-doctor.jpg" srcset="/assets/img/hero-doctor-480.webp 480w, /assets/img/hero-doctor-800.webp 800w, /assets/img/hero-doctor-1200.webp 1200w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="1800" loading="lazy" alt="Dr. Bindiya G P, Aesthetic Dermatologist and Cosmetologist" data-slot="1.1"></div>
-        <div class="flip__layer flip__layer--up"><img decoding="async" src="/assets/img/consult-room.jpg" srcset="/assets/img/consult-room-480.webp 480w, /assets/img/consult-room-800.webp 800w, /assets/img/consult-room-1200.webp 1200w, /assets/img/consult-room-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="The consultation room at the clinic" data-slot="1.2"></div>
-      </div>
-      <span class="doctor__stamp" aria-hidden="true">
-        <span>7+ years</span><em>in aesthetic dermatology</em>
-      </span>
-    
+<!-- ══ DOCTOR ════════════════════════════════════════════════════════════
+     Laid out as a factual doctor listing (name, qualifications, registration,
+     experience), the form the October 2026 NMC guidelines treat as patient
+     information. Qualifications and KMC number: pending from the clinic. -->
+<section class="frame pad" id="doctor" data-mochi="happy" data-mochi-say="Dr. Bindiya sees every patient herself, from the first consultation to the follow-up.">
+  <div class="mesh" aria-hidden="true"><i style="--c:var(--blush);--x:-15%;--y:10%;--s:55%"></i><i style="--c:var(--mist);--x:20%;--y:50%;--s:45%"></i></div>
+  <div class="doc">
+    <figure class="doc__photo" data-reveal style="margin:0">
+      <img src="/assets/img/dr-bindiya.jpg" srcset="/assets/img/dr-bindiya-480.webp 480w, /assets/img/dr-bindiya-800.webp 800w, /assets/img/dr-bindiya-960.webp 960w" sizes="(max-width: 860px) 92vw, 40vw" width="960" height="1280" loading="lazy" decoding="async" alt="Dr. Bindiya G P at her desk in the clinic">
     </figure>
-
-    <div class="doctor__copy">
-      <p class="kicker reveal" data-reveal>Your doctor</p>
-      <h2 data-lines>Dr. Bindiya G P</h2>
-      <p class="doctor__role reveal" data-reveal data-reveal-delay="2">Aesthetic Dermatologist &amp; Cosmetologist</p>
-
-      <p class="lede reveal" data-reveal data-reveal-delay="3">
-        Dr. Bindiya trained at Command Hospital Air Force, Bangalore, and has spent over seven years in
-        aesthetic dermatology and cosmetology. She sees every patient herself and
-        handles the consultation, the procedure and the follow-up.
-      </p>
-
-      <ul class="creds reveal" data-reveal data-reveal-delay="4">
-        <li><span>Trained at</span>Command Hospital Air Force, Bangalore</li>
-        <li><span>Experience</span>7+ years in aesthetic dermatology &amp; cosmetology</li>
-        <li><span>Member</span>IADVL · IMA · CDSI · ACSI · Bangalore Dermatological Society</li>
-      </ul>
-
-      <blockquote class="pull reveal" data-reveal data-reveal-delay="5">
-        "I'd rather talk a patient out of a treatment they don't need than sell them a package."
-      </blockquote>
-
-      <p class="doctor__note reveal" data-reveal data-reveal-delay="5">
-        Chitra's Lifeline Clinic is also home to <strong>Dr. Akshay Hari</strong>, MBBS, DNB (Neurosurgery),
-        Consultant Neuro &amp; Spine Surgeon at Aster CMI Hospital. That's why the clinic runs to hospital
-        standards of hygiene and record-keeping.
-      </p>
+    <div data-reveal data-reveal-delay="2">
+      <p class="eyebrow">Your doctor</p>
+      <h2>Dr. Bindiya G P</h2>
+      <p class="doc__role">Aesthetic Dermatologist and Cosmetologist</p>
+      <p class="doc__bio">Dr. Bindiya trained at Command Hospital Air Force, Bangalore, and has spent more than seven years in aesthetic dermatology and cosmetology. She sees every patient herself and handles the consultation, the procedure and the follow-up.</p>
+      <dl class="creds">
+        <!-- TODO before publishing: degree(s) and Karnataka Medical Council registration number, supplied by the clinic. -->
+        <div><dt>Qualifications</dt><dd><span class="todo" data-todo="degree">To be added</span></dd></div>
+        <div><dt>Registration</dt><dd>Karnataka Medical Council, Reg. No. <span class="todo" data-todo="kmc">to be added</span></dd></div>
+        <div><dt>Trained at</dt><dd>Command Hospital Air Force, Bangalore</dd></div>
+        <div><dt>Experience</dt><dd>7+ years in aesthetic dermatology and cosmetology</dd></div>
+        <div><dt>Member</dt><dd>IADVL · IMA · CDSI · ACSI · Bangalore Dermatological Society</dd></div>
+      </dl>
+      <p class="quote">I'd rather talk a patient out of a treatment they don't need than sell them a package.</p>
+      <p class="doc__also">The clinic is also home to Dr. Akshay Hari, MBBS, DNB (Neurosurgery), Consultant Neuro and Spine Surgeon.</p>
     </div>
   </div>
 </section>
 
-<!-- ══ INSIDE THE CLINIC ═════════════════════════════════════════════════ -->
-<section class="section clinic" id="clinic" data-mochi="look">
-  <div class="wrap">
-    <header class="sect-head">
-      <p class="kicker reveal" data-reveal>Inside</p>
-      <h2 data-lines>The clinic, as it actually looks</h2>
-    </header>
+<!-- ══ ONE DOCTOR ════════════════════════════════════════════════════════ -->
+<section class="frame pad feat" data-mochi="idle" data-mochi-say="The doctor who examines you is the one who treats you.">
+  <div class="mesh" aria-hidden="true"><i style="--c:var(--peri);--x:50%;--y:-20%;--s:70%"></i><i style="--c:rgba(243,190,219,.55);--x:70%;--y:40%;--s:60%"></i><i style="--c:#4A5AAE;--x:-20%;--y:30%;--s:70%"></i></div>
+  <span data-ribbon="swoop"></span>
+  <div data-reveal>
+    <p class="eyebrow">How the clinic works</p>
+    <h2>One doctor, <em>start to finish.</em></h2>
+    <p>The doctor who examines you is the doctor who treats you, and the one who reviews how your skin responds afterwards. Nothing is handed to a technician.</p>
+    <a class="btn btn--white" href="#book" data-track="book-feature">Book a consultation <span class="ic"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
   </div>
-
-  <!-- Scrolls horizontally as you scroll down the page. -->
-  <div class="rail" data-rail data-mochi-target>
-    <div class="rail__track">
-      <figure><img decoding="async" src="/assets/img/reception.jpg" srcset="/assets/img/reception-480.webp 480w, /assets/img/reception-800.webp 800w, /assets/img/reception-1200.webp 1200w, /assets/img/reception-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Clinic reception and waiting area" data-slot="1.9"><figcaption>Reception</figcaption></figure>
-      <figure><img decoding="async" src="/assets/img/treatment-room.jpg" srcset="/assets/img/treatment-room-480.webp 480w, /assets/img/treatment-room-800.webp 800w, /assets/img/treatment-room-1200.webp 1200w, /assets/img/treatment-room-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Treatment room" data-slot="1.8"><figcaption>Treatment room</figcaption></figure>
-      <figure><img decoding="async" src="/assets/img/laser-machine.jpg" srcset="/assets/img/laser-machine-480.webp 480w, /assets/img/laser-machine-800.webp 800w, /assets/img/laser-machine-1200.webp 1200w, /assets/img/laser-machine-1350.webp 1350w" sizes="(max-width: 860px) 100vw, 50vw" width="1200" height="1800" loading="lazy" alt="Laser system used at the clinic" data-slot="1.4"><figcaption>The laser system</figcaption></figure>
-      <figure><img decoding="async" src="/assets/img/consult-room.jpg" srcset="/assets/img/consult-room-480.webp 480w, /assets/img/consult-room-800.webp 800w, /assets/img/consult-room-1200.webp 1200w, /assets/img/consult-room-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Consultation room" data-slot="2.8"><figcaption>Consultation room</figcaption></figure>
-      <figure><img decoding="async" src="/assets/img/detail-gloves.jpg" srcset="/assets/img/detail-gloves-480.webp 480w, /assets/img/detail-gloves-800.webp 800w, /assets/img/detail-gloves-1200.webp 1200w, /assets/img/detail-gloves-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Sterile gloves and single-use consumables" data-slot="2.3a"><figcaption>Single-use, every time</figcaption></figure>
-      <figure><img decoding="async" src="/assets/img/exterior.jpg" srcset="/assets/img/exterior-480.webp 480w, /assets/img/exterior-800.webp 800w, /assets/img/exterior-1200.webp 1200w, /assets/img/exterior-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="1800" height="1200" loading="lazy" alt="Clinic entrance in Yelahanka New Town" data-slot="1.10"><figcaption>Find us</figcaption></figure>
-    </div>
+  <div class="feat__art" aria-hidden="true">
+    <div class="feat__img"><img src="/assets/img/cl-reception-2.jpg" srcset="/assets/img/cl-reception-2-480.webp 480w, /assets/img/cl-reception-2-800.webp 800w, /assets/img/cl-reception-2-1200.webp 1200w, /assets/img/cl-reception-2-1800.webp 1800w, /assets/img/cl-reception-2-2160.webp 2160w" sizes="(max-width: 860px) 82vw, 440px" width="2400" height="1350" loading="lazy" decoding="async" alt=""><span data-lens></span></div>
+    <span class="pill" style="left:2%;top:18%"><i></i>Diagnosis first</span>
+    <span class="pill" style="left:8%;bottom:14%;animation-delay:-3s"><i></i>Single-use consumables</span>
+    <span class="pill" style="right:0;top:4%;animation-delay:-5s"><i></i>Same doctor at follow-up</span>
   </div>
 </section>
 
-<!-- ══ PROCESS ═══════════════════════════════════════════════════════════ -->
-<section class="section section--light process" id="process" data-mochi="think" data-mochi-say="It all starts with a consultation. No treatment starts on the same call.">
-  <div class="wrap">
-    <header class="sect-head">
-      <p class="kicker reveal" data-reveal>What to expect</p>
-      <h2 data-lines>Four steps, no surprises</h2>
-    </header>
-
-    <ol class="steps" data-steps>
-      <li class="reveal" data-reveal>
-        <span class="steps__n">01</span>
-        <h3>Consultation</h3>
-        <p>Dr. Bindiya examines your skin, takes your history and tells you plainly what will work and what won't.</p>
-      </li>
-      <li class="reveal" data-reveal data-reveal-delay="1">
-        <span class="steps__n">02</span>
-        <h3>A written plan</h3>
-        <p>Number of sessions, realistic timelines and what it costs. Given to you in writing before anything begins.</p>
-      </li>
-      <li class="reveal" data-reveal data-reveal-delay="2">
-        <span class="steps__n">03</span>
-        <h3>The procedure</h3>
-        <p>Performed in-clinic by the doctor, with single-use consumables and medical-grade equipment.</p>
-      </li>
-      <li class="reveal" data-reveal data-reveal-delay="3">
-        <span class="steps__n">04</span>
-        <h3>Follow-up</h3>
-        <p>Progress reviewed at each visit and the plan adjusted as your skin responds.</p>
-      </li>
+<!-- ══ YOUR VISIT ════════════════════════════════════════════════════════ -->
+<section class="frame frame--soft pad" id="visit" data-mochi="idle" data-mochi-say="You get the plan and the cost in writing before anything begins.">
+  <div class="steps">
+    <div class="steps__head">
+      <p class="eyebrow">What to expect</p>
+      <h2 class="h2">Four steps, <span class="pk">no surprises</span></h2>
+      <p class="lede">The same doctor at every step, and the cost on paper before anything begins.</p>
+      <div class="dots" data-dots aria-hidden="true"><span>Consultation</span><span>A written plan</span><span>The procedure</span><span>Follow-up</span></div>
+    </div>
+    <ol class="steps__cards">
+      <li class="step" style="--i:0"><span data-ribbon="corner"></span><b>01</b><div><h3>Consultation</h3><p>Dr. Bindiya examines your skin, takes your history and tells you plainly what will work and what won't.</p></div></li>
+      <li class="step" style="--i:1"><span data-ribbon="corner"></span><b>02</b><div><h3>A written plan</h3><p>Number of sessions, realistic timelines and what it costs. Given to you in writing before anything begins.</p></div></li>
+      <li class="step" style="--i:2"><span data-ribbon="corner"></span><b>03</b><div><h3>The procedure</h3><p>Performed in the clinic by the doctor, with single-use consumables and medical-grade equipment.</p></div></li>
+      <li class="step" style="--i:3"><span data-ribbon="corner"></span><b>04</b><div><h3>Follow-up</h3><p>Progress reviewed at each visit and the plan adjusted as your skin responds.</p></div></li>
     </ol>
   </div>
 </section>
 
-<!-- ══ REVIEWS ═══════════════════════════════════════════════════════════ -->
-<section class="section section--tint reviews" id="reviews" data-mochi="happy">
-  <div class="wrap">
-    <header class="sect-head">
-      <p class="kicker reveal" data-reveal>Patients</p>
-      <h2 data-lines>4.8 out of 5, across 160+ ratings</h2>
-      <p class="lede reveal" data-reveal data-reveal-delay="2">Aggregated from public listings on Justdial and Practo.</p>
-    </header>
+<!-- ══ INSIDE THE CLINIC ═════════════════════════════════════════════════
+     Real photographs, taken from the clinic's own footage (February 2026).
+     The rail drifts sideways as the page scrolls (main.js). -->
+<section class="frame gal" id="clinic" data-mochi="happy" data-mochi-say="That's the real reception, in Yelahanka New Town.">
+  <div class="gal__head">
+    <div data-reveal>
+      <p class="eyebrow">Inside the clinic</p>
+      <h2 class="h2">Yelahanka New Town, <span class="pk">as it is</span></h2>
+    </div>
+    <p class="lede" data-reveal data-reveal-delay="2" style="margin:0">Every photograph here was taken at the clinic.</p>
   </div>
-
-  <!-- PLACEHOLDER COPY — replace with real, attributable reviews before launch. -->
-  <div class="revmarq" data-marquee>
-    <div class="revmarq__track">
-      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>She actually listens. Explained why I did not need half of what another clinic had quoted me.</p><footer><img decoding="async" src="/assets/img/model-1.jpg" srcset="/assets/img/model-1-480.webp 480w, /assets/img/model-1-800.webp 800w, /assets/img/model-1-1200.webp 1200w, /assets/img/model-1-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Yelahanka</span></footer></article>
-      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>Six sessions of laser and I can really see the difference. I didn't get any burns or pigmentation.</p><footer><img decoding="async" src="/assets/img/model-2.jpg" srcset="/assets/img/model-2-480.webp 480w, /assets/img/model-2-800.webp 800w, /assets/img/model-2-1200.webp 1200w, /assets/img/model-2-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Jakkur</span></footer></article>
-      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>Went in nervous about botox. It looks like nothing was done, which is exactly what I wanted.</p><footer><img decoding="async" src="/assets/img/model-3.jpg" srcset="/assets/img/model-3-480.webp 480w, /assets/img/model-3-800.webp 800w, /assets/img/model-3-1200.webp 1200w, /assets/img/model-3-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Sahakar Nagar</span></footer></article>
-      <article><div class="stars" aria-label="5 out of 5">★★★★★</div><p>Clean clinic, no waiting, and the doctor does everything herself. You don't often get all three.</p><footer><img decoding="async" src="/assets/img/model-1.jpg" srcset="/assets/img/model-1-480.webp 480w, /assets/img/model-1-800.webp 800w, /assets/img/model-1-1200.webp 1200w, /assets/img/model-1-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Vidyaranyapura</span></footer></article>
-      <article aria-hidden="true"><div class="stars">★★★★★</div><p>She actually listens. Explained why I did not need half of what another clinic had quoted me.</p><footer><img decoding="async" src="/assets/img/model-1.jpg" srcset="/assets/img/model-1-480.webp 480w, /assets/img/model-1-800.webp 800w, /assets/img/model-1-1200.webp 1200w, /assets/img/model-1-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Yelahanka</span></footer></article>
-      <article aria-hidden="true"><div class="stars">★★★★★</div><p>Six sessions of laser and I can really see the difference. I didn't get any burns or pigmentation.</p><footer><img decoding="async" src="/assets/img/model-2.jpg" srcset="/assets/img/model-2-480.webp 480w, /assets/img/model-2-800.webp 800w, /assets/img/model-2-1200.webp 1200w, /assets/img/model-2-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Jakkur</span></footer></article>
-      <article aria-hidden="true"><div class="stars">★★★★★</div><p>Went in nervous about botox. It looks like nothing was done, which is exactly what I wanted.</p><footer><img decoding="async" src="/assets/img/model-3.jpg" srcset="/assets/img/model-3-480.webp 480w, /assets/img/model-3-800.webp 800w, /assets/img/model-3-1200.webp 1200w, /assets/img/model-3-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Sahakar Nagar</span></footer></article>
-      <article aria-hidden="true"><div class="stars">★★★★★</div><p>Clean clinic, no waiting, and the doctor does everything herself. You don't often get all three.</p><footer><img decoding="async" src="/assets/img/model-1.jpg" srcset="/assets/img/model-1-480.webp 480w, /assets/img/model-1-800.webp 800w, /assets/img/model-1-1200.webp 1200w, /assets/img/model-1-1800.webp 1800w" sizes="(max-width: 860px) 100vw, 50vw" width="200" height="200" loading="lazy" alt=""><span><strong>Placeholder name</strong>Vidyaranyapura</span></footer></article>
+  <div class="rail" data-rail>
+    <div class="rail__track">
+      <figure class="shot shot--w"><img src="/assets/img/cl-sign.jpg" srcset="/assets/img/cl-sign-480.webp 480w, /assets/img/cl-sign-800.webp 800w, /assets/img/cl-sign-1200.webp 1200w, /assets/img/cl-sign-1800.webp 1800w, /assets/img/cl-sign-2160.webp 2160w" sizes="(max-width: 860px) 80vw, 680px" width="2400" height="1350" loading="lazy" decoding="async" alt="The clinic sign on the wood-slat wall at reception"><figcaption class="pill"><i></i>Reception</figcaption></figure>
+      <figure class="shot shot--t"><img src="/assets/img/cl-hourglass.jpg" srcset="/assets/img/cl-hourglass-480.webp 480w, /assets/img/cl-hourglass-800.webp 800w, /assets/img/cl-hourglass-1200.webp 1200w, /assets/img/cl-hourglass-1800.webp 1800w, /assets/img/cl-hourglass-2160.webp 2160w" sizes="340px" width="2400" height="1350" loading="lazy" decoding="async" alt="An hourglass on the marble reception counter"><span data-lens></span></figure>
+      <figure class="shot shot--w"><img src="/assets/img/cl-laser-2.jpg" srcset="/assets/img/cl-laser-2-480.webp 480w, /assets/img/cl-laser-2-800.webp 800w, /assets/img/cl-laser-2-1200.webp 1200w, /assets/img/cl-laser-2-1440.webp 1440w" sizes="(max-width: 860px) 80vw, 680px" width="2400" height="1350" loading="lazy" decoding="async" alt="Laser machines in the treatment room"><figcaption class="pill"><i></i>Laser room</figcaption></figure>
+      <figure class="shot shot--s"><img src="/assets/img/cl-hydra.jpg" srcset="/assets/img/cl-hydra-480.webp 480w, /assets/img/cl-hydra-800.webp 800w, /assets/img/cl-hydra-1200.webp 1200w, /assets/img/cl-hydra-1440.webp 1440w" sizes="420px" width="2400" height="1350" loading="lazy" decoding="async" alt="The medi-facial machine"><figcaption class="pill"><i></i>Medi-facials</figcaption></figure>
+      <figure class="shot shot--w"><img src="/assets/img/cl-waiting.jpg" srcset="/assets/img/cl-waiting-480.webp 480w, /assets/img/cl-waiting-800.webp 800w, /assets/img/cl-waiting-1200.webp 1200w, /assets/img/cl-waiting-1440.webp 1440w" sizes="(max-width: 860px) 80vw, 680px" width="2400" height="1350" loading="lazy" decoding="async" alt="Seating in the waiting area"><figcaption class="pill"><i></i>Waiting area</figcaption></figure>
+      <figure class="shot shot--t"><img src="/assets/img/cl-decal.jpg" srcset="/assets/img/cl-decal-480.webp 480w, /assets/img/cl-decal-800.webp 800w, /assets/img/cl-decal-1200.webp 1200w, /assets/img/cl-decal-1800.webp 1800w, /assets/img/cl-decal-2160.webp 2160w" sizes="340px" width="2400" height="1350" loading="lazy" decoding="async" alt="The clinic logo on a frosted glass door"></figure>
+      <figure class="shot shot--w"><img src="/assets/img/cl-desk.jpg" srcset="/assets/img/cl-desk-480.webp 480w, /assets/img/cl-desk-800.webp 800w, /assets/img/cl-desk-1200.webp 1200w, /assets/img/cl-desk-1800.webp 1800w, /assets/img/cl-desk-2252.webp 2252w" sizes="(max-width: 860px) 80vw, 680px" width="2400" height="1351" loading="lazy" decoding="async" alt="The consultation desk"><figcaption class="pill"><i></i>Consultation</figcaption></figure>
+      <figure class="shot shot--s"><img src="/assets/img/cl-pharmacy.jpg" srcset="/assets/img/cl-pharmacy-480.webp 480w, /assets/img/cl-pharmacy-800.webp 800w, /assets/img/cl-pharmacy-1200.webp 1200w, /assets/img/cl-pharmacy-1800.webp 1800w, /assets/img/cl-pharmacy-2160.webp 2160w" sizes="420px" width="2400" height="1350" loading="lazy" decoding="async" alt="Shelves of the in-clinic dispensary"><figcaption class="pill"><i></i>Dispensary</figcaption></figure>
     </div>
   </div>
 </section>
 
-<!-- ══ FAQ ═══════════════════════════════════════════════════════════════ -->
-<section class="section faq" id="faq" data-mochi="think" data-mochi-say="Didn't see your question? Ask Dr. Bindiya at your consultation.">
-  <div class="wrap faq__grid">
-    <header class="sect-head faq__head">
-      <p class="kicker reveal" data-reveal>Questions</p>
-      <h2 data-lines>The things people actually ask</h2>
-      <p class="lede reveal" data-reveal data-reveal-delay="2">Didn't see yours? Ask it on WhatsApp before you book.</p>
-      <a class="btn btn--outline reveal faq__wa" data-reveal data-reveal-delay="3" href="https://wa.me/918197516940?text=Hi%2C%20I%20have%20a%20question%20before%20booking." target="_blank" rel="noopener" data-track="whatsapp-faq"><svg viewBox="0 0 24 24" aria-hidden="true" class="ico-wa"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.1 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.5-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.3.3c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>Ask a question</a>
-    </header>
+<!-- ══ INSTAGRAM ═════════════════════════════════════════════════════════
+     Dr. Bindiya's reels, through Instagram's own embed. Each frame loads only
+     when it scrolls into view (main.js), so they cost nothing on arrival. -->
+<section class="frame pad" id="instagram" data-mochi="happy" data-mochi-say="Dr. Bindiya's short videos are worth two minutes before you book anything.">
+  <div class="mesh" aria-hidden="true"><i style="--c:var(--mist);--x:60%;--y:-40%;--s:60%"></i><i style="--c:var(--blush);--x:-10%;--y:50%;--s:50%"></i></div>
+  <div class="reels__head">
+    <div data-reveal>
+      <p class="eyebrow">On Instagram</p>
+      <h2 class="h2">Dr. Bindiya, <span class="pk">explained</span></h2>
+      <p class="lede">Short videos on treatments, common myths and aftercare. Worth a few minutes before you book anything, here or anywhere else.</p>
+    </div>
+    <div class="btn-row" data-reveal data-reveal-delay="2">
+      <div class="reels__nav"><button type="button" data-reels="-1" aria-label="Previous videos"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M12 7H2M6 3 2 7l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button type="button" data-reels="1" aria-label="Next videos"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+      <a class="btn btn--ghost" href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener" data-track="instagram-follow">@chitraslifelineclinic</a>
+    </div>
+  </div>
+  <div class="reels__rail" data-reels-rail tabindex="0" aria-label="Instagram videos by Dr. Bindiya">
+    <!-- Reels supplied by the clinic, November 2026. -->
+    <div class="reel" data-ig="DYw1-rZTaoq"></div>
+    <div class="reel" data-ig="DZCyS_ezZAc"></div>
+    <div class="reel" data-ig="DaK2jUPvYm4"></div>
+    <div class="reel" data-ig="Dakn0D6v86f"></div>
+    <div class="reel" data-ig="Dau67jHoVNN"></div>
+    <div class="reel" data-ig="DbVetyGTO6g"></div>
+    <div class="reel" data-ig="Dbf5DPKzdZ9"></div>
+    <div class="reel" data-ig="Db3JjUFzdRq"></div>
+    <div class="reel" data-ig="DcTDE_bxWgh"></div>
+    <div class="reel" data-ig="DdGLg5_tAjT"></div>
+    <div class="reel" data-ig="Dd1ZbdATo5r"></div>
+  </div>
+</section>
 
-    <div class="acc" data-acc>
-      <details class="reveal" data-reveal>
-        <summary>Does botox hurt?<span aria-hidden="true"></span></summary>
-        <div class="acc__body"><p>The needle is very fine, and most people describe it as a brief pinch per injection point. Numbing cream is applied first if you'd prefer. The whole appointment takes about 15 to 20 minutes.</p></div>
-      </details>
-      <details class="reveal" data-reveal data-reveal-delay="1">
-        <summary>Will my face look frozen?<span aria-hidden="true"></span></summary>
-        <div class="acc__body"><p>That happens when a standard dose is applied without reading the individual face. Here the aim is the opposite: the lines soften and you keep the full range of your expression. Dosing is planned around your muscle strength and how you actually move your face.</p></div>
-      </details>
-      <details class="reveal" data-reveal data-reveal-delay="2">
-        <summary>How long do botox results last?<span aria-hidden="true"></span></summary>
-        <div class="acc__body"><p>Typically three to six months. It varies with metabolism, muscle strength, dose and how long you've been having treatment. Long-term patients often find they can go longer between treatments.</p></div>
-      </details>
-      <details class="reveal" data-reveal data-reveal-delay="3">
-        <summary>Is laser hair removal permanent?<span aria-hidden="true"></span></summary>
-        <div class="acc__body"><p>It gives long-term <em>reduction</em> rather than permanent removal. Most people need six to eight sessions spaced four to six weeks apart, after which hair is far finer and sparser. Occasional maintenance sessions keep it that way. Hormonal conditions such as PCOS can change the picture, which is why it's assessed first.</p></div>
-      </details>
-      <details class="reveal" data-reveal data-reveal-delay="4">
-        <summary>Is laser safe on Indian skin?<span aria-hidden="true"></span></summary>
-        <div class="acc__body"><p>Yes, with the right device and the right settings. Deeper skin tones carry more melanin, so energy levels, pulse duration and cooling all have to be adjusted, or you risk burns or post-inflammatory pigmentation. That's why it matters that a dermatologist sets the parameters.</p></div>
-      </details>
-      <details class="reveal" data-reveal data-reveal-delay="5">
-        <summary>I have a wedding coming up. When should I start?<span aria-hidden="true"></span></summary>
-        <div class="acc__body"><p>Work backwards from the date. Botox is best done three to four weeks ahead so it has fully settled. Laser hair removal needs a run of six-plus months to complete a course. Medi-facials are usually timed five to seven days before the event, with a short course in the months leading up to it.</p></div>
-      </details>
-      <details class="reveal" data-reveal data-reveal-delay="6">
-        <summary>Do you treat men?<span aria-hidden="true"></span></summary>
-        <div class="acc__body"><p>Yes. Botox, laser hair removal (beard shaping, back and chest), acne treatment, hair-fall management and PRP are all commonly done for male patients here.</p></div>
-      </details>
-      <details class="reveal" data-reveal data-reveal-delay="7">
-        <summary>What are the clinic timings?<span aria-hidden="true"></span></summary>
-        <div class="acc__body"><p>Monday to Saturday, 11:00 AM to 8:00 PM. We strongly prefer appointments. Call <a href="tel:+918197516940">+91 81975 16940</a> or message us on WhatsApp.</p></div>
-      </details>
+<!-- ══ FAQ ═══════════════════════════════════════════════════════════════ -->
+<section class="frame pad" id="faq" data-mochi="think" data-mochi-say="Didn't see your question? Ask it on WhatsApp before you book.">
+  <div class="qa">
+    <div class="qa__head" data-reveal>
+      <p class="eyebrow">Questions</p>
+      <h2 class="h2">Before you <span class="pk">book</span></h2>
+      <p class="lede">Didn't see yours? Ask it on WhatsApp before you book.</p>
+      <a class="btn btn--ghost" href="https://wa.me/918197516940?text=Hi%2C%20I%20have%20a%20question%20before%20booking." target="_blank" rel="noopener" data-track="whatsapp-faq">Ask a question</a>
+    </div>
+    <div class="acc" data-acc data-reveal data-reveal-delay="2">
+      <details open><summary>Does an anti-wrinkle injection hurt?<i aria-hidden="true"></i></summary><div class="acc__body"><p>The needle is very fine, and most people describe a brief pinch at each injection point. Numbing cream is applied first if you'd prefer. The whole appointment takes about 15 to 20 minutes.</p></div></details>
+      <details><summary>Will my face look frozen?<i aria-hidden="true"></i></summary><div class="acc__body"><p>That tends to happen when a standard dose is used without reading the individual face. Here the dose is planned around your muscle strength and how you actually move your face, so the aim is softer lines with your expressions intact.</p></div></details>
+      <details><summary>How long do anti-wrinkle results last?<i aria-hidden="true"></i></summary><div class="acc__body"><p>Typically three to six months. It varies with metabolism, muscle strength, dose and how long you've been having treatment.</p></div></details>
+      <details><summary>Is laser hair reduction permanent?<i aria-hidden="true"></i></summary><div class="acc__body"><p>It gives long-term reduction rather than permanent removal. Most people need six to eight sessions spaced four to six weeks apart, after which hair is finer and sparser, with occasional maintenance sessions. Hormonal conditions such as PCOS can change the picture, which is why it's assessed first.</p></div></details>
+      <details><summary>Is laser safe on Indian skin?<i aria-hidden="true"></i></summary><div class="acc__body"><p>With the right device and the right settings. Deeper skin tones carry more melanin, so energy, pulse duration and cooling all have to be adjusted, or there is a risk of burns or post-inflammatory pigmentation. That's why the doctor sets the parameters.</p></div></details>
+      <details><summary>I have a wedding coming up. When should I start?<i aria-hidden="true"></i></summary><div class="acc__body"><p>Work backwards from the date. Anti-wrinkle injections are best done three to four weeks ahead so they have fully settled. Laser hair reduction needs six months or more to complete a course. Medi-facials are usually timed five to seven days before the event, with a short course in the months leading up to it.</p></div></details>
+      <details><summary>Do you treat men?<i aria-hidden="true"></i></summary><div class="acc__body"><p>Yes. Anti-wrinkle injections, laser hair reduction (beard shaping, back and chest), acne treatment, hair-fall management and PRP are all commonly done for men here.</p></div></details>
+      <details><summary>What are the clinic timings?<i aria-hidden="true"></i></summary><div class="acc__body"><p>Monday to Saturday, 11:00 AM to 8:00 PM. Appointments are strongly preferred. Call <a href="tel:+918197516940">+91 81975 16940</a> or message us on WhatsApp.</p></div></details>
     </div>
   </div>
 </section>
 
 <!-- ══ LOCATION ══════════════════════════════════════════════════════════ -->
-<section class="section section--light location" id="location" data-mochi="idle" data-mochi-say="We're opposite Rail Wheel Factory, near Cafe Coffee Day.">
-  <div class="wrap location__grid">
-    <div class="location__copy">
-      <p class="kicker reveal" data-reveal>Find us</p>
-      <h2 data-lines>Yelahanka New Town</h2>
-      <p class="lede reveal" data-reveal data-reveal-delay="2">
-        Opposite Rail Wheel Factory, near Cafe Coffee Day. Easy to reach from across North Bengaluru.
-      </p>
-
-      <address class="reveal" data-reveal data-reveal-delay="3">
-        Ward No. 4, LMN Arcade, 17-B/4, 1169,<br>
-        Opposite Rail Wheel Factory,<br>
-        Yelahanka New Town, Bengaluru,<br>
-        Karnataka 560064
-      </address>
-
-      <dl class="contact reveal" data-reveal data-reveal-delay="4">
+<section class="frame pad" id="location" data-mochi="idle" data-mochi-say="We're opposite Rail Wheel Factory, near Cafe Coffee Day.">
+  <div class="loc">
+    <div data-reveal>
+      <p class="eyebrow">Find us</p>
+      <h2 class="h2">Yelahanka <span class="pk">New Town</span></h2>
+      <p class="lede">Opposite Rail Wheel Factory, near Cafe Coffee Day. Easy to reach from across North Bengaluru.</p>
+      <address>Ward No. 4, LMN Arcade, 17-B/4, 1169,<br>Opposite Rail Wheel Factory,<br>Yelahanka New Town, Bengaluru,<br>Karnataka 560064</address>
+      <dl class="contact">
         <div><dt>Phone</dt><dd><a href="tel:+918197516940">+91 81975 16940</a> · <a href="tel:+919986086610">+91 99860 86610</a></dd></div>
         <div><dt>Hours</dt><dd>Monday to Saturday, 11:00 AM to 8:00 PM</dd></div>
         <div><dt>Serving</dt><dd>Yelahanka · Jakkur · Vidyaranyapura · Sahakar Nagar · Hebbal · Doddaballapur Road · Devanahalli</dd></div>
       </dl>
-
-      <div class="location__actions reveal" data-reveal data-reveal-delay="5">
-        <!-- The clinic's own Google Maps share link — resolves to their verified pin. -->
-        <a class="btn btn--dark" href="https://share.google/BwcyCo6wf4YwJIIGE" target="_blank" rel="noopener" data-track="directions">Get directions</a>
-        <a class="btn btn--outline btn--dark-outline" href="tel:+918197516940" data-track="call-location">Call the clinic</a>
+      <div class="btn-row">
+        <a class="btn" href="https://share.google/BwcyCo6wf4YwJIIGE" target="_blank" rel="noopener" data-track="directions">Get directions <span class="ic"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>
+        <a class="btn btn--ghost" href="tel:+918197516940" data-track="call-location">Call the clinic</a>
       </div>
     </div>
-
-    <div class="location__map reveal" data-reveal data-reveal-delay="2">
-      <iframe
-        title="Map showing Chitra's Lifeline Clinic, Yelahanka New Town, Bengaluru"
-        data-src="https://www.google.com/maps?q=Chitra%27s%20Lifeline%20Clinic%20Yelahanka%20New%20Town%20Bengaluru&output=embed"
-        loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      <noscript><iframe title="Map showing Chitra's Lifeline Clinic" src="https://www.google.com/maps?q=Chitra%27s%20Lifeline%20Clinic%20Yelahanka%20New%20Town%20Bengaluru&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></noscript>
+    <div class="loc__map" data-reveal data-reveal-delay="2">
+      <iframe title="Map showing Chitra's Lifeline Clinic, Yelahanka New Town, Bengaluru" data-src="https://www.google.com/maps?q=Chitra%27s%20Lifeline%20Clinic%20Yelahanka%20New%20Town%20Bengaluru&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <noscript><iframe title="Map showing Chitra's Lifeline Clinic" src="https://www.google.com/maps?q=Chitra%27s%20Lifeline%20Clinic%20Yelahanka%20New%20Town%20Bengaluru&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></noscript>
     </div>
   </div>
 </section>
 
 <!-- ══ BOOKING ═══════════════════════════════════════════════════════════ -->
-<section class="section section--tint book" id="book" data-mochi="dock" data-mochi-say="Fill this in and WhatsApp opens with it all written out.">
-  <div class="wrap book__grid">
-    <div class="book__copy">
-      <p class="kicker reveal" data-reveal>Book</p>
-      <h2 data-lines>Start with a consultation</h2>
-      <p class="lede reveal" data-reveal data-reveal-delay="2">
-        Tell us what you're considering. The form opens WhatsApp with your details ready to send, and we'll
-        reply to confirm a slot. There's no obligation, and no treatment is ever started on the same call.
-      </p>
-
-      <ul class="book__points reveal" data-reveal data-reveal-delay="3">
-        <li>Seen by Dr. Bindiya personally</li>
-        <li>Written plan before anything begins</li>
-        <li>Mon to Sat, 11:00 AM to 8:00 PM</li>
-      </ul>
-
-      <a class="book__wa reveal" data-reveal data-reveal-delay="4" href="https://wa.me/918197516940?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation%20at%20Chitra%27s%20Lifeline%20Clinic." target="_blank" rel="noopener" data-track="whatsapp-book">
+<section class="frame pad" id="book" data-mochi="dock" data-mochi-say="Fill this in and WhatsApp opens with it all written out.">
+  <div class="mesh" aria-hidden="true"><i style="--c:var(--pink-soft);--x:45%;--y:-20%;--s:60%"></i><i style="--c:var(--peri-soft);--x:60%;--y:35%;--s:65%"></i><i style="--c:var(--mist);--x:-10%;--y:50%;--s:50%"></i></div>
+  <span data-ribbon="wave"></span>
+  <div class="book">
+    <div data-reveal>
+      <p class="eyebrow">Book</p>
+      <h2 class="h2">Start with a <em>consultation.</em></h2>
+      <p class="lede">Tell us what you're considering. The form opens WhatsApp with your details ready to send, and we'll reply to confirm a slot. No treatment is ever started on the same call.</p>
+      <ul class="book__points"><li>Seen by Dr. Bindiya personally</li><li>Written plan and cost before anything begins</li><li>Mon to Sat, 11:00 AM to 8:00 PM</li></ul>
+      <a class="book__wa" href="https://wa.me/918197516940?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation%20at%20Chitra%27s%20Lifeline%20Clinic." target="_blank" rel="noopener" data-track="whatsapp-book">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.1 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.5-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.3.3c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>
         <span><strong>Prefer WhatsApp?</strong>Message us on +91 81975 16940</span>
       </a>
     </div>
 
-    <form class="form reveal" data-reveal data-reveal-delay="2" id="lead-form" novalidate>
-      <!-- Mochi sits here while you fill the form in (mochi.js). -->
+    <form class="form" id="lead-form" novalidate data-reveal data-reveal-delay="2">
       <span class="mochi-seat" data-mochi-dock aria-hidden="true"></span>
-
-      <div class="field">
-        <input type="text" id="f-name" name="name" required autocomplete="name" placeholder=" ">
-        <label for="f-name">Your name</label>
-        <small class="err" data-err></small>
-      </div>
-
-      <div class="field">
-        <input type="tel" id="f-phone" name="phone" required autocomplete="tel" inputmode="numeric" placeholder=" ">
-        <label for="f-phone">Mobile number</label>
-        <small class="err" data-err></small>
-      </div>
-
-      <div class="field">
-        <select id="f-service" name="service" required>
-          <option value="" selected disabled></option>
-          <option>Botox</option>
-          <option>Laser Hair Removal</option>
-          <option>Medi-Facial</option>
-          <option>PRP Therapy</option>
-          <option>Chemical Peel</option>
-          <option>Hair Fall Treatment</option>
-          <option>Dermal Fillers</option>
-          <option>Something else / not sure</option>
-        </select>
-        <label for="f-service">What are you interested in?</label>
-        <small class="err" data-err></small>
-      </div>
-
-      <div class="field">
-        <select id="f-when" name="preferred" required>
-          <option value="" selected disabled></option>
-          <option>Morning (11 AM to 1 PM)</option>
-          <option>Afternoon (1 PM to 4 PM)</option>
-          <option>Evening (4 PM to 8 PM)</option>
-          <option>Any time works</option>
-        </select>
-        <label for="f-when">Best time to call you</label>
-        <small class="err" data-err></small>
-      </div>
-
-      <div class="field field--full">
-        <textarea id="f-msg" name="message" rows="3" placeholder=" "></textarea>
-        <label for="f-msg">Anything you'd like the doctor to know? (optional)</label>
-      </div>
-
-      <label class="consent field--full">
-        <input type="checkbox" name="consent" required>
-        <span>I agree to be contacted about my enquiry. I understand this form is not a medical consultation.</span>
-      </label>
-
-      <!-- Honeypot: bots fill it, humans never see it. -->
+      <div class="field field--full"><label for="f-name">Your name</label><input type="text" id="f-name" name="name" required autocomplete="name"><small class="err" data-err></small></div>
+      <div class="field"><label for="f-phone">Mobile number</label><input type="tel" id="f-phone" name="phone" required autocomplete="tel" inputmode="numeric"><small class="err" data-err></small></div>
+      <div class="field"><label for="f-when">Best time to call</label>
+        <select id="f-when" name="preferred" required><option value="" selected disabled>Choose a time</option><option>Morning (11 AM to 1 PM)</option><option>Afternoon (1 PM to 4 PM)</option><option>Evening (4 PM to 8 PM)</option><option>Any time works</option></select><small class="err" data-err></small></div>
+      <div class="field field--full"><label for="f-service">Interested in</label>
+        <select id="f-service" name="service" required><option value="" selected disabled>Choose one</option><option>Anti-wrinkle injections</option><option>Laser hair reduction</option><option>Medi-facial</option><option>Pigmentation / peels</option><option>Acne or acne scars</option><option>PRP therapy</option><option>Hair fall treatment</option><option>Dermal fillers</option><option>Not sure yet</option></select><small class="err" data-err></small></div>
+      <div class="field field--full"><label for="f-msg">Anything you'd like the doctor to know? (optional)</label><textarea id="f-msg" name="message" rows="3"></textarea></div>
+      <label class="consent"><input type="checkbox" name="consent" required><span>I agree that Chitra's Lifeline Clinic may call or WhatsApp me about this enquiry. I understand this form is not a medical consultation. <a href="/privacy">Privacy notice</a></span></label>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
-
-      <button type="submit" class="btn btn--accent btn--lg btn--block magnetic" data-track="lead-submit">
-        <span class="btn__label">Send on WhatsApp</span>
-        <span class="btn__spin" aria-hidden="true"></span>
-      </button>
-
+      <button type="submit" class="btn" data-track="lead-submit"><span class="btn__label">Send on WhatsApp</span><span class="ic"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
       <p class="form__foot">The button opens WhatsApp with your details filled in. Send it and we'll reply, usually the same working day. We never share your details.</p>
       <p class="form__status" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
 
-</main>
-
 <!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
-<footer class="foot">
-  <div class="wrap">
-    <div class="foot__grid">
-      <div class="foot__brand">
-        <a class="foot__id" href="#top" aria-label="Chitra's Lifeline Clinic, back to top">
-          <img decoding="async" src="/assets/img/logo-mark.png" width="240" height="283" loading="lazy" alt="" class="foot__logo">
-          <span>Chitra's Lifeline Clinic</span>
-        </a>
-        <p>Dermatology &amp; Cosmetology (Skin &amp; Lasers) · Neurosurgery &amp; Spine Surgery</p>
-      </div>
-
-      <div class="foot__col">
-        <h4>Treatments</h4>
-        <a href="#botox">Botox</a><a href="#laser">Laser Hair Removal</a><a href="#facial">Medi-Facials</a>
-        <a href="#services">PRP &amp; Peels</a>
-      </div>
-
-      <div class="foot__col">
-        <h4>Clinic</h4>
-        <a href="#doctor">Dr. Bindiya G P</a><a href="#clinic">Inside the clinic</a>
-        <a href="#instagram">Instagram</a><a href="#faq">FAQs</a><a href="#location">Location</a>
-      </div>
-
-      <div class="foot__col">
-        <h4>Contact</h4>
-        <a href="tel:+918197516940">+91 81975 16940</a>
-        <a href="tel:+919986086610">+91 99860 86610</a>
-        <a href="https://wa.me/918197516940" target="_blank" rel="noopener">WhatsApp</a>
-        <a href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener">@chitraslifelineclinic</a>
-        <span>Mon to Sat · 11:00 AM to 8:00 PM</span>
-      </div>
-    </div>
-
-    <p class="foot__disclaim">
-      The information on this page is general and is not medical advice. Botulinum toxin and dermal fillers
-      are prescription treatments; suitability is determined only after an in-person consultation with a
-      registered medical practitioner. Individual results vary and no outcome is guaranteed.
-    </p>
-
-    <div class="foot__base">
-      <span>© <span data-year>2026</span> Chitra's Lifeline Clinic. All rights reserved.</span>
-      <span>Ward No. 4, LMN Arcade, 17-B/4, Yelahanka New Town, Bengaluru 560064</span>
-    </div>
+<footer class="frame foot">
+  <span data-ribbon="high"></span>
+  <a class="brand" href="#top" aria-label="Chitra's Lifeline Clinic, back to top"><img src="/assets/img/logo-mark.png" width="240" height="283" alt="" loading="lazy"><span><b>Chitra's <em>Lifeline</em></b><small>Skin · Lasers · Aesthetics</small></span></a>
+  <div class="foot__grid">
+    <div><h4>Clinic</h4><p>Dermatology and cosmetology (skin and lasers) · Neurosurgery and spine surgery</p></div>
+    <div><h4>Treatments</h4><a href="#treatments" data-goto-tab="wrinkle">Anti-wrinkle injections</a><a href="#treatments" data-goto-tab="laser">Laser hair reduction</a><a href="#treatments" data-goto-tab="facial">Medi-facials</a><a href="#treatments" data-goto-tab="pigment">Pigmentation and peels</a></div>
+    <div><h4>Visit</h4><a href="#doctor">Dr. Bindiya G P</a><a href="#clinic">Inside the clinic</a><a href="#faq">Questions</a><a href="#location">Location</a></div>
+    <div><h4>Contact</h4><a href="tel:+918197516940">+91 81975 16940</a><a href="tel:+919986086610">+91 99860 86610</a><a href="https://wa.me/918197516940" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener">@chitraslifelineclinic</a></div>
   </div>
-  <p class="foot__mega text-metal-plum" aria-hidden="true">Chitra&rsquo;s <em>Lifeline</em></p>
+  <p class="foot__mega" aria-hidden="true">Chitra's <em>Lifeline</em></p>
+  <div class="foot__legal">
+    <p>The information on this page is general and is not medical advice. Prescription treatments are offered only after an in-person consultation with a registered medical practitioner, who decides whether a treatment is suitable. Individual results vary and no outcome is guaranteed.</p>
+    <div class="foot__base"><span>© <span data-year>2026</span> Chitra's Lifeline Clinic · Ward No. 4, LMN Arcade, 17-B/4, Yelahanka New Town, Bengaluru 560064</span><a href="/privacy">Privacy notice</a></div>
+  </div>
 </footer>
 
-<!-- ══ MOBILE STICKY BAR ═════════════════════════════════════════════════ -->
-<div class="dock" aria-label="Quick actions" data-mochi-floor>
-  <a href="tel:+918197516940" data-track="call-dock">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2Z"/></svg>
-    Call
-  </a>
-  <a href="https://wa.me/918197516940?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation." target="_blank" rel="noopener" data-track="whatsapp-dock">
-    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.1 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.5-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.3.3c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>
-    WhatsApp
-  </a>
-  <a href="#book" class="dock__primary" data-track="book-dock">Book now</a>
-</div>
+</main>
 
-<!-- Structured data: helps the Google Ads landing-page quality signal and
-     earns rich results on the organic side. -->
+<!-- ══ MOBILE ACTION DOCK ════════════════════════════════════════════════ -->
+<nav class="dock" aria-label="Quick actions" data-mochi-floor>
+  <a href="tel:+918197516940" data-track="call-dock"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2Z"/></svg>Call</a>
+  <a href="https://wa.me/918197516940?text=Hi%2C%20I%27d%20like%20to%20book%20a%20consultation." target="_blank" rel="noopener" data-track="whatsapp-dock"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.1 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.5-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.3.3c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>WhatsApp</a>
+  <a href="#book" class="dock__primary" data-track="book-dock">Book</a>
+</nav>
+
+<!-- Structured data. Treatment names avoid prescription drug terms, which
+     Google Ads does not allow on landing pages in India. -->
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -900,34 +435,21 @@
       "@type": ["MedicalClinic", "LocalBusiness"],
       "@id": "https://chitraslifelineclinic.com/#clinic",
       "name": "Chitra's Lifeline Clinic",
-      "description": "Dermatology, cosmetology and laser clinic in Yelahanka New Town, Bengaluru. Botox, laser hair removal and medi-facials performed by a dermatologist.",
+      "description": "Dermatology, cosmetology and laser clinic in Yelahanka New Town, Bengaluru. Skin treatments planned and performed by the doctor.",
       "url": "https://chitraslifelineclinic.com/",
       "telephone": "+91-81975-16940",
+      "image": "https://skin.chitraslifelineclinic.com/assets/img/cl-sign-1200.webp",
       "logo": "https://chitraslifelineclinic.com/assets/img/logo-full.png",
-      "sameAs": [
-        "https://www.instagram.com/chitraslifelineclinic/",
-        "https://www.facebook.com/Chitraslifelineclinic/"
-      ],
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Ward No. 4, LMN Arcade, 17-B/4, 1169, Opposite Rail Wheel Factory",
-        "addressLocality": "Yelahanka New Town",
-        "addressRegion": "Karnataka",
-        "postalCode": "560064",
-        "addressCountry": "IN"
-      },
-      "openingHoursSpecification": [{
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-        "opens": "11:00", "closes": "20:00"
-      }],
+      "sameAs": ["https://www.instagram.com/chitraslifelineclinic/", "https://www.facebook.com/Chitraslifelineclinic/"],
+      "address": { "@type": "PostalAddress", "streetAddress": "Ward No. 4, LMN Arcade, 17-B/4, 1169, Opposite Rail Wheel Factory", "addressLocality": "Yelahanka New Town", "addressRegion": "Karnataka", "postalCode": "560064", "addressCountry": "IN" },
+      "openingHoursSpecification": [{ "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"], "opens": "11:00", "closes": "20:00" }],
       "medicalSpecialty": "Dermatology",
       "availableService": [
-        { "@type": "MedicalTherapy", "name": "Botulinum toxin (Botox)" },
-        { "@type": "MedicalTherapy", "name": "Laser hair removal" },
+        { "@type": "MedicalTherapy", "name": "Anti-wrinkle injections" },
+        { "@type": "MedicalTherapy", "name": "Laser hair reduction" },
         { "@type": "MedicalTherapy", "name": "Medi-facial" },
+        { "@type": "MedicalTherapy", "name": "Pigmentation treatment and chemical peels" },
         { "@type": "MedicalTherapy", "name": "PRP therapy" },
-        { "@type": "MedicalTherapy", "name": "Chemical peels" },
         { "@type": "MedicalTherapy", "name": "Hair fall treatment" }
       ]
     },
@@ -935,17 +457,17 @@
       "@type": "Physician",
       "name": "Dr. Bindiya G P",
       "jobTitle": "Aesthetic Dermatologist & Cosmetologist",
+      "image": "https://skin.chitraslifelineclinic.com/assets/img/dr-bindiya-800.webp",
       "medicalSpecialty": "Dermatology",
       "worksFor": { "@id": "https://chitraslifelineclinic.com/#clinic" }
     },
     {
       "@type": "FAQPage",
       "mainEntity": [
-        { "@type": "Question", "name": "Does botox hurt?", "acceptedAnswer": { "@type": "Answer", "text": "The needle is very fine and most people describe a brief pinch per injection point. Numbing cream is applied first if preferred. The appointment takes about 15 to 20 minutes." } },
-        { "@type": "Question", "name": "Will my face look frozen after botox?", "acceptedAnswer": { "@type": "Answer", "text": "Not when the dose is planned around your individual muscle strength and movement. The lines soften while your full range of expression is retained." } },
-        { "@type": "Question", "name": "How long do botox results last?", "acceptedAnswer": { "@type": "Answer", "text": "Typically three to six months, varying with metabolism, muscle strength, dose and how long you have been having treatment." } },
-        { "@type": "Question", "name": "Is laser hair removal permanent?", "acceptedAnswer": { "@type": "Answer", "text": "It provides long-term hair reduction rather than permanent removal. Most people need six to eight sessions spaced four to six weeks apart, followed by occasional maintenance." } },
-        { "@type": "Question", "name": "Is laser hair removal safe on Indian skin?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, with the correct device and settings. Deeper skin tones carry more melanin, so energy, pulse duration and cooling are adjusted to avoid burns or post-inflammatory pigmentation." } }
+        { "@type": "Question", "name": "Does an anti-wrinkle injection hurt?", "acceptedAnswer": { "@type": "Answer", "text": "The needle is very fine and most people describe a brief pinch at each injection point. Numbing cream is applied first if preferred. The appointment takes about 15 to 20 minutes." } },
+        { "@type": "Question", "name": "How long do anti-wrinkle results last?", "acceptedAnswer": { "@type": "Answer", "text": "Typically three to six months, varying with metabolism, muscle strength, dose and how long you have been having treatment." } },
+        { "@type": "Question", "name": "Is laser hair reduction permanent?", "acceptedAnswer": { "@type": "Answer", "text": "It provides long-term hair reduction rather than permanent removal. Most people need six to eight sessions spaced four to six weeks apart, followed by occasional maintenance." } },
+        { "@type": "Question", "name": "Is laser safe on Indian skin?", "acceptedAnswer": { "@type": "Answer", "text": "With the right device and settings. Deeper skin tones carry more melanin, so energy, pulse duration and cooling are adjusted to reduce the risk of burns or post-inflammatory pigmentation." } }
       ]
     }
   ]
@@ -953,11 +475,11 @@
 </script>
 
 <script src="/assets/js/main.js" defer></script>
-<!-- Motion layer is separate and loads second: main.js carries the booking
-     form and tracking, and must never be at risk from an animation change. -->
+<!-- Motion is separate and loads second: main.js carries the booking form
+     and tracking, and must never be at risk from an animation change. -->
 <script src="/assets/js/motion.js" defer></script>
-<!-- Mochi, the mascot (MOCHI.md). Last, and optional: delete this line and
-     every data-mochi attribute is inert. -->
+<!-- Mochi, the mascot (MOCHI.md). Optional: delete this line and every
+     data-mochi attribute is inert. -->
 <script src="/assets/js/mochi.js" defer></script>
 </body>
 </html>
