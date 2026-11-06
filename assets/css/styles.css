@@ -141,7 +141,10 @@ address { font-style: normal; }
 .brand small { font-size: .62rem; letter-spacing: .2em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; margin-top: 5px; }
 
 /* ── Nav ────────────────────────────────────────────────────────────── */
-.nav { position: fixed; inset: 12px 0 auto; z-index: 90; pointer-events: none; }
+.nav { position: fixed; inset: 12px 0 auto; z-index: 90; pointer-events: none; transition: transform .5s var(--ease); }
+/* Slides away while scrolling down, comes back on the first scroll up (main.js). */
+.nav.is-hidden { transform: translateY(calc(-100% - 24px)); }
+.nav.is-hidden:focus-within { transform: none; }
 .nav__bar {
   pointer-events: auto; display: flex; align-items: center; justify-content: space-between; gap: 16px;
   height: var(--nav-h); padding: 0 12px 0 20px; border-radius: 999px;
@@ -245,6 +248,8 @@ address { font-style: normal; }
 .card__foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .card__foot small { font-size: .78rem; color: var(--ink-3); max-width: 30ch; line-height: 1.4; }
 .panel[hidden] { display: none; }
+.card__more { font-size: .88rem; font-weight: 600; color: var(--ink); text-decoration: underline; text-decoration-color: var(--peri-soft); text-underline-offset: 4px; }
+.card__more:hover { color: var(--pink); }
 
 .also { margin-top: clamp(36px, 5vw, 64px); padding-top: clamp(28px, 4vw, 44px); border-top: 1px solid var(--line); }
 .also ul { list-style: none; padding: 0; margin: 18px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
@@ -442,6 +447,7 @@ address { font-style: normal; }
 .prose ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
 .prose strong { color: var(--ink); font-weight: 600; }
 .prose a { color: var(--pink); }
+.prose a.btn { color: #fff; text-decoration: none; }
 .crumbs { font-size: .82rem; color: var(--ink-3); }
 .crumbs a { color: var(--ink-2); }
 

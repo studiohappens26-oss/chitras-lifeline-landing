@@ -11,28 +11,27 @@
   const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ── Ad-group variants ────────────────────────────────────────────────
-     One page, three faces. Each Google ad group lands on its own ?s= value
-     so the headline matches what was searched. Wording avoids prescription
-     drug names, which Google Ads does not allow on landing pages in India.
-     ?s=botox is kept as an alias so any old link still lands sensibly. */
+     The home page can take an ad group's face from ?s=, but the preferred
+     ad final URLs are the dedicated treatment pages (BRIEF.md, top).
+     Wording avoids prescription drug names, which Google Ads does not
+     allow on landing pages in India. */
   const VARIANTS = {
     wrinkle: {
       title: 'Anti-wrinkle injections in Yelahanka, <em>by your dermatologist.</em>',
-      sub: '<strong>Dr. Bindiya G P</strong> reads how your face moves, plans the dose around it and gives every injection herself.',
+      sub: "With <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra's Lifeline Clinic in Yelahanka New Town.",
       tab: 'wrinkle', service: 'Anti-wrinkle injections',
     },
     laser: {
-      title: 'Laser hair reduction in Yelahanka, <em>set for your skin.</em>',
-      sub: 'Indian skin needs settings chosen for it. <strong>Dr. Bindiya G P</strong> reads your skin and hair type, and checks for causes like PCOS, before the first session.',
+      title: 'Laser hair reduction in Yelahanka, <em>by your dermatologist.</em>',
+      sub: "With <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra's Lifeline Clinic in Yelahanka New Town.",
       tab: 'laser', service: 'Laser hair reduction',
     },
     facial: {
-      title: 'Medi-facials in Yelahanka, <em>chosen after a skin check.</em>',
-      sub: 'Your facial is picked after <strong>Dr. Bindiya G P</strong> has examined your skin, for acne, dullness, pigmentation or an event coming up.',
+      title: 'Medi-facials in Yelahanka, <em>by your dermatologist.</em>',
+      sub: "With <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra's Lifeline Clinic in Yelahanka New Town.",
       tab: 'facial', service: 'Medi-facial',
     },
   };
-  VARIANTS.botox = VARIANTS.wrinkle;
   const VARIANT_KEY = new URLSearchParams(location.search).get('s');
   const VARIANT = VARIANTS[VARIANT_KEY];
 
@@ -43,6 +42,14 @@
     $$('[data-variant-sub]').forEach((el) => { el.innerHTML = VARIANT.sub; });
     const select = $('#f-service');
     if (select) select.value = VARIANT.service;
+  }
+
+  /* Treatment pages name their treatment on <body data-service>, so the
+     booking form arrives with it already chosen. */
+  function presetService() {
+    const v = document.body.dataset.service;
+    const select = $('#f-service');
+    if (v && select && !select.value) select.value = v;
   }
 
   /* ── Treatment tabs ───────────────────────────────────────────────────
@@ -129,11 +136,24 @@
   function scrollChrome() {
     const nav = $('#nav');
     const dock = $('.dock');
+    // Runs straight from the scroll event: it only flips classes, and the
+    // browser already coalesces scroll events to one per frame.
+    let lastY = scrollY, travel = 0;
     const onScroll = () => {
-      const y = scrollY;
+      const y = Math.max(0, scrollY);
+      const dy = y - lastY;
+      lastY = y;
       nav?.classList.toggle('is-stuck', y > 40);
       // The dock appears once past the hero, so it never covers the first CTA.
       dock?.classList.toggle('is-up', y > innerHeight * 0.7);
+      if (!nav) return;
+      // The nav slides away while reading down and returns on the first scroll
+      // up. A little travel is needed in one direction first, so a trackpad
+      // wobble doesn't make it flicker. Always shown near the top.
+      travel = Math.sign(dy) === Math.sign(travel) ? travel + dy : dy;
+      if (y < 120) nav.classList.remove('is-hidden');
+      else if (travel > 24) nav.classList.add('is-hidden');
+      else if (travel < -12) nav.classList.remove('is-hidden');
     };
     onScroll();
     addEventListener('scroll', onScroll, { passive: true });
@@ -291,7 +311,7 @@
 
       const data = Object.fromEntries(new FormData(form).entries());
       data.page = location.pathname + location.search;
-      data.variant = VARIANT_KEY && VARIANT ? VARIANT_KEY : 'generic';
+      data.variant = document.body.dataset.page || (VARIANT_KEY && VARIANT ? VARIANT_KEY : 'generic');
 
       const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMessage(data))}`;
       const win = window.open(url, '_blank');
@@ -310,7 +330,7 @@
       track('lead_submit', { service: data.service, variant: data.variant });
       form.reset();
       status.innerHTML =
-        `WhatsApp should now be open with your details filled in. Press send and we'll reply to confirm your slot. <a href="${url}" target="_blank" rel="noopener" style="text-decoration:underline">Didn't open? Tap here.</a>`;
+        `WhatsApp should now be open with your details filled in. Press send to reach the clinic. <a href="${url}" target="_blank" rel="noopener" style="text-decoration:underline">Didn't open? Tap here.</a>`;
       status.classList.add('is-ok');
     });
 
@@ -358,6 +378,7 @@
   if (year) year.textContent = new Date().getFullYear();
 
   applyVariant();
+  presetService();
   tabs();
   reveals();
   lazyFrames();

@@ -9,18 +9,25 @@
 >    in ads, keywords or landing pages in India. Use "anti-wrinkle injections".
 > 2. **`/botox` is for organic search only.** It is not linked from the home page, is listed in
 >    `sitemap.xml`, and must **never** be used as a Google Ads final URL.
-> 3. **Ad groups land on `/?s=wrinkle`, `/?s=laser` or `/?s=facial`.** `?s=botox` still works as an
->    alias of `wrinkle` so old links don't break; don't use it for new ads.
+> 3. **Each ad group has its own landing page:** `/anti-wrinkle-injections`, `/laser-hair-reduction`,
+>    `/medi-facials`. Use these as final URLs. (The home page still accepts `?s=wrinkle|laser|facial`,
+>    but the dedicated pages are preferred.)
 > 4. **NMC guidelines (October 2026):** no testimonials, ratings or review counts; no before/after
 >    images; no superlatives or comparisons with other clinics; no guarantees, discounts or offers.
 >    The doctor's photo appears only in the doctor section. Show qualifications and the KMC
->    registration number (both pending from the clinic: see the `.todo` spans in `index.html`
->    and `botox.html`).
+>    registration number (both pending from the clinic: see the `.todo` spans in `doctor()` in
+>    `scripts/build-pages.mjs`).
 > 5. **Photographs are the clinic's own.** No patients, no staff other than the doctor. Patient
 >    footage needs written consent before it is used anywhere on the site.
 > 6. **Say "laser hair reduction", not "removal".** It is long-term reduction, not permanent.
 > 7. **Instagram reels** are embedded from the clinic's account. Before adding one, check it has no
 >    testimonial and no before/after.
+> 8. **Only publicly available facts.** Clinic and doctor details come from the clinic's own website
+>    and listings. No session durations, session counts, result timelines, downtime, prices, or
+>    process claims (such as "written plan and cost") unless the clinic publishes them. Treatment
+>    explanations stay general and carry no figures.
+> 9. **Pages are generated.** Edit `scripts/build-pages.mjs`, then run `npm run build`. Don't edit
+>    `index.html` or the treatment pages by hand.
 
 **Client:** Chitra's Lifeline Clinic, Yelahanka New Town, Bengaluru
 **Goal:** Single-page, high-conversion landing page for Google Search Ads

@@ -5,7 +5,9 @@
   "scripts": {
     "images": "node scripts/build-images.mjs",
     "trace-logo": "node scripts/trace-logo.cjs",
-    "serve": "node scripts/serve.mjs"
+    "serve": "node scripts/serve.mjs",
+    "pages": "node scripts/build-pages.mjs",
+    "build": "node scripts/build-pages.mjs && node scripts/build-images.mjs"
   },
   "devDependencies": {
     "potrace": "^2.1.8",
