@@ -14,9 +14,9 @@
 >    but the dedicated pages are preferred.)
 > 4. **NMC guidelines (October 2026):** no testimonials, ratings or review counts; no before/after
 >    images; no superlatives or comparisons with other clinics; no guarantees, discounts or offers.
->    The doctor's photo appears only in the doctor section. Show qualifications and the KMC
->    registration number (both pending from the clinic: see the `.todo` spans in `doctor()` in
->    `scripts/build-pages.mjs`).
+>    The doctor's photo appears only in the doctor section and in the first screen of the ad
+>    pages. Show qualifications and the KMC registration number wherever she is presented
+>    (`DEGREES` and `KMC` in `scripts/build-pages.mjs`, taken from her KMC certificate).
 > 5. **Photographs are the clinic's own.** No patients, no staff other than the doctor. Patient
 >    footage needs written consent before it is used anywhere on the site.
 > 6. **Say "laser hair reduction", not "removal".** It is long-term reduction, not permanent.

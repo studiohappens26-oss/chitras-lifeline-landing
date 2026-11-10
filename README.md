@@ -102,8 +102,8 @@ leads are still accepted and logged.
 
 ## Before this goes live
 
-- [ ] Add Dr. Bindiya's degree and Karnataka Medical Council registration number (the
-      `.todo` spans in `doctor()` in `scripts/build-pages.mjs`).
+- [x] Dr. Bindiya's degrees and Karnataka Medical Council registration number, from her
+      KMC certificate (`DEGREES` and `KMC` in `scripts/build-pages.mjs`).
 - [ ] Dr. Bindiya reviews the medical copy on the three treatment pages.
 - [ ] Add the Google Ads conversion tag and GA4 (below).
 - [ ] Set a 1200×630 `og:image`, and confirm the canonical domain.
@@ -116,6 +116,9 @@ GA4 / Google Ads tag needs pasting into `<head>`. Events:
 `book_hero` · `book_nav` · `book_dock` · `book_feature` · `book_mochi` · `call_nav` ·
 `call_dock` · `call_location` · `whatsapp_hero` · `whatsapp_book` · `whatsapp_dock` ·
 `whatsapp_faq` · `directions` · `instagram_follow` · `lead_submit` · `mochi_tap`
+
+Ad pages add `call_hero`, `directions_trust`, `book_closing`, `whatsapp_closing` and
+`call_closing`.
 
 Import `lead_submit` and the `call_*` events as Google Ads conversions.
 

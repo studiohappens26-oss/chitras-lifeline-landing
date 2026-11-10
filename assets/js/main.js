@@ -234,14 +234,16 @@
       if (!/^[6-9]\d{9}$/.test(digits)) { setErr(phone, 'Enter a valid 10-digit mobile number'); ok = false; }
       else setErr(phone, '');
 
+      // The short form on the ad pages has no 'best time to call'
       ['#f-service', '#f-when'].forEach((sel) => {
         const el = $(sel);
+        if (!el) return;
         if (!el.value) { setErr(el, 'Please choose an option'); ok = false; }
         else setErr(el, '');
       });
 
       const consent = form.querySelector('[name="consent"]');
-      consent.closest('.consent')?.classList.toggle('is-bad', !consent.checked);
+      setErr(consent, consent.checked ? '' : 'Please tick the box to continue');
       if (!consent.checked) ok = false;
 
       return ok;
@@ -257,7 +259,7 @@
       `*Name:* ${d.name.trim()}`,
       `*Mobile:* ${d.phone.trim()}`,
       `*Interested in:* ${d.service}`,
-      `*Best time to call:* ${d.preferred}`,
+      ...(d.preferred ? [`*Best time to call:* ${d.preferred}`] : []),
       ...(d.message && d.message.trim() ? [`*Note:* ${d.message.trim()}`] : []),
       '',
       '(Sent from the clinic website)',
@@ -299,6 +301,7 @@
 
       track('lead_submit', { service: data.service, variant: data.variant });
       form.reset();
+      presetService();
       status.innerHTML =
         `WhatsApp should now be open with your details filled in. Press send to reach the clinic. <a href="${url}" target="_blank" rel="noopener" style="text-decoration:underline">Didn't open? Tap here.</a>`;
       status.classList.add('is-ok');
@@ -306,10 +309,7 @@
 
     // Clear the error as soon as they start fixing it.
     $$('input, select, textarea', form).forEach((el) => {
-      const clear = () => {
-        el.closest('.field')?.classList.remove('is-bad');
-        el.closest('.consent')?.classList.remove('is-bad');
-      };
+      const clear = () => setErr(el, '');
       el.addEventListener('input', clear);
       el.addEventListener('change', clear);
     });

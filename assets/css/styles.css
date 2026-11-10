@@ -216,6 +216,59 @@ address { font-style: normal; }
   .hx .btn-row .btn:not(.btn--ghost) { justify-content: space-between; }
 }
 
+/* ── Ad-page hero ───────────────────────────────────────────────────────
+   The treatment pages are ad landing pages. Their first screen holds the
+   headline, the doctor and the ways to book: beside the form on a desktop,
+   above it on a phone. No marquee here; the ribbon and gradients stay. */
+/* Sized so the whole first screen, form included, fits a 1280x720 laptop. */
+.ah { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(24px, 4.4vw, 72px); align-items: center; padding: clamp(28px, 3vw, 56px) var(--pad); }
+.ah .eyebrow { text-wrap: balance; }
+.ah h1 { font-size: clamp(2rem, 3.8vw, 3.4rem); line-height: 1.05; }
+.ah h1 em { display: inline-block; }   /* "by your dermatologist." stays on one line */
+.ah .ribbon { color: var(--peri-soft); opacity: .7; }
+.ah__doc { display: flex; align-items: center; gap: clamp(14px, 2.2vw, 28px); margin-top: clamp(20px, 2.6vw, 36px); }
+/* The doctor's portrait, in a double ring (white, then periwinkle) */
+.ah__photo { flex: none; width: clamp(100px, 12vw, 172px); aspect-ratio: 4 / 5; margin: 0; border-radius: 26px; overflow: hidden; background: var(--mist); box-shadow: 0 0 0 5px #fff, 0 0 0 6px var(--peri-soft), 0 26px 50px -28px rgba(90,107,190,.75); }
+.ah__photo img { width: 100%; height: 100%; object-fit: cover; }
+.ah__name { font-size: clamp(1.2rem, 1.9vw, 1.6rem); font-weight: 600; letter-spacing: -.025em; line-height: 1.15; }
+.ah .doc__role { margin-top: 4px; font-size: .95rem; text-wrap: balance; }
+.ah .hx__facts { display: grid; gap: 6px; margin-top: 12px; }
+.ah .hx__facts li { align-items: flex-start; }
+.ah .hx__facts li::before { flex: none; margin-top: calc(.8em - 3px); }   /* centred on the first line */
+.ah .btn-row { margin-top: clamp(20px, 2.4vw, 32px); }
+.btn--wa .ic svg { width: 20px; height: 20px; fill: #1DA851; }  /* WhatsApp's green, on the white disc */
+.btn--wa:hover .ic svg { transform: none; }
+.form.form--short { grid-template-columns: 1fr; gap: 12px; padding: clamp(20px, 2.2vw, 28px); background: rgba(255,255,255,.82); }
+.form__title { font-size: 1.35rem; letter-spacing: -.025em; margin-bottom: 4px; }
+@media (max-width: 860px) {
+  .ah { grid-template-columns: 1fr; }
+  .ah h1 em { display: inline; }
+  .ah .ribbon { mask-image: linear-gradient(90deg, transparent 70%, #000 92%); }   /* kept to the right edge, clear of the headline */
+}
+@media (max-width: 560px) {
+  .ah .btn-row .btn { flex: 1 1 100%; }   /* two full-width buttons, easy to hit with a thumb */
+  /* Portrait beside the name and role; the two facts run full width below */
+  .ah__doc { display: grid; grid-template-columns: auto 1fr; gap: 0 14px; }
+  .ah__doc > div { display: contents; }
+  .ah__photo { grid-row: span 2; }
+  .ah__name { align-self: end; }
+  .ah .doc__role { align-self: start; font-size: .875rem; }
+  .ah .hx__facts { grid-column: 1 / -1; margin-top: 14px; }
+}
+
+/* ── Trust strip (ad pages) ─────────────────────────────────────────────
+   Facts the clinic publishes, in place of testimonials. Cells are divided
+   by the 1px gaps showing the line colour behind them. */
+.trust { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin: 0; padding: 0; list-style: none; background: var(--line); contain-intrinsic-size: auto 120px; }
+.trust li { display: grid; gap: 6px; align-content: start; padding: clamp(16px, 2vw, 24px); background: var(--paper); }
+.trust b { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+.trust span { font-size: .95rem; font-weight: 500; line-height: 1.4; }
+.trust a { color: var(--pink); font-weight: 600; white-space: nowrap; }
+@media (max-width: 1000px) {
+  .trust { grid-template-columns: 1fr 1fr; }
+  .trust li:last-child { grid-column: 1 / -1; }
+}
+
 /* ── Mission: fills word by word as you read ────────────────────────── */
 .mission { text-align: center; padding: clamp(64px, 10vw, 150px) clamp(20px, 7vw, 140px); }
 .mission .fill { font-size: clamp(1.6rem, 3.5vw, 3rem); font-weight: 500; letter-spacing: -.03em; line-height: 1.22; max-width: 30ch; margin: 26px auto 0; text-wrap: balance; }
@@ -282,7 +335,6 @@ address { font-style: normal; }
 .creds div { display: grid; grid-template-columns: 150px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: .96rem; }
 .creds dt { color: var(--ink-3); font-size: .8rem; letter-spacing: .04em; padding-top: 2px; }
 .creds dd { margin: 0; font-weight: 500; }
-.todo { color: var(--pink); background: var(--blush); border-radius: 6px; padding: 1px 7px; font-weight: 600; font-size: .86rem; }
 .quote { font-size: clamp(1.2rem, 1.9vw, 1.5rem); font-weight: 500; letter-spacing: -.02em; line-height: 1.35; margin-top: 26px; max-width: 34ch; padding-left: 18px; border-left: 2px solid var(--pink-soft); }
 .doc__also { font-size: .9rem; color: var(--ink-2); margin-top: 22px; max-width: 56ch; }
 
@@ -396,6 +448,7 @@ address { font-style: normal; }
 .consent input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--pink); flex: none; }
 .consent a { color: var(--pink); }
 .consent.is-bad { color: #B0263F; }
+.consent .err { display: block; margin-top: 4px; font-weight: 600; }
 .form .btn { grid-column: 1 / -1; width: 100%; justify-content: space-between; height: 56px; }
 .btn__spin { display: none; }
 .form__foot, .form__status { grid-column: 1 / -1; font-size: .78rem; color: var(--ink-3); line-height: 1.45; }
@@ -452,8 +505,7 @@ address { font-style: normal; }
 .prose strong { color: var(--ink); font-weight: 600; }
 .prose a { color: var(--pink); }
 .prose a.btn { color: #fff; text-decoration: none; }
-.crumbs { font-size: .82rem; color: var(--ink-3); }
-.crumbs a { color: var(--ink-2); }
+.cta .btn-row { margin-top: 26px; }  /* the closing call to action on ad pages */
 
 /* ── Responsive ─────────────────────────────────────────────────────── */
 @media (max-width: 1100px) {

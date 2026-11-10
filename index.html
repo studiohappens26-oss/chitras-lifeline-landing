@@ -34,7 +34,7 @@
 })(document);
 </script>
 <link rel="stylesheet" href="/assets/css/fonts.css?v=41358d86bd">
-<link rel="stylesheet" href="/assets/css/styles.css?v=bb36c7cd3a">
+<link rel="stylesheet" href="/assets/css/styles.css?v=cf18ad730f">
 <link rel="icon" href="/assets/img/logo-mark.png" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/logo-mark.png">
 </head>
@@ -204,9 +204,8 @@
       <p class="doc__role">Aesthetic Dermatologist and Cosmetologist</p>
       <p class="doc__bio">Dr. Bindiya has more than seven years of experience in dermatology and cosmetology. She trained at Command Hospital Air Force, Bangalore.</p>
       <dl class="creds">
-        <!-- TODO before publishing: degree(s) and Karnataka Medical Council registration number, supplied by the clinic. -->
-        <div><dt>Qualifications</dt><dd><span class="todo" data-todo="degree">To be added</span></dd></div>
-        <div><dt>Registration</dt><dd>Karnataka Medical Council, Reg. No. <span class="todo" data-todo="kmc">to be added</span></dd></div>
+        <div><dt>Qualifications</dt><dd>MBBS, DDVL (Dermatology, Venereology and Leprosy)</dd></div>
+        <div><dt>Registration</dt><dd>Karnataka Medical Council, Reg. No. 86678</dd></div>
         <div><dt>Trained at</dt><dd>Command Hospital Air Force, Bangalore</dd></div>
         <div><dt>Experience</dt><dd>7+ years in dermatology and cosmetology</dd></div>
         <div><dt>Member</dt><dd>IADVL · IMA · CDSI · ACSI · Bangalore Dermatological Society</dd></div>
@@ -354,7 +353,7 @@
       <div class="field field--full"><label for="f-service">Interested in</label>
         <select id="f-service" name="service" required><option value="" selected disabled>Choose one</option><option>Anti-wrinkle injections</option><option>Laser hair reduction</option><option>Medi-facial</option><option>Laser skin treatment</option><option>Chemical peels</option><option>Acne or acne scars</option><option>PRP therapy</option><option>Hair fall treatment</option><option>Dermal fillers</option><option>Skin, nail or fungal infection</option><option>Not sure yet</option></select><small class="err" data-err></small></div>
       <div class="field field--full"><label for="f-msg">Anything you'd like the doctor to know? (optional)</label><textarea id="f-msg" name="message" rows="3"></textarea></div>
-      <label class="consent"><input type="checkbox" name="consent" required><span>I agree that Chitra's Lifeline Clinic may call or WhatsApp me about this enquiry. I understand this form is not a medical consultation. <a href="/privacy">Privacy notice</a></span></label>
+      <label class="consent"><input type="checkbox" name="consent" required><span>I agree that Chitra's Lifeline Clinic may call or WhatsApp me about this enquiry. I understand this form is not a medical consultation. <a href="/privacy">Privacy notice</a><small class="err" data-err></small></span></label>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="btn" data-track="lead-submit"><span class="btn__label">Send on WhatsApp</span><span class="ic"><svg viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
       <p class="form__foot">The button opens WhatsApp with your details filled in. Nothing is sent until you press send.</p>
@@ -474,6 +473,23 @@
       "jobTitle": "Aesthetic Dermatologist and Cosmetologist",
       "image": "https://skin.chitraslifelineclinic.com/assets/img/dr-bindiya-800.webp",
       "medicalSpecialty": "Dermatology",
+      "hasCredential": [
+        {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "degree",
+          "name": "MBBS"
+        },
+        {
+          "@type": "EducationalOccupationalCredential",
+          "credentialCategory": "diploma",
+          "name": "DDVL (Dermatology, Venereology and Leprosy)"
+        }
+      ],
+      "identifier": {
+        "@type": "PropertyValue",
+        "name": "Karnataka Medical Council registration number",
+        "value": "86678"
+      },
       "worksFor": {
         "@id": "https://chitraslifelineclinic.com/#clinic"
       }
@@ -543,12 +559,10 @@
 }
 </script>
 
-<script src="/assets/js/main.js?v=d0dc5f750d" defer></script>
+<script src="/assets/js/main.js?v=3f3e94dcf1" defer></script>
 <!-- Motion loads second: main.js carries the booking form and tracking, and
      must never be at risk from an animation change. -->
 <script src="/assets/js/motion.js?v=5e20ac5577" defer></script>
-<!-- Mochi, the mascot (MOCHI.md). Optional: delete this line and every
-     data-mochi attribute is inert. -->
 <script src="/assets/js/mochi.js?v=5ff7f6d1c1" defer></script>
 </body>
 </html>

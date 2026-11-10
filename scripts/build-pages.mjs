@@ -82,9 +82,9 @@ function nav({ home, links, skip = true }) {
     <a class="brand" href="${home ? '#top' : '/'}" aria-label="Chitra's Lifeline Clinic, home">
       ${BRAND}
     </a>
-    <nav class="nav__links" aria-label="Sections">
+    ${links.length ? `<nav class="nav__links" aria-label="Sections">
       ${links.map(([h, t]) => `<a href="${h}">${t}</a>`).join('\n      ')}
-    </nav>
+    </nav>` : ''}
     <div class="nav__cta">
       <a class="btn btn--ghost btn--sm nav__call" href="tel:+918197516940" data-track="call-nav">
         ${PHONE_SVG}
@@ -152,6 +152,12 @@ function hero({ eyebrow, h1, lede, img, alt, items, pills, facts, mochi, variant
 
 /* Doctor listing: name, title, training, experience, memberships, as the
    clinic's own website publishes them. Degree and KMC number pending. */
+/* From Dr. Bindiya's Karnataka Medical Council certificate of registration.
+   Medical-council rules ask for both wherever the doctor is presented.
+   Nothing else on the certificate (it holds personal details) is published. */
+const DEGREES = 'MBBS, DDVL (Dermatology, Venereology and Leprosy)';
+const KMC = 'Karnataka Medical Council, Reg. No. 86678';
+
 function doctor({ lead = 'Your doctor', short = false } = {}) {
   return `<section class="frame pad" id="doctor" data-mochi="happy" data-mochi-say="Dr. Bindiya has more than seven years of experience in dermatology and cosmetology.">
   <div class="mesh" aria-hidden="true"><i style="--c:var(--blush);--x:-15%;--y:10%;--s:55%"></i><i style="--c:var(--mist);--x:20%;--y:50%;--s:45%"></i></div>
@@ -165,9 +171,8 @@ function doctor({ lead = 'Your doctor', short = false } = {}) {
       <p class="doc__role">Aesthetic Dermatologist and Cosmetologist</p>
       <p class="doc__bio">Dr. Bindiya has more than seven years of experience in dermatology and cosmetology. She trained at Command Hospital Air Force, Bangalore.</p>
       <dl class="creds">
-        <!-- TODO before publishing: degree(s) and Karnataka Medical Council registration number, supplied by the clinic. -->
-        <div><dt>Qualifications</dt><dd><span class="todo" data-todo="degree">To be added</span></dd></div>
-        <div><dt>Registration</dt><dd>Karnataka Medical Council, Reg. No. <span class="todo" data-todo="kmc">to be added</span></dd></div>
+        <div><dt>Qualifications</dt><dd>${DEGREES}</dd></div>
+        <div><dt>Registration</dt><dd>${KMC}</dd></div>
         <div><dt>Trained at</dt><dd>Command Hospital Air Force, Bangalore</dd></div>
         <div><dt>Experience</dt><dd>7+ years in dermatology and cosmetology</dd></div>
         <div><dt>Member</dt><dd>IADVL · IMA · CDSI · ACSI · Bangalore Dermatological Society</dd></div>
@@ -255,21 +260,94 @@ function book({ h2 = 'Start with a <em>consultation.</em>', lede = "Tell us what
       </a>
     </div>
 
-    <form class="form" id="lead-form" novalidate data-reveal data-reveal-delay="2">
-      <span class="mochi-seat" data-mochi-dock aria-hidden="true"></span>
-      <div class="field field--full"><label for="f-name">Your name</label><input type="text" id="f-name" name="name" required autocomplete="name"><small class="err" data-err></small></div>
-      <div class="field"><label for="f-phone">Mobile number</label><input type="tel" id="f-phone" name="phone" required autocomplete="tel" inputmode="numeric"><small class="err" data-err></small></div>
-      <div class="field"><label for="f-when">Best time to call</label>
-        <select id="f-when" name="preferred" required><option value="" selected disabled>Choose a time</option><option>Morning (11 AM to 1 PM)</option><option>Afternoon (1 PM to 4 PM)</option><option>Evening (4 PM to 8 PM)</option><option>Any time works</option></select><small class="err" data-err></small></div>
-      <div class="field field--full"><label for="f-service">Interested in</label>
-        <select id="f-service" name="service" required><option value="" selected disabled>Choose one</option>${SERVICES.map((s) => `<option>${s}</option>`).join('')}</select><small class="err" data-err></small></div>
-      <div class="field field--full"><label for="f-msg">Anything you'd like the doctor to know? (optional)</label><textarea id="f-msg" name="message" rows="3"></textarea></div>
-      <label class="consent"><input type="checkbox" name="consent" required><span>I agree that Chitra's Lifeline Clinic may call or WhatsApp me about this enquiry. I understand this form is not a medical consultation. <a href="/privacy">Privacy notice</a></span></label>
+    ${leadForm()}
+  </div>
+</section>`;
+}
+
+/* The booking form. One per page (main.js finds it by id). `short` is the
+   ad-page version: name, mobile and concern only, so it fits the first screen. */
+function leadForm({ short = false } = {}) {
+  const field = (cls, inner) => `<div class="field${cls}">${inner}<small class="err" data-err></small></div>`;
+  return `<form class="form${short ? ' form--short' : ''}" id="lead-form" novalidate${short ? '' : ' data-reveal data-reveal-delay="2"'}>
+      ${short ? '<h2 class="form__title">Book a consultation</h2>' : '<span class="mochi-seat" data-mochi-dock aria-hidden="true"></span>'}
+      ${field(' field--full', '<label for="f-name">Your name</label><input type="text" id="f-name" name="name" required autocomplete="name">')}
+      ${field(short ? ' field--full' : '', '<label for="f-phone">Mobile number</label><input type="tel" id="f-phone" name="phone" required autocomplete="tel" inputmode="numeric">')}
+      ${short ? '' : field('', '<label for="f-when">Best time to call</label>\n        <select id="f-when" name="preferred" required><option value="" selected disabled>Choose a time</option><option>Morning (11 AM to 1 PM)</option><option>Afternoon (1 PM to 4 PM)</option><option>Evening (4 PM to 8 PM)</option><option>Any time works</option></select>')}
+      ${field(' field--full', `<label for="f-service">${short ? 'What would you like help with?' : 'Interested in'}</label>\n        <select id="f-service" name="service" required><option value="" selected disabled>Choose one</option>${SERVICES.map((s) => `<option>${s}</option>`).join('')}</select>`)}
+      ${short ? '' : '<div class="field field--full"><label for="f-msg">Anything you\'d like the doctor to know? (optional)</label><textarea id="f-msg" name="message" rows="3"></textarea></div>'}
+      <label class="consent"><input type="checkbox" name="consent" required><span>I agree that Chitra's Lifeline Clinic may call or WhatsApp me about this enquiry. I understand this form is not a medical consultation. <a href="/privacy">Privacy notice</a><small class="err" data-err></small></span></label>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="btn" data-track="lead-submit"><span class="btn__label">Send on WhatsApp</span>${ARROW}</button>
       <p class="form__foot">The button opens WhatsApp with your details filled in. Nothing is sent until you press send.</p>
       <p class="form__status" role="status" aria-live="polite"></p>
-    </form>
+    </form>`;
+}
+
+/* ══ AD-PAGE PARTS ═══════════════════════════════════════════════════════
+   The treatment pages are Google Ads final URLs, so their first screen is
+   built to convert: the headline that matches the search, the doctor, and a
+   way to book (WhatsApp, call, or the short form) without scrolling.
+   No marquee and no mascot here; ribbons and gradients stay. #book is the
+   form card itself, so every Book link lands on the form, even on a phone.
+   On a phone the eyebrow wraps at its dot, which stays on the first line. */
+function adHero(t) {
+  return `<section class="frame hx ah">
+  <div class="mesh" aria-hidden="true">
+    <i style="--c:var(--peri-soft);--x:48%;--y:20%;--s:60%"></i>
+    <i style="--c:var(--pink-soft);--x:-8%;--y:46%;--s:48%;--o:.7"></i>
+    <i style="--c:var(--mist);--x:66%;--y:-18%;--s:52%"></i>
+  </div>
+  <span data-ribbon="swoop"></span>
+  <div class="ah__copy">
+    <p class="eyebrow">${t.eyebrow.replace(' · ', '&nbsp;· ')}</p>
+    <h1>${t.h1}</h1>
+    <div class="ah__doc">
+      <figure class="ah__photo"><img src="/assets/img/dr-bindiya-portrait.jpg" sizes="(max-width: 860px) 120px, 190px" width="432" height="540" alt="Dr. Bindiya G P" fetchpriority="high" decoding="async"></figure>
+      <div>
+        <p class="ah__name">Dr. Bindiya G P</p>
+        <p class="doc__role">Aesthetic Dermatologist and Cosmetologist</p>
+        <ul class="hx__facts"><li>7+ years in dermatology and cosmetology</li><li>Monday to Saturday, 11am to 8pm</li></ul>
+      </div>
+    </div>
+    <div class="btn-row">
+      <a class="btn btn--wa" href="${wa(`Hi, I'd like to book a consultation for ${t.service.toLowerCase()} at Chitra's Lifeline Clinic.`)}" target="_blank" rel="noopener" data-track="whatsapp-hero">WhatsApp us <span class="ic">${WA_SVG}</span></a>
+      <a class="btn btn--ghost" href="tel:+918197516940" data-track="call-hero">${PHONE_SVG}Call +91 81975 16940</a>
+    </div>
+  </div>
+  <div id="book">${leadForm({ short: true })}</div>
+</section>`;
+}
+
+/* Trust strip. Medical-council rules allow no testimonials and no
+   before/after photos, so trust rests on facts the clinic publishes. */
+function trust() {
+  const items = [
+    ['Qualifications', 'MBBS, DDVL. Trained at Command Hospital Air Force, Bangalore'],
+    ['Registration', KMC],
+    ['Member of', 'IADVL · IMA · CDSI · ACSI · Bangalore Dermatological Society'],
+    ['In the clinic', 'Its own laboratory and pharmacy'],
+    ['Find us', `Opposite Rail Wheel Factory, Yelahanka New Town. <a href="https://share.google/BwcyCo6wf4YwJIIGE" target="_blank" rel="noopener" data-track="directions-trust">See on Google Maps</a>`],
+  ];
+  return `<ul class="frame trust" aria-label="About the doctor and the clinic">
+  ${items.map(([k, v]) => `<li><b>${k}</b><span>${v}</span></li>`).join('\n  ')}
+</ul>`;
+}
+
+/* The page's last word: back up to the form, or straight to WhatsApp or a call. */
+function closing() {
+  return `<section class="frame pad cta">
+  <div class="mesh" aria-hidden="true"><i style="--c:var(--pink-soft);--x:45%;--y:-20%;--s:60%"></i><i style="--c:var(--peri-soft);--x:60%;--y:35%;--s:65%"></i><i style="--c:var(--mist);--x:-10%;--y:50%;--s:50%"></i></div>
+  <span data-ribbon="wave"></span>
+  <div data-reveal>
+    <p class="eyebrow">Book</p>
+    <h2 class="h2">Start with a <span class="pk">consultation.</span></h2>
+    <p class="lede">Whether a treatment suits you is decided by Dr. Bindiya G P at a consultation. Monday to Saturday, 11:00 AM to 8:00 PM.</p>
+    <div class="btn-row">
+      <a class="btn" href="#book" data-track="book-closing">Book a consultation ${ARROW}</a>
+      <a class="btn btn--ghost" href="${wa("Hi, I'd like to book a consultation at Chitra's Lifeline Clinic.")}" target="_blank" rel="noopener" data-track="whatsapp-closing">${WA_SVG}WhatsApp us</a>
+      <a class="btn btn--ghost" href="tel:+918197516940" data-track="call-closing">${PHONE_SVG}Call the clinic</a>
+    </div>
   </div>
 </section>`;
 }
@@ -299,13 +377,12 @@ const dock = () => `<nav class="dock" aria-label="Quick actions" data-mochi-floo
   <a href="#book" class="dock__primary" data-track="book-dock">Book</a>
 </nav>`;
 
-const scripts = () => `<script src="/assets/js/main.js" defer></script>
+/* Mochi, the mascot (MOCHI.md), is on the home page only. Without its script
+   every data-mochi attribute is inert. */
+const scripts = ({ mochi = false } = {}) => `<script src="/assets/js/main.js" defer></script>
 <!-- Motion loads second: main.js carries the booking form and tracking, and
      must never be at risk from an animation change. -->
-<script src="/assets/js/motion.js" defer></script>
-<!-- Mochi, the mascot (MOCHI.md). Optional: delete this line and every
-     data-mochi attribute is inert. -->
-<script src="/assets/js/mochi.js" defer></script>`;
+<script src="/assets/js/motion.js" defer></script>${mochi ? '\n<script src="/assets/js/mochi.js" defer></script>' : ''}`;
 
 /* ── Structured data ──────────────────────────────────────────────────── */
 const CLINIC = {
@@ -328,6 +405,11 @@ const PHYSICIAN = {
   jobTitle: 'Aesthetic Dermatologist and Cosmetologist',
   image: `${SITE}/assets/img/dr-bindiya-800.webp`,
   medicalSpecialty: 'Dermatology',
+  hasCredential: [
+    { '@type': 'EducationalOccupationalCredential', credentialCategory: 'degree', name: 'MBBS' },
+    { '@type': 'EducationalOccupationalCredential', credentialCategory: 'diploma', name: 'DDVL (Dermatology, Venereology and Leprosy)' },
+  ],
+  identifier: { '@type': 'PropertyValue', name: 'Karnataka Medical Council registration number', value: '86678' },
   worksFor: { '@id': CLINIC['@id'] },
 };
 const faqSchema = (items) => ({ '@type': 'FAQPage', mainEntity: items.map(([q, a]) => ({ '@type': 'Question', name: strip(q), acceptedAnswer: { '@type': 'Answer', text: strip(a) } })) });
@@ -518,7 +600,7 @@ ${ld([
     faqSchema(faqs),
   ])}
 
-${scripts()}
+${scripts({ mochi: true })}
 </body>
 </html>
 `;
@@ -534,10 +616,7 @@ const TREATMENTS = [
     desc: "Anti-wrinkle injections for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist.",
     crumb: 'Anti-wrinkle injections', eyebrow: 'Anti-wrinkle injections · Yelahanka New Town',
     h1: 'Anti-wrinkle injections in Yelahanka, <em>by your dermatologist.</em>',
-    lede: 'With <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra\'s Lifeline Clinic in Yelahanka New Town.',
     img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room',
-    items: ['Forehead lines', 'Frown lines', "Crow's feet", 'Bunny lines', 'Jaw slimming'],
-    pills: ['Prescription treatment', 'Aesthetic dermatologist', 'In-person consultation'],
     procedure: { name: 'Anti-wrinkle injection', type: 'NoninvasiveProcedure', body: 'Face' },
     what: {
       h2: 'What it is',
@@ -573,10 +652,7 @@ const TREATMENTS = [
     desc: 'Laser hair reduction in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist. Settings suited to Indian skin types.',
     crumb: 'Laser hair reduction', eyebrow: 'Laser hair reduction · Yelahanka New Town',
     h1: 'Laser hair reduction in Yelahanka, <em>by your dermatologist.</em>',
-    lede: 'With <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra\'s Lifeline Clinic in Yelahanka New Town.',
     img: 'cl-laser-2', alt: 'A laser machine at the clinic',
-    items: ['Upper lip and chin', 'Underarms', 'Arms', 'Legs', 'Back and chest'],
-    pills: ['Long-term reduction', 'Aesthetic dermatologist', 'In-house laboratory'],
     procedure: { name: 'Laser hair reduction', type: 'NoninvasiveProcedure', body: 'Skin' },
     what: {
       h2: 'What it is',
@@ -612,10 +688,7 @@ const TREATMENTS = [
     desc: 'Medi-facials in Yelahanka New Town, Bengaluru, matched to your skin concern, at a dermatology clinic with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist.',
     crumb: 'Medi-facials', eyebrow: 'Medi-facials · Yelahanka New Town',
     h1: 'Medi-facials in Yelahanka, <em>by your dermatologist.</em>',
-    lede: 'At Chitra\'s Lifeline Clinic in Yelahanka New Town, with <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist.',
     img: 'cl-hydra', alt: 'The medi-facial machine at the clinic',
-    items: ['Hydration', 'Brightening', 'Acne-prone skin', 'Pigmentation', 'Before an event'],
-    pills: ['Matched to your skin', 'Aesthetic dermatologist', 'Medical-grade products'],
     procedure: { name: 'Medi-facial', type: 'NoninvasiveProcedure', body: 'Face' },
     what: {
       h2: 'What it is',
@@ -654,10 +727,7 @@ const TREATMENTS = [
     desc: "Botox (botulinum toxin) for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist.",
     crumb: 'Botox', eyebrow: 'Botox · Yelahanka New Town',
     h1: 'Botox in Yelahanka, <em>by your dermatologist.</em>',
-    lede: 'Botulinum toxin injections with <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra\'s Lifeline Clinic in Yelahanka New Town.',
     img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room',
-    items: ['Forehead lines', 'Frown lines', "Crow's feet", 'Bunny lines', 'Jaw slimming'],
-    pills: ['Prescription treatment', 'Aesthetic dermatologist', 'In-person consultation'],
     procedure: { name: 'Botulinum toxin injection', alt: ['Botox', 'Anti-wrinkle injection'], type: 'NoninvasiveProcedure', body: 'Face' },
     what: {
       h2: 'What it is',
@@ -686,16 +756,13 @@ function treatmentPage(t) {
   return `${head({ title: t.title, desc: t.desc, path: t.path, og: t.img, ogType: 'article' })}
 <body data-page="${t.page}" data-service="${t.service}">
 ${t.organic ? '<!-- ORGANIC SEARCH ONLY. Never use this page as a Google Ads final URL: prescription\n     drug names are not allowed in ads or on ad landing pages in India. -->\n' : ''}
-${nav({ home: false, links: [['#what', 'About'], ['#doctor', 'Doctor'], ['#faq', 'FAQ'], ['#location', 'Location'], ['/#treatments', 'All treatments']] })}
+${nav({ home: false, links: [] /* nothing that leads away from booking */ })}
 
 <main id="top" class="wrap page">
 
-${hero({
-    eyebrow: `<p class="crumbs"><a href="/">Chitra's Lifeline Clinic</a> / ${t.crumb}</p>\n      <p class="eyebrow" style="margin-top:14px">${t.eyebrow}</p>`,
-    h1: t.h1, lede: t.lede, img: t.img, alt: t.alt, items: t.items, pills: t.pills,
-    facts: ['Mon to Sat, 11am to 8pm', '7+ years in dermatology and cosmetology'],
-    mochi: "I'm Mochi. Questions? Ask on WhatsApp before you book.",
-  })}
+${adHero(t)}
+
+${trust()}
 
 <section class="frame pad" id="what" data-mochi="think" data-mochi-say="Whether it suits you is decided at a consultation.">
   <div class="art">
@@ -742,18 +809,18 @@ ${labPharmacy()}
 
 ${faq({ h2: 'Common <span class="pk">questions</span>', items: t.faqs })}
 
-<section class="frame frame--soft pad" id="more">
+${t.organic ? `<section class="frame frame--soft pad" id="more">
   <div class="also" style="margin:0;padding:0;border:0">
     <p class="eyebrow">Other treatments</p>
     <ul>
       ${others.map(([h, n]) => `<li><h3><a class="card__more" href="${h}">${n}</a></h3><p>${h === '/#treatments' ? 'Peels, PRP, acne care, hair fall, fillers and more.' : 'At Chitra\'s Lifeline Clinic, Yelahanka New Town.'}</p></li>`).join('\n      ')}
     </ul>
   </div>
-</section>
+</section>` : ''}
 
 ${location()}
 
-${book()}
+${closing()}
 
 ${footer({ home: false, extraLegal: t.extraLegal || '' })}
 
