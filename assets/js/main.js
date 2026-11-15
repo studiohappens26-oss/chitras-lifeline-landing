@@ -156,17 +156,6 @@
     addEventListener('scroll', onScroll, { passive: true });
   }
 
-  /* ── FAQ: one open at a time ──────────────────────────────────────── */
-  function accordion() {
-    const acc = $('[data-acc]');
-    if (!acc) return;
-    $$('details', acc).forEach((d) => {
-      d.addEventListener('toggle', () => {
-        if (d.open) $$('details[open]', acc).forEach((o) => { if (o !== d) o.open = false; });
-      });
-    });
-  }
-
   /* ── Instagram reels ──────────────────────────────────────────────────
      Each .reel ships with its post id and a "Watch on Instagram" link
      (build-pages.mjs). The embeds are created only when the rail comes
@@ -214,11 +203,18 @@
 
     const status = $('.form__status', form);
 
+    // Shows or clears a field's message, and ties it to the field so a
+    // screen reader reads it with the field (aria-invalid, aria-describedby).
     const setErr = (field, msg) => {
       const wrap = field.closest('.field') || field.closest('.consent');
       const slot = wrap && $('[data-err]', wrap);
       wrap?.classList.toggle('is-bad', Boolean(msg));
-      if (slot) slot.textContent = msg || '';
+      if (!slot) return;
+      slot.textContent = msg || '';
+      slot.id ||= `${field.id || field.name}-err`;
+      field.toggleAttribute('aria-invalid', Boolean(msg));
+      if (msg) field.setAttribute('aria-describedby', slot.id);
+      else field.removeAttribute('aria-describedby');
     };
 
     const validate = () => {
@@ -275,6 +271,7 @@
       if (!validate()) {
         status.textContent = 'Please check the highlighted fields.';
         status.classList.add('is-bad');
+        $('[aria-invalid]', form)?.focus();   // straight to the first field to fix
         return;
       }
 
@@ -354,7 +351,6 @@
   lazyFrames();
   inPageJumps();
   scrollChrome();
-  accordion();
   reels();
   prefill();
   leadForm();

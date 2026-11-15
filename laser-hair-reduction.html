@@ -16,7 +16,7 @@
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/manrope-latin-normal.woff2" crossorigin>
 <script>document.documentElement.className += location.hash ? ' js all-drawn' : ' js';</script>
 <link rel="stylesheet" href="/assets/css/fonts.css?v=41358d86bd">
-<link rel="stylesheet" href="/assets/css/styles.css?v=cf18ad730f">
+<link rel="stylesheet" href="/assets/css/styles.css?v=ef5789b0e4">
 <link rel="icon" href="/assets/img/logo-mark.png" type="image/png">
 <link rel="apple-touch-icon" href="/assets/img/logo-mark.png">
 </head>
@@ -65,10 +65,10 @@
       <a class="btn btn--ghost" href="tel:+918197516940" data-track="call-hero"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2Z"/></svg>Call +91 81975 16940</a>
     </div>
   </div>
-  <div id="book"><form class="form form--short" id="lead-form" novalidate>
+  <div id="book"><form class="form form--short" id="lead-form" method="post" novalidate>
       <h2 class="form__title">Book a consultation</h2>
       <div class="field field--full"><label for="f-name">Your name</label><input type="text" id="f-name" name="name" required autocomplete="name"><small class="err" data-err></small></div>
-      <div class="field field--full"><label for="f-phone">Mobile number</label><input type="tel" id="f-phone" name="phone" required autocomplete="tel" inputmode="numeric"><small class="err" data-err></small></div>
+      <div class="field field--full"><label for="f-phone">Mobile number</label><input type="tel" id="f-phone" name="phone" required autocomplete="tel"><small class="err" data-err></small></div>
       
       <div class="field field--full"><label for="f-service">What would you like help with?</label>
         <select id="f-service" name="service" required><option value="" selected disabled>Choose one</option><option>Anti-wrinkle injections</option><option>Laser hair reduction</option><option>Medi-facial</option><option>Laser skin treatment</option><option>Chemical peels</option><option>Acne or acne scars</option><option>PRP therapy</option><option>Hair fall treatment</option><option>Dermal fillers</option><option>Skin, nail or fungal infection</option><option>Not sure yet</option></select><small class="err" data-err></small></div>
@@ -185,13 +185,13 @@
       <p class="lede">Didn't see yours? Ask it on WhatsApp before you book.</p>
       <a class="btn btn--ghost" href="https://wa.me/918197516940?text=Hi%2C%20I%20have%20a%20question%20before%20booking." target="_blank" rel="noopener" data-track="whatsapp-faq">Ask a question</a>
     </div>
-    <div class="acc" data-acc data-reveal data-reveal-delay="2">
-      <details open><summary>Is laser hair reduction permanent?<i aria-hidden="true"></i></summary><div class="acc__body"><p>It gives long-term reduction rather than permanent removal. It is done as a course of sessions, and hair that grows back is usually finer and lighter. Hormonal conditions such as PCOS can affect hair growth and how well treatment works, so this is discussed at the consultation.</p></div></details>
-      <details><summary>Is laser treatment safe on Indian skin?<i aria-hidden="true"></i></summary><div class="acc__body"><p>It can be, with settings that suit your skin type. Darker skin contains more melanin, which also absorbs laser light, so the wrong settings raise the risk of burns or patchy pigmentation. Suitability is assessed at a consultation.</p></div></details>
-      <details><summary>Does it work on all hair colours?<i aria-hidden="true"></i></summary><div class="acc__body"><p>It works best on dark hair. Very light, grey or white hair has little pigment for the laser to act on, so it responds poorly.</p></div></details>
-      <details><summary>Can men have laser hair reduction?<i aria-hidden="true"></i></summary><div class="acc__body"><p>Yes. Beard shaping, back and chest are common areas for men.</p></div></details>
-      <details><summary>Does the clinic have a laboratory and pharmacy?<i aria-hidden="true"></i></summary><div class="acc__body"><p>Yes. Blood tests are done in the clinic's own laboratory, and the clinic has its own pharmacy.</p></div></details>
-      <details><summary>What are the clinic timings?<i aria-hidden="true"></i></summary><div class="acc__body"><p>Monday to Saturday, 11:00 AM to 8:00 PM. Call <a href="tel:+918197516940">+91 81975 16940</a> or message us on WhatsApp to book.</p></div></details>
+    <div class="acc" data-reveal data-reveal-delay="2">
+      <details name="faq" open><summary>Is laser hair reduction permanent?<i aria-hidden="true"></i></summary><div class="acc__body"><p>It gives long-term reduction rather than permanent removal. It is done as a course of sessions, and hair that grows back is usually finer and lighter. Hormonal conditions such as PCOS can affect hair growth and how well treatment works, so this is discussed at the consultation.</p></div></details>
+      <details name="faq"><summary>Is laser treatment safe on Indian skin?<i aria-hidden="true"></i></summary><div class="acc__body"><p>It can be, with settings that suit your skin type. Darker skin contains more melanin, which also absorbs laser light, so the wrong settings raise the risk of burns or patchy pigmentation. Suitability is assessed at a consultation.</p></div></details>
+      <details name="faq"><summary>Does it work on all hair colours?<i aria-hidden="true"></i></summary><div class="acc__body"><p>It works best on dark hair. Very light, grey or white hair has little pigment for the laser to act on, so it responds poorly.</p></div></details>
+      <details name="faq"><summary>Can men have laser hair reduction?<i aria-hidden="true"></i></summary><div class="acc__body"><p>Yes. Beard shaping, back and chest are common areas for men.</p></div></details>
+      <details name="faq"><summary>Does the clinic have a laboratory and pharmacy?<i aria-hidden="true"></i></summary><div class="acc__body"><p>Yes. Blood tests are done in the clinic's own laboratory, and the clinic has its own pharmacy.</p></div></details>
+      <details name="faq"><summary>What are the clinic timings?<i aria-hidden="true"></i></summary><div class="acc__body"><p>Monday to Saturday, 11:00 AM to 8:00 PM. Call <a href="tel:+918197516940">+91 81975 16940</a> or message us on WhatsApp to book.</p></div></details>
     </div>
   </div>
 </section>
@@ -236,7 +236,9 @@
   </div>
 </section>
 
-<footer class="frame foot">
+</main>
+
+<footer class="frame foot wrap">
   <span data-ribbon="high"></span>
   <a class="brand" href="/" aria-label="Chitra's Lifeline Clinic, home"><img src="/assets/img/logo-mark.png" width="240" height="283" alt="" loading="lazy"><span><b>Chitra's <em>Lifeline</em></b><small>Skin · Lasers · Aesthetics</small></span></a>
   <div class="foot__grid">
@@ -251,8 +253,6 @@
     <div class="foot__base"><span>© <span data-year>2026</span> Chitra's Lifeline Clinic · Ward No. 4, LMN Arcade, 17-B/4, Yelahanka New Town, Bengaluru 560064</span><a href="/privacy">Privacy notice</a></div>
   </div>
 </footer>
-
-</main>
 
 <nav class="dock" aria-label="Quick actions" data-mochi-floor>
   <a href="tel:+918197516940" data-track="call-dock"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.2.4 2.4.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1l-2.3 2.2Z"/></svg>Call</a>
@@ -276,28 +276,8 @@
         "procedureType": "https://schema.org/NoninvasiveProcedure",
         "bodyLocation": "Skin"
       },
-      "author": {
-        "@id": "https://skin.chitraslifelineclinic.com/#dr-bindiya"
-      },
       "isPartOf": {
         "@id": "https://chitraslifelineclinic.com/#clinic"
-      },
-      "breadcrumb": {
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Chitra's Lifeline Clinic",
-            "item": "https://skin.chitraslifelineclinic.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Laser hair reduction",
-            "item": "https://skin.chitraslifelineclinic.com/laser-hair-reduction"
-          }
-        ]
       }
     },
     {
@@ -425,9 +405,9 @@
 }
 </script>
 
-<script src="/assets/js/main.js?v=3f3e94dcf1" defer></script>
+<script src="/assets/js/main.js?v=3e1a483424" defer></script>
 <!-- Motion loads second: main.js carries the booking form and tracking, and
      must never be at risk from an animation change. -->
-<script src="/assets/js/motion.js?v=5e20ac5577" defer></script>
+<script src="/assets/js/motion.js?v=02ef51aa51" defer></script>
 </body>
 </html>

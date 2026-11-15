@@ -17,6 +17,9 @@
   const $  = (s, r = doc) => r.querySelector(s);
   const $$ = (s, r = doc) => [...r.querySelectorAll(s)];
   const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Browsers with scroll-driven animations run ribbons, lenses and parallax
+  // in CSS (styles.css, "view()"); this file only covers the others.
+  const NATIVE = CSS.supports('(animation-timeline: view()) and (animation-range: entry)');
   const EASE = 'cubic-bezier(.22,1,.36,1)';
   let uid = 0;
 
@@ -47,7 +50,7 @@
            `<path d="${p}" fill="none" stroke="currentColor" stroke-opacity=".32" stroke-width="${9 * k}" stroke-linecap="round" stroke-dasharray="${46 * k} ${150 * k}" class="flow"/>`;
     });
     // Starts undrawn (scroll then draws it); with reduced motion it is simply drawn.
-    host.innerHTML = `<svg class="ribbon" viewBox="${v.vb}" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"${REDUCED ? '' : ' style="--d:1"'}>${s}</svg>`;
+    host.innerHTML = `<svg class="ribbon" viewBox="${v.vb}" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"${REDUCED || NATIVE ? '' : ' style="--draw:1"'}>${s}</svg>`;
   }
 
   /* ── Lens circles over photographs ─────────────────────────────────── */
@@ -64,18 +67,18 @@
   $$('[data-ribbon]').forEach(ribbon);
   $$('[data-lens]').forEach(lens);
 
-  /* ── Scroll-linked lines, circles and photographs ─────────────────────
+  /* ── Scroll-linked lines, circles and photographs (fallback) ──────────
      Each ribbon draws itself in as it crosses the screen (fully drawn as
      its top reaches the top of the screen), and its capsules slide along the
      line with the scroll. Lens circles turn, drift and breathe. Photographs
      drift inside their frames (parallax), slightly enlarged so no edge
-     shows. Only the elements near the viewport are measured, all reads
-     before any writes, inside the one scroll frame. */
+     shows. Where CSS can't do this, only the elements near the viewport are
+     measured, all reads before any writes, inside the one scroll frame. */
   const photos = REDUCED ? [] : $$('.hx__orb img, .card__media img, .doc__photo img, .feat__img img');
   photos.forEach((img) => img.classList.add('par'));
-  const linked = [...$$('.ribbon'), ...$$('.lens'), ...photos];
+  const linked = NATIVE ? [] : [...$$('.ribbon'), ...$$('.lens'), ...photos];
   const live = new Set();
-  if (!REDUCED) {
+  if (!REDUCED && linked.length) {
     const near = new IntersectionObserver((entries) => {
       entries.forEach((e) => (e.isIntersecting ? live.add(e.target) : live.delete(e.target)));
       onScroll(); // paint the newcomers in their right place at once
@@ -92,10 +95,10 @@
     });
     at.forEach(([el, p]) => {
       if (el.classList.contains('ribbon')) {
-        el.style.setProperty('--d', (1 - Math.min(1, p * 1.6)).toFixed(4));
-        el.style.setProperty('--f', (-p * 900).toFixed(1));
+        el.style.setProperty('--draw', (1 - Math.min(1, p * 1.6)).toFixed(4));
+        el.style.setProperty('--flow', (-p * 900).toFixed(1));
       } else if (el.classList.contains('lens')) {
-        el.style.setProperty('--c', (p * 2 - 1).toFixed(4));
+        el.style.setProperty('--lens', (p * 2 - 1).toFixed(4));
       } else {
         el.style.translate = '0 ' + ((p * 2 - 1) * 6).toFixed(2) + '%';
       }

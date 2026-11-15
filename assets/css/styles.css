@@ -63,10 +63,10 @@ address { font-style: normal; }
 
 .wrap { width: min(1320px, 100% - var(--gut) * 2); margin-inline: auto; }
 .page { display: grid; gap: var(--gap); padding: calc(var(--nav-h) + 20px) 0 var(--gap); }
-.frame { position: relative; background: var(--paper); border-radius: var(--r-xl); overflow: hidden; isolation: isolate; }
+.frame { position: relative; background: var(--paper); border-radius: var(--r-xl); overflow: clip; min-width: 0; isolation: isolate; }
 /* Sections below the hero skip layout and paint until they come near the screen.
    "auto" remembers each one's real height once it has been drawn. */
-.frame:not(.hx) { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+.frame:not(.hx, .trust) { content-visibility: auto; contain-intrinsic-size: auto 900px; }
 .all-drawn .frame { content-visibility: visible; } /* set by main.js before an in-page jump */
 .frame--soft { background: var(--paper-2); }
 .pad { padding: var(--pad); }
@@ -77,7 +77,7 @@ address { font-style: normal; }
 .lede { color: var(--ink-2); margin-top: 14px; max-width: 46ch; }
 
 /* ── Atmosphere: mesh, ribbons, lens ────────────────────────────────── */
-.mesh { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.mesh { position: absolute; inset: 0; z-index: -1; overflow: clip; pointer-events: none; }
 .mesh i {
   position: absolute; width: var(--s, 60%); aspect-ratio: 1; left: var(--x, 0); top: var(--y, 0);
   border-radius: 50%; background: radial-gradient(circle, var(--c) 0%, transparent 68%);
@@ -89,21 +89,40 @@ address { font-style: normal; }
 
 [data-ribbon], [data-lens] { display: contents; }
 .ribbon { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: #fff; z-index: -1; }
-/* Scroll-linked (motion.js sets --d and --f from how far the section has
-   travelled through the screen): the outline draws itself in and the soft
-   capsules slide along the line as you scroll. Without JS the line is
-   simply drawn, and still. */
-.ribbon .draw { stroke-dasharray: 1 1; stroke-dashoffset: var(--d, 0); }
-.ribbon .flow { stroke-dashoffset: var(--f, 0); }
-/* Lens circles turn, drift and breathe with the scroll. --c runs from -1
+/* Scroll-linked: the outline draws itself in (--draw, 1 to 0) and the soft
+   capsules slide along the line (--flow) as the section crosses the
+   screen. Unanimated, the line is simply drawn, and still. */
+.ribbon .draw { stroke-dasharray: 1 1; stroke-dashoffset: var(--draw); }
+.ribbon .flow { stroke-dashoffset: var(--flow); }
+/* Lens circles turn, drift and breathe with the scroll. --lens runs from -1
    (section entering at the bottom) to 1 (leaving at the top). */
 .lens { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: #fff; z-index: 2; }
-.lens g { transform-origin: 50% 50%; transform: rotate(calc(var(--c, 0) * 28deg)); }
+.lens g { transform-origin: 50% 50%; transform: rotate(calc(var(--lens) * 28deg)); }
 .lens circle { transform-box: fill-box; transform-origin: center; }
-.lens .l1 { transform: scale(calc(1 + var(--c, 0) * .07)); }
-.lens .l2 { transform: scale(calc(1 - var(--c, 0) * .05)); }
-.lens .l3 { transform: translate(calc(var(--c, 0) * -7px), calc(var(--c, 0) * 9px)); }
-.lens .l4 { transform: translate(calc(var(--c, 0) * 8px), calc(var(--c, 0) * -6px)); }
+.lens .l1 { transform: scale(calc(1 + var(--lens) * .07)); }
+.lens .l2 { transform: scale(calc(1 - var(--lens) * .05)); }
+.lens .l3 { transform: translate(calc(var(--lens) * -7px), calc(var(--lens) * 9px)); }
+.lens .l4 { transform: translate(calc(var(--lens) * 8px), calc(var(--lens) * -6px)); }
+
+/* Ribbons, lenses and photographs (.par) are driven by the scroll itself
+   where the browser supports scroll-driven animations: view() runs from the
+   moment an element's top enters at the bottom of the screen to the moment
+   its bottom leaves at the top, with no JavaScript. Elsewhere motion.js
+   sets the same properties from a scroll listener. Registering the custom
+   properties lets them animate as numbers. */
+@property --draw { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --flow { syntax: '<number>'; inherits: true; initial-value: 0; }
+@property --lens { syntax: '<number>'; inherits: true; initial-value: 0; }
+@keyframes ribbon { from { --draw: 1; --flow: 0; } 62.5% { --draw: 0; } to { --draw: 0; --flow: -900; } }
+@keyframes lens { from { --lens: -1; } to { --lens: 1; } }
+@keyframes par { from { translate: 0 -6%; } to { translate: 0 6%; } }
+@media (prefers-reduced-motion: no-preference) {
+  @supports ((animation-timeline: view()) and (animation-range: entry)) {
+    .ribbon { animation: ribbon linear both; animation-timeline: view(); }
+    .lens { animation: lens linear both; animation-timeline: view(); }
+    .par { animation: par linear both; animation-timeline: view(); }
+  }
+}
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ── Reveal (main.js adds .is-in) ───────────────────────────────────── */
@@ -114,7 +133,7 @@ address { font-style: normal; }
 .btn {
   --b: var(--pink);
   display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-  height: 52px; padding: 0 8px 0 22px; border-radius: 999px; border: 1px solid transparent;
+  min-height: 52px; padding: 0 8px 0 22px; border-radius: 999px; border: 1px solid transparent;
   background: var(--b); color: #fff; font-weight: 600; font-size: .95rem; text-decoration: none; white-space: nowrap;
   cursor: pointer; transition: background .4s var(--ease), box-shadow .4s var(--ease), transform .4s var(--ease);
 }
@@ -125,7 +144,7 @@ address { font-style: normal; }
 .btn--ghost { background: rgba(255,255,255,.8); color: var(--ink); border-color: rgba(43,36,71,.14); padding: 0 22px; }
 .btn--ghost:hover { background: #fff; box-shadow: none; }
 .btn--ghost svg { width: 18px; height: 18px; fill: currentColor; }
-.btn--sm { height: 44px; padding: 0 6px 0 18px; font-size: .88rem; }
+.btn--sm { min-height: 44px; padding: 0 6px 0 18px; font-size: .88rem; }
 .btn--sm .ic { width: 32px; height: 32px; }
 .btn--ghost.btn--sm { padding: 0 18px; }
 .btn--white { --b: #fff; color: var(--ink); }
@@ -134,7 +153,7 @@ address { font-style: normal; }
 .btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
 
 .pill {
-  display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px 0 6px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 16px 0 6px; border-radius: 999px;
   background: rgba(255,255,255,.9); border: 1px solid rgba(255,255,255,.85);
   font-size: .84rem; font-weight: 500; color: var(--ink); white-space: nowrap;
   box-shadow: 0 8px 24px -14px rgba(43,36,71,.35);
@@ -190,9 +209,9 @@ address { font-style: normal; }
 .hx__facts li { display: inline-flex; align-items: center; gap: 8px; }
 .hx__facts li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--peri); }
 .hx__stage { position: relative; height: clamp(320px, 46cqi, 600px); margin-top: clamp(18px, 3cqi, 40px); isolation: isolate; }
-.hx__orb { position: absolute; left: 50%; top: 50%; height: 92%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; overflow: hidden; box-shadow: 0 30px 80px -40px rgba(90,107,190,.6); background: var(--mist); }
+.hx__orb { position: absolute; left: 50%; top: 50%; height: 92%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%; overflow: clip; box-shadow: 0 30px 80px -40px rgba(90,107,190,.6); background: var(--mist); }
 .hx__orb img { width: 100%; height: 100%; object-fit: cover; }
-/* Parallax: motion.js slides .par photos up to 6% each way; the 1.14 scale keeps the edges hidden */
+/* Parallax: .par photos slide up to 6% each way with the scroll; the 1.14 scale keeps the edges hidden */
 .par { scale: 1.14; }
 .hx__orb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(203,212,245,.35), rgba(243,190,219,.22) 60%, rgba(173,30,135,.16)); mix-blend-mode: soft-light; pointer-events: none; }
 .hx__marq { position: absolute; left: 0; right: 0; top: 50%; translate: 0 -50%; white-space: nowrap; overflow: hidden; pointer-events: none; font-size: clamp(1.9rem, 5.6cqi, 4.6rem); font-weight: 400; letter-spacing: -.035em; line-height: 1.15; color: var(--peri); }
@@ -259,7 +278,7 @@ address { font-style: normal; }
 /* ── Trust strip (ad pages) ─────────────────────────────────────────────
    Facts the clinic publishes, in place of testimonials. Cells are divided
    by the 1px gaps showing the line colour behind them. */
-.trust { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin: 0; padding: 0; list-style: none; background: var(--line); contain-intrinsic-size: auto 120px; }
+.trust { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; margin: 0; padding: 0; list-style: none; background: var(--line); }
 .trust li { display: grid; gap: 6px; align-content: start; padding: clamp(16px, 2vw, 24px); background: var(--paper); }
 .trust b { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
 .trust span { font-size: .95rem; font-weight: 500; line-height: 1.4; }
@@ -299,7 +318,7 @@ address { font-style: normal; }
 .sel__tab[aria-selected="true"] .ar { background: var(--peri); color: #fff; }
 .sel__tab:hover { color: var(--ink); }
 .card { background: #fff; border-radius: 28px; padding: 10px; box-shadow: 0 30px 60px -40px rgba(43,36,71,.35); }
-.card__media { position: relative; aspect-ratio: 16 / 11; border-radius: 20px; overflow: hidden; isolation: isolate; background: var(--mist); }
+.card__media { position: relative; aspect-ratio: 16 / 11; border-radius: 20px; overflow: clip; isolation: isolate; background: var(--mist); }
 .card__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .card__media img.in { animation: reveal 1.1s var(--ease) both; }
 @keyframes reveal { from { clip-path: circle(0% at 70% 50%); transform: scale(1.08); } to { clip-path: circle(150% at 70% 50%); transform: scale(1); } }
@@ -325,7 +344,7 @@ address { font-style: normal; }
 
 /* ── Doctor ─────────────────────────────────────────────────────────── */
 .doc { display: grid; grid-template-columns: .88fr 1.12fr; gap: clamp(24px, 5vw, 80px); align-items: center; }
-.doc__photo { position: relative; aspect-ratio: 4 / 5; border-radius: 28px; overflow: hidden; isolation: isolate; background: var(--mist); }
+.doc__photo { position: relative; aspect-ratio: 4 / 5; border-radius: 28px; overflow: clip; isolation: isolate; background: var(--mist); }
 .doc__photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; }
 .doc__photo .pill { position: absolute; left: 14px; bottom: 14px; z-index: 3; }
 .doc h2 { font-size: clamp(2.2rem, 4.2vw, 3.6rem); margin-top: 12px; }
@@ -346,7 +365,7 @@ address { font-style: normal; }
 .feat p { color: rgba(255,255,255,.9); margin-top: 18px; max-width: 42ch; }
 .feat .btn { margin-top: 28px; }
 .feat__art { position: relative; height: 100%; min-height: 420px; }
-.feat__img { position: absolute; right: 0; top: 50%; translate: 0 -50%; width: min(100%, 440px); aspect-ratio: 1; border-radius: 50%; overflow: hidden; isolation: isolate; }
+.feat__img { position: absolute; right: 0; top: 50%; translate: 0 -50%; width: min(100%, 440px); aspect-ratio: 1; border-radius: 50%; overflow: clip; isolation: isolate; }
 .feat__img img { width: 100%; height: 100%; object-fit: cover; }
 .feat__art .pill { position: absolute; z-index: 3; animation: bob 8s var(--ease) infinite alternate; }
 
@@ -364,7 +383,7 @@ address { font-style: normal; }
 .steps__cards { display: grid; gap: 18px; list-style: none; padding: 0; margin: 0; }
 .step {
   position: relative; border-radius: 28px;
-  padding: clamp(24px, 3vw, 36px); background: #fff; overflow: hidden; isolation: isolate;
+  padding: clamp(24px, 3vw, 36px); background: #fff; overflow: clip; isolation: isolate;
   box-shadow: 0 -1px 0 rgba(43,36,71,.04), 0 30px 60px -45px rgba(43,36,71,.4);
   display: grid; align-content: space-between; gap: 30px;
 }
@@ -435,10 +454,10 @@ address { font-style: normal; }
 .field--full { grid-column: 1 / -1; }
 .field label { font-size: .8rem; font-weight: 600; color: var(--ink-2); }
 .field input, .field select, .field textarea {
-  width: 100%; border-radius: 14px; border: 1px solid var(--line); background: #fff; padding: 0 16px;
-  font-size: 1rem; outline: none; transition: border-color .3s, box-shadow .3s; appearance: none; -webkit-appearance: none;
+  width: 100%; border-radius: 14px; border: 1px solid #938DA8; background: #fff; padding: 0 16px;
+  font-size: 1rem; transition: border-color .3s, box-shadow .3s; appearance: none; -webkit-appearance: none;
 }
-.field input, .field select { height: 52px; }
+.field input, .field select { min-height: 52px; }
 .field textarea { padding: 14px 16px; resize: vertical; min-height: 92px; }
 .field select { background-image: linear-gradient(45deg, transparent 50%, var(--ink-2) 50%), linear-gradient(135deg, var(--ink-2) 50%, transparent 50%); background-position: calc(100% - 22px) 23px, calc(100% - 16px) 23px; background-size: 6px 6px; background-repeat: no-repeat; padding-right: 40px; }
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--peri); box-shadow: 0 0 0 4px var(--mist); }
@@ -449,7 +468,7 @@ address { font-style: normal; }
 .consent a { color: var(--pink); }
 .consent.is-bad { color: #B0263F; }
 .consent .err { display: block; margin-top: 4px; font-weight: 600; }
-.form .btn { grid-column: 1 / -1; width: 100%; justify-content: space-between; height: 56px; }
+.form .btn { grid-column: 1 / -1; width: 100%; justify-content: space-between; min-height: 56px; }
 .btn__spin { display: none; }
 .form__foot, .form__status { grid-column: 1 / -1; font-size: .78rem; color: var(--ink-3); line-height: 1.45; }
 .form__status:empty { display: none; }
@@ -458,7 +477,7 @@ address { font-style: normal; }
 .form__status.is-bad { color: #B0263F; }
 
 /* ── Footer ─────────────────────────────────────────────────────────── */
-.foot { padding: var(--pad) var(--pad) 28px; background: var(--ink); color: #fff; }
+.foot { margin-bottom: var(--gap); padding: var(--pad) var(--pad) 28px; background: var(--ink); color: #fff; }
 .foot .ribbon { color: rgba(203,212,245,.45); opacity: .4; }
 .foot .brand { color: #fff; }
 .foot .brand em { color: var(--pink-soft); }
@@ -485,7 +504,7 @@ address { font-style: normal; }
     transform: translateY(140%); transition: transform .6s var(--ease);
   }
   .dock.is-up { transform: none; }
-  .dock a { height: 48px; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: .84rem; font-weight: 600; text-decoration: none; color: var(--ink); }
+  .dock a { min-height: 48px; border-radius: 999px; display: flex; align-items: center; justify-content: center; gap: 6px; font-size: .84rem; font-weight: 600; text-decoration: none; color: var(--ink); }
   .dock svg { width: 16px; height: 16px; fill: currentColor; }
   .dock__primary { background: var(--pink); color: #fff !important; }
   body { padding-bottom: 80px; }

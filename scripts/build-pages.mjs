@@ -212,8 +212,8 @@ function faq({ h2, items, lede = "Didn't see yours? Ask it on WhatsApp before yo
       <p class="lede">${lede}</p>
       <a class="btn btn--ghost" href="${wa('Hi, I have a question before booking.')}" target="_blank" rel="noopener" data-track="whatsapp-faq">Ask a question</a>
     </div>
-    <div class="acc" data-acc data-reveal data-reveal-delay="2">
-      ${items.map(([q, a], i) => `<details${i ? '' : ' open'}><summary>${q}<i aria-hidden="true"></i></summary><div class="acc__body"><p>${a}</p></div></details>`).join('\n      ')}
+    <div class="acc" data-reveal data-reveal-delay="2">
+      ${items.map(([q, a], i) => `<details name="faq"${i ? '' : ' open'}><summary>${q}<i aria-hidden="true"></i></summary><div class="acc__body"><p>${a}</p></div></details>`).join('\n      ')}
     </div>
   </div>
 </section>`;
@@ -269,10 +269,10 @@ function book({ h2 = 'Start with a <em>consultation.</em>', lede = "Tell us what
    ad-page version: name, mobile and concern only, so it fits the first screen. */
 function leadForm({ short = false } = {}) {
   const field = (cls, inner) => `<div class="field${cls}">${inner}<small class="err" data-err></small></div>`;
-  return `<form class="form${short ? ' form--short' : ''}" id="lead-form" novalidate${short ? '' : ' data-reveal data-reveal-delay="2"'}>
+  return `<form class="form${short ? ' form--short' : ''}" id="lead-form" method="post" novalidate${short ? '' : ' data-reveal data-reveal-delay="2"'}>
       ${short ? '<h2 class="form__title">Book a consultation</h2>' : '<span class="mochi-seat" data-mochi-dock aria-hidden="true"></span>'}
       ${field(' field--full', '<label for="f-name">Your name</label><input type="text" id="f-name" name="name" required autocomplete="name">')}
-      ${field(short ? ' field--full' : '', '<label for="f-phone">Mobile number</label><input type="tel" id="f-phone" name="phone" required autocomplete="tel" inputmode="numeric">')}
+      ${field(short ? ' field--full' : '', '<label for="f-phone">Mobile number</label><input type="tel" id="f-phone" name="phone" required autocomplete="tel">')}
       ${short ? '' : field('', '<label for="f-when">Best time to call</label>\n        <select id="f-when" name="preferred" required><option value="" selected disabled>Choose a time</option><option>Morning (11 AM to 1 PM)</option><option>Afternoon (1 PM to 4 PM)</option><option>Evening (4 PM to 8 PM)</option><option>Any time works</option></select>')}
       ${field(' field--full', `<label for="f-service">${short ? 'What would you like help with?' : 'Interested in'}</label>\n        <select id="f-service" name="service" required><option value="" selected disabled>Choose one</option>${SERVICES.map((s) => `<option>${s}</option>`).join('')}</select>`)}
       ${short ? '' : '<div class="field field--full"><label for="f-msg">Anything you\'d like the doctor to know? (optional)</label><textarea id="f-msg" name="message" rows="3"></textarea></div>'}
@@ -354,7 +354,7 @@ function closing() {
 
 function footer({ home, extraLegal = '' }) {
   const top = home ? '#top' : '/';
-  return `<footer class="frame foot">
+  return `<footer class="frame foot wrap">
   <span data-ribbon="high"></span>
   <a class="brand" href="${top}" aria-label="Chitra's Lifeline Clinic, ${home ? 'back to top' : 'home'}">${BRAND.replace('alt="">', 'alt="" loading="lazy">')}</a>
   <div class="foot__grid">
@@ -571,7 +571,7 @@ ${labPharmacy()}
       <a class="btn btn--ghost" href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener" data-track="instagram-follow">@chitraslifelineclinic</a>
     </div>
   </div>
-  <div class="reels__rail" data-reels-rail tabindex="0" aria-label="Instagram videos by Dr. Bindiya">
+  <div class="reels__rail" data-reels-rail tabindex="0" role="region" aria-label="Instagram videos by Dr. Bindiya">
     <!-- Reels supplied by the clinic, November 2026. -->
     ${IG.map((id, i) => `<div class="reel" data-ig="${id}"><div class="reel__wait"><span>Loading video ${i + 1} of ${IG.length}</span><a href="https://www.instagram.com/p/${id}/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>`).join('\n    ')}
   </div>
@@ -586,9 +586,9 @@ ${location()}
 <!-- ══ BOOKING ═══════════════════════════════════════════════════════════ -->
 ${book()}
 
-${footer({ home: true })}
-
 </main>
+
+${footer({ home: true })}
 
 ${dock()}
 
@@ -614,7 +614,7 @@ const TREATMENTS = [
     file: 'anti-wrinkle-injections.html', path: '/anti-wrinkle-injections', page: 'wrinkle', service: 'Anti-wrinkle injections',
     title: "Anti-wrinkle Injections in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
     desc: "Anti-wrinkle injections for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist.",
-    crumb: 'Anti-wrinkle injections', eyebrow: 'Anti-wrinkle injections · Yelahanka New Town',
+    eyebrow: 'Anti-wrinkle injections · Yelahanka New Town',
     h1: 'Anti-wrinkle injections in Yelahanka, <em>by your dermatologist.</em>',
     img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room',
     procedure: { name: 'Anti-wrinkle injection', type: 'NoninvasiveProcedure', body: 'Face' },
@@ -650,7 +650,7 @@ const TREATMENTS = [
     file: 'laser-hair-reduction.html', path: '/laser-hair-reduction', page: 'laser', service: 'Laser hair reduction',
     title: "Laser Hair Reduction in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
     desc: 'Laser hair reduction in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist. Settings suited to Indian skin types.',
-    crumb: 'Laser hair reduction', eyebrow: 'Laser hair reduction · Yelahanka New Town',
+    eyebrow: 'Laser hair reduction · Yelahanka New Town',
     h1: 'Laser hair reduction in Yelahanka, <em>by your dermatologist.</em>',
     img: 'cl-laser-2', alt: 'A laser machine at the clinic',
     procedure: { name: 'Laser hair reduction', type: 'NoninvasiveProcedure', body: 'Skin' },
@@ -686,7 +686,7 @@ const TREATMENTS = [
     file: 'medi-facials.html', path: '/medi-facials', page: 'facial', service: 'Medi-facial',
     title: "Medi-Facials in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
     desc: 'Medi-facials in Yelahanka New Town, Bengaluru, matched to your skin concern, at a dermatology clinic with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist.',
-    crumb: 'Medi-facials', eyebrow: 'Medi-facials · Yelahanka New Town',
+    eyebrow: 'Medi-facials · Yelahanka New Town',
     h1: 'Medi-facials in Yelahanka, <em>by your dermatologist.</em>',
     img: 'cl-hydra', alt: 'The medi-facial machine at the clinic',
     procedure: { name: 'Medi-facial', type: 'NoninvasiveProcedure', body: 'Face' },
@@ -725,7 +725,7 @@ const TREATMENTS = [
     file: 'botox.html', path: '/botox', page: 'botox', service: 'Anti-wrinkle injections',
     title: "Botox in Yelahanka, Bengaluru | Dr. Bindiya G P · Chitra's Lifeline Clinic",
     desc: "Botox (botulinum toxin) for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist.",
-    crumb: 'Botox', eyebrow: 'Botox · Yelahanka New Town',
+    eyebrow: 'Botox · Yelahanka New Town',
     h1: 'Botox in Yelahanka, <em>by your dermatologist.</em>',
     img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room',
     procedure: { name: 'Botulinum toxin injection', alt: ['Botox', 'Anti-wrinkle injection'], type: 'NoninvasiveProcedure', body: 'Face' },
@@ -822,9 +822,9 @@ ${location()}
 
 ${closing()}
 
-${footer({ home: false, extraLegal: t.extraLegal || '' })}
-
 </main>
+
+${footer({ home: false, extraLegal: t.extraLegal || '' })}
 
 ${dock()}
 
@@ -836,12 +836,7 @@ ${ld([
       name: strip(t.h1),
       inLanguage: 'en-IN',
       about: { '@type': 'MedicalProcedure', name: t.procedure.name, ...(t.procedure.alt ? { alternateName: t.procedure.alt } : {}), procedureType: `https://schema.org/${t.procedure.type}`, bodyLocation: t.procedure.body },
-      author: { '@id': PHYSICIAN['@id'] },
       isPartOf: { '@id': CLINIC['@id'] },
-      breadcrumb: { '@type': 'BreadcrumbList', itemListElement: [
-        { '@type': 'ListItem', position: 1, name: "Chitra's Lifeline Clinic", item: `${SITE}/` },
-        { '@type': 'ListItem', position: 2, name: t.crumb, item: `${SITE}${t.path}` },
-      ] },
     },
     CLINIC,
     PHYSICIAN,
@@ -877,8 +872,8 @@ ${nav({ home: false, links: [['/#treatments', 'Treatments'], ['/#doctor', 'Docto
     ${TREATMENT_LINKS.slice(0, 3).map(([h, t]) => `<a class="btn btn--ghost" href="${h}">${t}</a>`).join('\n    ')}
   </div>
 </section>
-${footer({ home: false })}
 </main>
+${footer({ home: false })}
 ${scripts()}
 </body>
 </html>
@@ -969,8 +964,7 @@ ${pagePaths.map((p) => `${p}\n  Cache-Control: public, max-age=0, must-revalidat
 
 // The sitemap lists every page; the botox page is found by search engines
 // this way, never through a link from the ad pages.
-const today = new Date().toISOString().slice(0, 10);
 const paths = ['/', ...TREATMENTS.map((t) => t.path), '/privacy'];
-await writeFile(resolve(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map((p) => `  <url><loc>${SITE}${p}</loc><lastmod>${today}</lastmod></url>`).join('\n')}\n</urlset>\n`);
+await writeFile(resolve(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map((p) => `  <url><loc>${SITE}${p}</loc></url>`).join('\n')}\n</urlset>\n`);
 
 console.log(`${out.length} pages written: ${out.map(([f]) => f).join(', ')}, plus sitemap.xml`);

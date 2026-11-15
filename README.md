@@ -130,7 +130,9 @@ What keeps it there is in DESIGN.md, "Performance rules".
 
 ## Replacing a photograph
 
-Drop the new JPEG into `assets/img/` under the same name and run `npm run build`. The pages
-serve the WebP sizes through `srcset`, so the JPEG alone will not show. Hero photographs must be
+Drop the new JPEG into `assets/img/` and run `npm run build`. The pages serve the WebP sizes
+through `srcset`, so the JPEG alone will not show. Images are cached for 30 days (`_headers`),
+so a replacement under the same name can take that long to reach returning visitors; give a
+changed photo a new name to show it at once. Hero photographs must be
 landscape and at least 1800px wide; which photo each ad group gets is the `HERO` map in the
 home page's head script (`build-pages.mjs`).

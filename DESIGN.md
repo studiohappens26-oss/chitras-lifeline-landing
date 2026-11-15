@@ -38,7 +38,10 @@ wordmark was tried and dropped because it clashed.
   line fills as each card passes.
 - Each treatment photo opens as a growing circle when its tab is selected.
 - Photographs drift slowly inside their frames as you scroll (parallax). Lines draw
-  themselves in and the lens circles turn with the scroll.
+  themselves in and the lens circles turn with the scroll. These run as CSS scroll-driven
+  animations (`animation-timeline: view()`, inside `@supports` and
+  `prefers-reduced-motion: no-preference`), so no script runs on scroll for them;
+  `motion.js` does the same with a scroll listener only in browsers without support.
 - Only transform, opacity, clip-path and stroke offsets are animated, and everything respects
   `prefers-reduced-motion`.
 
@@ -60,6 +63,10 @@ These are what keep every page at 90+ in Lighthouse on mobile. Break one and the
   the nav, the phone dock, the booking form and its WhatsApp button.
 - **Contrast.** Small text needs 4.5:1 and large text 3:1. `--ink-3` is the lightest grey for
   small text.
+- **Clip with `overflow: clip`, not `hidden`.** `hidden` makes a box a scroll container,
+  which breaks `position: sticky` inside it and makes `view()` timelines track the box
+  instead of the page. A clipped grid item also needs `min-width: 0` (as `.frame` has), or
+  a wide child such as the reels rail widens the whole page.
 
 ## Photographs
 

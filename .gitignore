@@ -7,6 +7,9 @@ assets/img/_candidates/
 .env
 .env.*
 
+# Design explorations, not part of the site (Cloudflare Pages serves the whole folder)
+design-preview/
+
 node_modules/
 .DS_Store
 Thumbs.db
