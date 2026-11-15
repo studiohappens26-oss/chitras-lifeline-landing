@@ -16,6 +16,7 @@ scripts/build-pages.mjs   THE SOURCE OF TRUTH for every page below. Edit it, the
   botox.html                organic search only, never an ad final URL, not linked from the site
   404.html                  served by Cloudflare Pages for any unknown path
   sitemap.xml, _headers     caching, security and Early Hints headers
+  llms.txt                  plain Markdown summary for AI assistants (llmstxt.org)
 privacy.html              privacy notice, hand-written
 assets/css/styles.css     design system and all styling
 assets/css/fonts.css      @font-face rules, written by scripts/fetch-fonts.mjs
@@ -25,8 +26,9 @@ assets/js/motion.js       decorative motion only (can fail without breaking the 
 assets/js/mochi.js        the mascot
 assets/img/               the clinic's own photographs, plus WebP sizes made by build-images
 functions/api/lead.js     Cloudflare Pages Function that receives the booking form
-scripts/build-images.mjs  WebP variants and srcset for every photo
-scripts/serve.mjs         local preview server (mirrors Pages: pretty URLs, 404, Brotli)
+scripts/build-images.mjs  WebP variants and srcset for every photo, logo WebPs, icons, share images
+scripts/dist.mjs          copies the site and only the assets it references into dist/ (the deploy)
+scripts/serve.mjs         local preview of dist/ (mirrors Pages: pretty URLs, 404, Brotli)
 scripts/fetch-fonts.mjs   re-download and self-host the webfonts
 scripts/fetch-images.mjs, scripts/candidates.mjs   stock-photo helpers from the first draft
 type.html, mochi.html     reference sheets (fonts, Mochi's poses), not part of the site
@@ -46,13 +48,14 @@ npm run build
 npm run serve
 ```
 
-Then open <http://localhost:4321>. `npm run build` writes the pages, then adds the responsive
-`srcset` to every photo. Always run both: `npm run pages` alone leaves the photos without
-their small sizes. The preview server stubs `/api/lead` and logs submissions. To run the real
+Then open <http://localhost:4321>. `npm run build` writes the pages, adds the responsive
+`srcset` to every photo, then assembles `dist/`. Always run the whole build: `npm run pages`
+alone leaves the photos without their small sizes, and the preview serves `dist/`, not the
+source files. The preview server stubs `/api/lead` and logs submissions. To run the real
 Function instead:
 
 ```bash
-npx wrangler pages dev .
+npx wrangler pages dev dist
 ```
 
 ## Ad final URLs
@@ -66,16 +69,20 @@ Each Google Ads group points at its own page, so the headline matches the search
 | Medi-facials | `/medi-facials` |
 | Brand / generic | `/` |
 
-The home page also accepts `?s=wrinkle`, `?s=laser` or `?s=facial`, which swaps its headline,
-hero photo, open tab and form preset. Every lead is submitted with the page it came from, so
-conversions attribute to the ad group without extra setup. No page an ad can point to names a
+Every lead is submitted with the page it came from, so conversions attribute to the ad group
+without extra setup. (The home page's old `?s=` variants are retired: the hero is plain HTML, so
+it paints without waiting for a script. Old `?s=` links still open the generic home page.) No page an ad can point to names a
 prescription drug (BRIEF.md, top rules).
 
 ## Deploy to Cloudflare Pages
 
-1. Run `npm run build` and commit the generated files. Pages serves the folder as it is.
-2. Cloudflare dashboard, **Workers & Pages**, **Create**, **Pages**, connect the repository.
-   Build command: none. Output directory: `/`.
+1. Run `npm run build` and commit the generated files (`dist/` itself is not committed).
+2. Cloudflare dashboard, **Workers & Pages**, the project, **Settings**, **Build**:
+   build command `node scripts/dist.mjs`, build output directory `dist`. The script needs no
+   packages, so the environment variable `SKIP_DEPENDENCY_INSTALL` = `1` saves installing sharp.
+   `functions/` stays at the repository root, where Pages finds it whatever the output folder.
+   Only the pages, the root files and the assets they reference are published; the brief, the
+   scripts, the reference sheets and unused photos are not.
 3. Add the custom domain, then turn these on under the domain's **Speed** settings:
    - **Early Hints**: sends the font and stylesheets before the page itself (the `Link`
      headers in `_headers` drive it).
@@ -106,7 +113,9 @@ leads are still accepted and logged.
       KMC certificate (`DEGREES` and `KMC` in `scripts/build-pages.mjs`).
 - [ ] Dr. Bindiya reviews the medical copy on the three treatment pages.
 - [ ] Add the Google Ads conversion tag and GA4 (below).
-- [ ] Set a 1200×630 `og:image`, and confirm the canonical domain.
+- [x] 1200×630 share images (`og-NAME.jpg`, made by build-images from each page's photo).
+- [ ] Confirm the canonical domain (`SITE` in `build-pages.mjs`); canonical links, the sitemap,
+      llms.txt and the structured data all use it.
 
 ## Analytics
 
@@ -133,6 +142,12 @@ What keeps it there is in DESIGN.md, "Performance rules".
 Drop the new JPEG into `assets/img/` and run `npm run build`. The pages serve the WebP sizes
 through `srcset`, so the JPEG alone will not show. Images are cached for 30 days (`_headers`),
 so a replacement under the same name can take that long to reach returning visitors; give a
-changed photo a new name to show it at once. Hero photographs must be
-landscape and at least 1800px wide; which photo each ad group gets is the `HERO` map in the
-home page's head script (`build-pages.mjs`).
+changed photo a new name to show it at once. Each page's hero photo is the `img` of its
+`hero()` call in `build-pages.mjs`; its share image is cropped from the same photo.
+
+## Structured data and llms.txt
+
+Every page carries one JSON-LD graph, linked by `@id`: the page (`MedicalWebPage`), the
+`WebSite`, the `MedicalClinic` and `IndividualPhysician` Dr. Bindiya (degrees, KMC
+registration, memberships, `practicesAt` the clinic), plus the FAQ on pages that have one.
+`llms.txt` is written from the same facts. Both say only what the pages say.

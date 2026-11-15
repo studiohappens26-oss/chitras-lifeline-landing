@@ -1,10 +1,11 @@
 /**
- * Minimal static preview server. Cloudflare Pages serves these files directly,
- * so this only needs to mirror its path resolution, its 404 page and its
- * Brotli compression (so a local Lighthouse run scores what production will).
+ * Minimal static preview server for dist/, the folder Cloudflare Pages deploys
+ * (npm run build writes it). It mirrors Pages' path resolution, its 404 page
+ * and its Brotli compression, so a local Lighthouse run scores what production
+ * will, and an asset missing from dist/ fails here just as it would live.
  *
  * For the /api/lead Function you need the real runtime:
- *   npx wrangler pages dev .
+ *   npx wrangler pages dev dist
  */
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
@@ -13,7 +14,8 @@ import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { brotliCompressSync, constants as Z } from 'node:zlib';
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', 'dist');
+try { await stat(join(ROOT, 'index.html')); } catch { console.error('dist/ is empty: run npm run build first.'); process.exit(1); }
 const PORT = Number(process.env.PORT) || 4321;
 
 const TYPES = {
@@ -30,6 +32,8 @@ const TYPES = {
   '.webp': 'image/webp',
   '.avif': 'image/avif',
   '.ico': 'image/x-icon',
+  '.txt': 'text/plain; charset=utf-8',
+  '.xml': 'application/xml; charset=utf-8',
 };
 
 createServer(async (req, res) => {

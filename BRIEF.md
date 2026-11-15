@@ -10,8 +10,8 @@
 > 2. **`/botox` is for organic search only.** It is not linked from the home page, is listed in
 >    `sitemap.xml`, and must **never** be used as a Google Ads final URL.
 > 3. **Each ad group has its own landing page:** `/anti-wrinkle-injections`, `/laser-hair-reduction`,
->    `/medi-facials`. Use these as final URLs. (The home page still accepts `?s=wrinkle|laser|facial`,
->    but the dedicated pages are preferred.)
+>    `/medi-facials`. Use these as final URLs. The home page's `?s=` variants are retired; the
+>    home page is the brand and generic face.
 > 4. **NMC guidelines (October 2026):** no testimonials, ratings or review counts; no before/after
 >    images; no superlatives or comparisons with other clinics; no guarantees, discounts or offers.
 >    The doctor's photo appears only in the doctor section and in the first screen of the ad
@@ -28,6 +28,9 @@
 >    explanations stay general and carry no figures.
 > 9. **Pages are generated.** Edit `scripts/build-pages.mjs`, then run `npm run build`. Don't edit
 >    `index.html` or the treatment pages by hand.
+> 10. **Positioning: a doctor-led clinic.** Lead with Dr. Bindiya G P (MBBS, DDVL) leading the
+>    clinic, in titles, descriptions, structured data and llms.txt. Don't add process claims to it
+>    (who performs what, how long she spends) unless the clinic publishes them.
 
 **Client:** Chitra's Lifeline Clinic, Yelahanka New Town, Bengaluru
 **Goal:** Single-page, high-conversion landing page for Google Search Ads
@@ -79,6 +82,7 @@ Yelahanka New Town, Jakkur, Vidyaranyapura, Sahakar Nagar, Hebbal, Doddaballapur
 **Positioning line:** *Doctor-performed aesthetics. In Yelahanka.*
 
 ### The one-page, three-faces trick
+*(Superseded: each ad group now has its own page, and the `?s=` variants are retired. Kept for history.)*
 We build one page, but the hero headline + hero image + first-scroll section swap based on a URL parameter:
 
 - `/?s=botox` → "Botox in Yelahanka, by a Dermatologist"
@@ -305,6 +309,6 @@ None of this weakens the page. Restraint reads as medical authority — the chai
 4. Revisions
 5. Point the domain, add Google Analytics 4 + Google Ads conversion tag + Meta pixel if needed
 6. Set up the lead-capture Worker (form → email + Google Sheet)
-7. Handover: I'll document the three `?s=` ad-group URLs for the Google Ads setup
+7. Handover: I'll document the ad-group final URLs for the Google Ads setup
 
 **I can start immediately on the build with stock placeholders** — the structure, copy, animations and deploy pipeline don't depend on final photography. Say the word and I'll have a live preview URL up before the images arrive.

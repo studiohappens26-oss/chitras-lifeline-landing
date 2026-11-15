@@ -6,7 +6,8 @@
     "images": "node scripts/build-images.mjs",
     "serve": "node scripts/serve.mjs",
     "pages": "node scripts/build-pages.mjs",
-    "build": "node scripts/build-pages.mjs && node scripts/build-images.mjs"
+    "dist": "node scripts/dist.mjs",
+    "build": "node scripts/build-pages.mjs && node scripts/build-images.mjs && node scripts/dist.mjs"
   },
   "devDependencies": {
     "sharp": "^0.35.4"

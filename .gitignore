@@ -10,6 +10,9 @@ assets/img/_candidates/
 # Design explorations, not part of the site (Cloudflare Pages serves the whole folder)
 design-preview/
 
+# Deploy output, rebuilt by Cloudflare from the committed files (scripts/dist.mjs)
+dist/
+
 node_modules/
 .DS_Store
 Thumbs.db

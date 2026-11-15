@@ -36,7 +36,8 @@ const PHONE_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.
 const WA_SVG = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2Zm5.1 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1-.4-.1-.9-.3-1.5-.5-2.6-1.1-4.3-3.7-4.4-3.9-.1-.2-1-1.4-1-2.6 0-1.2.6-1.8.9-2.1.2-.2.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2.1.3 0 .5l-.3.5-.3.3c-.1.1-.3.3-.1.6.1.3.6 1.1 1.4 1.8 1 .9 1.8 1.1 2 1.2.3.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.5.3.1.2.1.6-.1 1.2Z"/></svg>';
 const strip = (h) => h.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-const BRAND = '<img src="/assets/img/logo-mark.png" width="240" height="283" alt=""><span><b>Chitra\'s <em>Lifeline</em></b><small>Skin · Lasers · Aesthetics</small></span>';
+// The mark is drawn 30px wide: WebP copies at 2x and 3x (build-images.mjs), not the 56 KB PNG.
+const BRAND = '<img src="/assets/img/logo-mark-64.webp" srcset="/assets/img/logo-mark-64.webp 64w, /assets/img/logo-mark-96.webp 96w" sizes="30px" width="240" height="283" alt=""><span><b>Chitra\'s <em>Lifeline</em></b><small>Skin · Lasers · Aesthetics</small></span>';
 
 const SERVICES = ['Anti-wrinkle injections', 'Laser hair reduction', 'Medi-facial', 'Laser skin treatment', 'Chemical peels', 'Acne or acne scars', 'PRP therapy', 'Hair fall treatment', 'Dermal fillers', 'Skin, nail or fungal infection', 'Not sure yet'];
 
@@ -46,6 +47,11 @@ const TREATMENT_LINKS = [
   ['/medi-facials', 'Medi-facials'],
   ['/#treatments', 'All treatments'],
 ];
+
+/* Loading state for an embed (reels, map): an indeterminate <progress> drawn
+   as a ring, a label, and a direct link in case the embed never arrives.
+   main.js adds .is-ready to the .embed once its iframe has loaded. */
+const loading = (label, href, linkText) => `<div class="loading"><progress class="spinner" aria-label="${label}"></progress><span aria-hidden="true">${label}</span><a href="${href}" target="_blank" rel="noopener">${linkText}</a></div>`;
 
 /* ── Shared sections ──────────────────────────────────────────────────── */
 function head({ title, desc, path, og, ogType = 'website', extra = '' }) {
@@ -60,16 +66,22 @@ function head({ title, desc, path, og, ogType = 'website', extra = '' }) {
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="${SITE}${path}">
 <meta property="og:type" content="${ogType}">
+<meta property="og:site_name" content="Chitra's Lifeline Clinic">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="${SITE}${path}">
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(desc)}">
-<meta property="og:image" content="${SITE}/assets/img/${og}-1200.webp">
+<meta property="og:image" content="${SITE}/assets/img/og-${og}.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#EEEDF3">
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/manrope-latin-normal.woff2" crossorigin>
 ${extra || "<script>document.documentElement.className += location.hash ? ' js all-drawn' : ' js';</script>"}
 <link rel="stylesheet" href="/assets/css/fonts.css">
 <link rel="stylesheet" href="/assets/css/styles.css">
-<link rel="icon" href="/assets/img/logo-mark.png" type="image/png">
-<link rel="apple-touch-icon" href="/assets/img/logo-mark.png">
+<link rel="icon" href="/assets/img/icon-48.png" type="image/png" sizes="48x48">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
 </head>`;
 }
 
@@ -98,26 +110,10 @@ function nav({ home, links, skip = true }) {
 
 const marquee = (items, inner) => `<div class="hx__marq${inner ? ' hx__marq--in' : ''}" aria-hidden="true"><div class="hx__track">${[...items, ...items].map((t) => `<span>${t} /</span>`).join('')}</div></div>`;
 
-/* The hero. `img` is either a fixed photograph (treatment pages) or the
-   string 'variant', where the head script picks it from ?s= (home page). */
-function hero({ eyebrow, h1, lede, img, alt, items, pills, facts, mochi, variant }) {
-  const photo = img === 'variant'
-    ? `<img class="hx__img" id="hx-img" width="2400" height="1350" alt="Inside Chitra's Lifeline Clinic, Yelahanka New Town" fetchpriority="high" decoding="async">
-      <script>
-        (function () {
-          var n = document.documentElement.getAttribute('data-hero') || 'cl-sign',
-              i = document.getElementById('hx-img'),
-              alt = { 'cl-anatomy': 'Facial anatomy models in the consultation room', 'cl-laser-2': 'A laser machine at the clinic', 'cl-hydra': 'The medi-facial machine at the clinic', 'cl-sign': 'The Chitra\\'s Lifeline Clinic sign at reception' };
-          i.sizes = '(max-width: 760px) 88vw, 600px';
-          i.srcset = [480, 800, 1200, 1800].map(function (w) { return '/assets/img/' + n + '-' + w + '.webp ' + w + 'w'; }).join(', ');
-          i.src = '/assets/img/' + n + '-1200.webp';
-          if (alt[n]) i.alt = alt[n];
-        })();
-      </script>
-      <noscript><img class="hx__img" src="/assets/img/cl-sign-1200.webp" width="2400" height="1350" alt="The Chitra's Lifeline Clinic sign at reception"></noscript>`
-    : `<img class="hx__img" src="/assets/img/${img}.jpg" sizes="(max-width: 760px) 88vw, 600px" width="2400" height="1350" alt="${esc(alt)}" fetchpriority="high" decoding="async">`;
-  const v = variant ? ' data-variant-title' : '';
-  const vs = variant ? ' data-variant-sub' : '';
+/* The home page hero. The photograph is plain HTML with fetchpriority=high,
+   so the browser finds the largest image (LCP) in the first bytes. */
+function hero({ eyebrow, h1, lede, img, alt, w, h, items, pills, facts, mochi }) {
+  const photo = `<img class="hx__img" src="/assets/img/${img}.jpg" sizes="(max-width: 760px) 88vw, 600px" width="${w}" height="${h}" alt="${esc(alt)}" fetchpriority="high" decoding="async">`;
   return `<section class="frame hx" data-mochi="idle" data-mochi-say="${esc(mochi)}">
   <div class="mesh" aria-hidden="true">
     <i style="--c:var(--peri-soft);--x:40%;--y:32%;--s:55%"></i>
@@ -127,10 +123,10 @@ function hero({ eyebrow, h1, lede, img, alt, items, pills, facts, mochi, variant
   <div class="hx__top">
     <div data-rise>
       ${eyebrow}
-      <h1${v}>${h1}</h1>
+      <h1>${h1}</h1>
     </div>
     <div data-rise>
-      <p class="hx__lede"${vs}>${lede}</p>
+      <p class="hx__lede">${lede}</p>
       <div class="btn-row">
         <a class="btn" href="#book" data-track="book-hero">Book a consultation ${ARROW}</a>
         <a class="btn btn--ghost" href="${wa("Hi, I'd like to book a consultation at Chitra's Lifeline Clinic.")}" target="_blank" rel="noopener" data-track="whatsapp-hero">WhatsApp us</a>
@@ -236,7 +232,8 @@ function location() {
         <a class="btn btn--ghost" href="tel:+918197516940" data-track="call-location">Call the clinic</a>
       </div>
     </div>
-    <div class="loc__map" data-reveal data-reveal-delay="2">
+    <div class="loc__map embed" data-reveal data-reveal-delay="2">
+      ${loading('Loading map', MAPS, 'Open in Google Maps')}
       <iframe title="Map showing Chitra's Lifeline Clinic, Yelahanka New Town, Bengaluru" data-src="https://www.google.com/maps?q=Chitra%27s%20Lifeline%20Clinic%20Yelahanka%20New%20Town%20Bengaluru&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       <noscript><iframe title="Map showing Chitra's Lifeline Clinic" src="https://www.google.com/maps?q=Chitra%27s%20Lifeline%20Clinic%20Yelahanka%20New%20Town%20Bengaluru&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></noscript>
     </div>
@@ -384,25 +381,37 @@ const scripts = ({ mochi = false } = {}) => `<script src="/assets/js/main.js" de
      must never be at risk from an animation change. -->
 <script src="/assets/js/motion.js" defer></script>${mochi ? '\n<script src="/assets/js/mochi.js" defer></script>' : ''}`;
 
-/* ── Structured data ──────────────────────────────────────────────────── */
+/* ── Structured data ──────────────────────────────────────────────────────
+   One graph, linked by @id, that says what the site says: a doctor-led
+   clinic, the doctor who leads it and her registration, and the page.
+   Every fact here is also visible on the page. Names avoid prescription
+   drug terms (Google Ads), except on the botox page's own procedure. */
+const MAPS = 'https://share.google/BwcyCo6wf4YwJIIGE';
+const MEMBERSHIPS = ['IADVL', 'IMA', 'CDSI', 'ACSI', 'Bangalore Dermatological Society'];
 const CLINIC = {
   '@type': ['MedicalClinic', 'LocalBusiness'],
   '@id': 'https://chitraslifelineclinic.com/#clinic',
   name: "Chitra's Lifeline Clinic",
-  description: 'Dermatology, cosmetology, skin and laser clinic in Yelahanka New Town, Bengaluru, with its own laboratory and pharmacy.',
+  description: 'A doctor-led dermatology, cosmetology, skin and laser clinic in Yelahanka New Town, Bengaluru, led by Dr. Bindiya G P (MBBS, DDVL), with its own laboratory and pharmacy.',
+  slogan: 'A doctor-led skin and laser clinic',
   url: 'https://chitraslifelineclinic.com/',
   telephone: '+91-81975-16940',
-  image: `${SITE}/assets/img/cl-sign-1200.webp`,
+  image: `${SITE}/assets/img/og-cl-sign.jpg`,
+  logo: `${SITE}/assets/img/logo-mark.png`,
   sameAs: ['https://www.instagram.com/chitraslifelineclinic/', 'https://www.facebook.com/Chitraslifelineclinic/'],
   address: { '@type': 'PostalAddress', streetAddress: 'Ward No. 4, LMN Arcade, 17-B/4, 1169, Opposite Rail Wheel Factory', addressLocality: 'Yelahanka New Town', addressRegion: 'Karnataka', postalCode: '560064', addressCountry: 'IN' },
+  hasMap: MAPS,
+  areaServed: { '@type': 'City', name: 'Bengaluru' },
   openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '11:00', closes: '20:00' }],
   medicalSpecialty: 'Dermatology',
+  isAcceptingNewPatients: true,
+  employee: { '@id': `${SITE}/#dr-bindiya` },
 };
 const PHYSICIAN = {
-  '@type': 'Physician',
+  '@type': 'IndividualPhysician',
   '@id': `${SITE}/#dr-bindiya`,
   name: 'Dr. Bindiya G P',
-  jobTitle: 'Aesthetic Dermatologist and Cosmetologist',
+  description: 'Aesthetic dermatologist and cosmetologist who leads Chitra\'s Lifeline Clinic. More than seven years in dermatology and cosmetology; trained at Command Hospital Air Force, Bangalore.',
   image: `${SITE}/assets/img/dr-bindiya-800.webp`,
   medicalSpecialty: 'Dermatology',
   hasCredential: [
@@ -410,8 +419,29 @@ const PHYSICIAN = {
     { '@type': 'EducationalOccupationalCredential', credentialCategory: 'diploma', name: 'DDVL (Dermatology, Venereology and Leprosy)' },
   ],
   identifier: { '@type': 'PropertyValue', name: 'Karnataka Medical Council registration number', value: '86678' },
-  worksFor: { '@id': CLINIC['@id'] },
+  memberOf: MEMBERSHIPS.map((name) => ({ '@type': 'Organization', name })),
+  knowsAbout: ['Dermatology', 'Cosmetology', 'Anti-wrinkle injections', 'Laser hair reduction', 'Medi-facials', 'Chemical peels', 'Acne and acne scars', 'PRP therapy', 'Hair fall', 'Dermal fillers'],
+  practicesAt: { '@id': CLINIC['@id'] },
 };
+const WEBSITE = {
+  '@type': 'WebSite',
+  '@id': `${SITE}/#website`,
+  url: `${SITE}/`,
+  name: "Chitra's Lifeline Clinic",
+  inLanguage: 'en-IN',
+  publisher: { '@id': CLINIC['@id'] },
+};
+// The page node: what it is about, who is responsible for the clinic behind it.
+const webPage = ({ type = 'MedicalWebPage', path, name, about }) => ({
+  '@type': type,
+  '@id': `${SITE}${path}#page`,
+  url: `${SITE}${path}`,
+  name,
+  inLanguage: 'en-IN',
+  isPartOf: { '@id': WEBSITE['@id'] },
+  about,
+  specialty: 'Dermatology',
+});
 const faqSchema = (items) => ({ '@type': 'FAQPage', mainEntity: items.map(([q, a]) => ({ '@type': 'Question', name: strip(q), acceptedAnswer: { '@type': 'Answer', text: strip(a) } })) });
 const ld = (graph) => `<script type="application/ld+json">\n${JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }, null, 2)}\n</script>`;
 
@@ -429,7 +459,7 @@ const FAQ = {
 /* ══ HOME PAGE ═══════════════════════════════════════════════════════════ */
 function homePage() {
   const faqs = [FAQ.laserPermanent, FAQ.laserIndian, FAQ.wrinkleWhat, FAQ.lab, FAQ.online, FAQ.timings, FAQ.where];
-  const panel = ({ key, title, img, alt, text, small, page, prefill }) => `<article class="card panel" role="tabpanel" id="p-${key}" aria-labelledby="t-${key}" data-service="${key}">
+  const panel = ({ key, title, img, alt, text, small, page, prefill }) => `<div class="card panel" role="tabpanel" id="p-${key}" aria-labelledby="t-${key}" data-service="${key}">
         <div class="card__media"><img src="/assets/img/${img}.jpg" sizes="(max-width: 860px) 92vw, 46vw" width="2400" height="1350" loading="lazy" decoding="async" alt="${esc(alt)}"><span data-lens></span></div>
         <div class="card__body">
           <h3>${title}</h3>
@@ -437,7 +467,7 @@ function homePage() {
           <p style="margin-top:14px">${page ? `<a class="card__more" href="${page}">About ${title.toLowerCase()}</a>` : ''}</p>
           <div class="card__foot" style="margin-top:16px"><a class="btn btn--sm" href="#book" data-prefill="${prefill}" data-track="book-${key}">Book a consultation ${ARROW}</a><small>${small}</small></div>
         </div>
-      </article>`;
+      </div>`;
   const TABS = [
     { key: 'wrinkle', title: 'Anti-wrinkle injections', img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room', page: '/anti-wrinkle-injections', prefill: 'Anti-wrinkle injections', small: 'Prescription treatment. Suitability is decided in person.', text: "A prescription injection that relaxes the muscles behind expression lines, such as forehead lines, frown lines and crow's feet." },
     { key: 'laser', title: 'Laser hair reduction', img: 'cl-laser-2', alt: 'A laser machine at the clinic', page: '/laser-hair-reduction', prefill: 'Laser hair reduction', small: 'Long-term reduction, not permanent removal.', text: 'Laser treatment that reduces unwanted hair over a course of sessions. The settings have to suit your skin and hair type, which is assessed at a consultation.' },
@@ -454,27 +484,8 @@ function homePage() {
     ['Skin, nail and fungal infections', 'Including skin biopsies examined in a laboratory.'],
   ];
   const IG = ['DYw1-rZTaoq', 'DZCyS_ezZAc', 'DaK2jUPvYm4', 'Dakn0D6v86f', 'Dau67jHoVNN', 'DbVetyGTO6g', 'Dbf5DPKzdZ9', 'Db3JjUFzdRq', 'DcTDE_bxWgh', 'DdGLg5_tAjT', 'Dd1ZbdATo5r'];
-  const headScript = `<!-- Runs before first paint. Picks the hero photograph for the ad group
-     (?s=) and starts it downloading at the right width before the parser
-     reaches the <img>, and sets html.js for effects that need JavaScript.
-     There is no preloader: ad traffic sees content on the first frame. -->
-<script>
-(function (d) {
-  var h = d.documentElement,
-      s = new URLSearchParams(location.search).get('s'),
-      HERO = { wrinkle: 'cl-anatomy', laser: 'cl-laser-2', facial: 'cl-hydra' },
-      img = HERO[s] || 'cl-sign';
-  h.className += location.hash ? ' js all-drawn' : ' js'; // arriving at a section: draw them all (styles.css, .frame)
-  h.setAttribute('data-hero', img);
-  var l = d.createElement('link');
-  l.rel = 'preload'; l.as = 'image'; l.setAttribute('fetchpriority', 'high');
-  l.setAttribute('imagesrcset', [480, 800, 1200, 1800].map(function (w) { return '/assets/img/' + img + '-' + w + '.webp ' + w + 'w'; }).join(', '));
-  l.setAttribute('imagesizes', '(max-width: 760px) 88vw, 600px');
-  d.head.appendChild(l);
-})(document);
-</script>`;
 
-  return `${head({ title: "Skin, Laser and Aesthetic Clinic in Yelahanka | Chitra's Lifeline Clinic", desc: "Dermatology, cosmetology, skin and laser treatments in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist. In-house laboratory and pharmacy. Open Monday to Saturday, 11am to 8pm.", path: '/', og: 'cl-sign', extra: headScript })}
+  return `${head({ title: "Doctor-led Skin Clinic in Yelahanka | Chitra's Lifeline Clinic", desc: "A doctor-led skin and laser clinic in Yelahanka New Town, Bengaluru, led by dermatologist Dr. Bindiya G P (MBBS, DDVL). Own laboratory and pharmacy. Mon to Sat, 11am to 8pm.", path: '/', og: 'cl-sign' })}
 <body data-page="home">
 
 ${nav({ home: true, links: [['#treatments', 'Treatments'], ['#doctor', 'Doctor'], ['#visit', 'Your visit'], ['#faq', 'FAQ']] })}
@@ -482,16 +493,14 @@ ${nav({ home: true, links: [['#treatments', 'Treatments'], ['#doctor', 'Doctor']
 <main id="top" class="wrap page">
 
 <!-- ══ HERO ══════════════════════════════════════════════════════════════
-     The ad group (?s=) swaps the headline and the photograph. Dedicated
-     treatment pages exist too and are the preferred ad final URLs. -->
+     Ads point at the treatment pages; this is the brand and organic face. -->
 ${hero({
-    variant: true,
-    eyebrow: '<p class="eyebrow">Dermatology, cosmetology, skin and laser · Yelahanka New Town</p>',
+    eyebrow: '<p class="eyebrow">Doctor-led dermatology clinic · Yelahanka New Town</p>',
     h1: 'Skin and laser treatments, <em>by your dermatologist.</em>',
-    lede: '<strong>Dr. Bindiya G P</strong> is an aesthetic dermatologist and cosmetologist with more than seven years of experience. The clinic has its own laboratory and pharmacy.',
-    img: 'variant',
+    lede: 'Led by <strong>Dr. Bindiya G P</strong> (MBBS, DDVL), an aesthetic dermatologist and cosmetologist with more than seven years of experience. The clinic has its own laboratory and pharmacy.',
+    img: 'cl-sign', w: 2160, h: 3840, alt: "The Chitra's Lifeline Clinic sign at reception",
     items: ['Anti-wrinkle injections', 'Laser hair reduction', 'Medi-facials', 'Chemical peels', 'Acne and scars'],
-    pills: ['Aesthetic dermatologist', 'In-house laboratory', 'Own pharmacy'],
+    pills: ['Doctor-led clinic', 'In-house laboratory', 'Own pharmacy'],
     facts: ['Mon to Sat, 11am to 8pm', '7+ years in dermatology and cosmetology'],
     mochi: "I'm Mochi. I'll keep you company while you look around.",
   })}
@@ -499,7 +508,7 @@ ${hero({
 <!-- ══ MISSION ═══════════════════════════════════════════════════════════ -->
 <section class="frame mission" aria-labelledby="mission-h">
   <p class="eyebrow" id="mission-h">About the clinic</p>
-  <p class="fill" data-fill>Chitra's Lifeline is a dermatology and cosmetology clinic in Yelahanka New Town <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-desk.jpg" sizes="120px" width="2400" height="1351" alt="" loading="lazy" decoding="async"></span> with its own <span class="pk">laboratory and pharmacy,</span> <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-decal.jpg" sizes="120px" width="2400" height="1350" alt="" loading="lazy" decoding="async"></span> where Dr. Bindiya G P sees patients for <span class="pk">skin, hair and laser treatments.</span> <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-hourglass.jpg" sizes="120px" width="2400" height="1350" alt="" loading="lazy" decoding="async"></span></p>
+  <p class="fill" data-fill>Chitra's Lifeline is a doctor-led dermatology and cosmetology clinic in Yelahanka New Town <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-desk.jpg" sizes="120px" width="2400" height="1351" alt="" loading="lazy" decoding="async"></span> with its own <span class="pk">laboratory and pharmacy,</span> <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-decal.jpg" sizes="120px" width="2400" height="1350" alt="" loading="lazy" decoding="async"></span> where Dr. Bindiya G P sees patients for <span class="pk">skin, hair and laser treatments.</span> <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-hourglass.jpg" sizes="120px" width="2400" height="1350" alt="" loading="lazy" decoding="async"></span></p>
 </section>
 
 <!-- ══ TREATMENTS ════════════════════════════════════════════════════════
@@ -573,7 +582,7 @@ ${labPharmacy()}
   </div>
   <div class="reels__rail" data-reels-rail tabindex="0" role="region" aria-label="Instagram videos by Dr. Bindiya">
     <!-- Reels supplied by the clinic, November 2026. -->
-    ${IG.map((id, i) => `<div class="reel" data-ig="${id}"><div class="reel__wait"><span>Loading video ${i + 1} of ${IG.length}</span><a href="https://www.instagram.com/p/${id}/" target="_blank" rel="noopener">Watch on Instagram</a></div></div>`).join('\n    ')}
+    ${IG.map((id, i) => `<div class="reel embed" data-ig="${id}">${loading(`Loading video ${i + 1} of ${IG.length}`, `https://www.instagram.com/p/${id}/`, 'Watch on Instagram')}</div>`).join('\n    ')}
   </div>
 </section>
 
@@ -595,6 +604,8 @@ ${dock()}
 <!-- Structured data. Treatment names avoid prescription drug terms, which
      Google Ads does not allow on landing pages in India. -->
 ${ld([
+    webPage({ path: '/', name: "Chitra's Lifeline Clinic, a doctor-led skin clinic in Yelahanka", about: { '@id': CLINIC['@id'] } }),
+    WEBSITE,
     { ...CLINIC, availableService: ['Anti-wrinkle injections', 'Laser hair reduction', 'Medi-facial', 'Laser skin treatment', 'Chemical peels', 'PRP therapy', 'Hair fall treatment', 'Dermal fillers'].map((name) => ({ '@type': 'MedicalTherapy', name })) },
     PHYSICIAN,
     faqSchema(faqs),
@@ -613,7 +624,7 @@ const TREATMENTS = [
   {
     file: 'anti-wrinkle-injections.html', path: '/anti-wrinkle-injections', page: 'wrinkle', service: 'Anti-wrinkle injections',
     title: "Anti-wrinkle Injections in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
-    desc: "Anti-wrinkle injections for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist.",
+    desc: "Anti-wrinkle injections for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).",
     eyebrow: 'Anti-wrinkle injections · Yelahanka New Town',
     h1: 'Anti-wrinkle injections in Yelahanka, <em>by your dermatologist.</em>',
     img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room',
@@ -649,7 +660,7 @@ const TREATMENTS = [
   {
     file: 'laser-hair-reduction.html', path: '/laser-hair-reduction', page: 'laser', service: 'Laser hair reduction',
     title: "Laser Hair Reduction in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
-    desc: 'Laser hair reduction in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist. Settings suited to Indian skin types.',
+    desc: 'Laser hair reduction in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL). Settings suited to Indian skin types.',
     eyebrow: 'Laser hair reduction · Yelahanka New Town',
     h1: 'Laser hair reduction in Yelahanka, <em>by your dermatologist.</em>',
     img: 'cl-laser-2', alt: 'A laser machine at the clinic',
@@ -685,7 +696,7 @@ const TREATMENTS = [
   {
     file: 'medi-facials.html', path: '/medi-facials', page: 'facial', service: 'Medi-facial',
     title: "Medi-Facials in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
-    desc: 'Medi-facials in Yelahanka New Town, Bengaluru, matched to your skin concern, at a dermatology clinic with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist.',
+    desc: 'Medi-facials in Yelahanka New Town, Bengaluru, matched to your skin concern, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).',
     eyebrow: 'Medi-facials · Yelahanka New Town',
     h1: 'Medi-facials in Yelahanka, <em>by your dermatologist.</em>',
     img: 'cl-hydra', alt: 'The medi-facial machine at the clinic',
@@ -724,7 +735,7 @@ const TREATMENTS = [
     organic: true,
     file: 'botox.html', path: '/botox', page: 'botox', service: 'Anti-wrinkle injections',
     title: "Botox in Yelahanka, Bengaluru | Dr. Bindiya G P · Chitra's Lifeline Clinic",
-    desc: "Botox (botulinum toxin) for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, with Dr. Bindiya G P, aesthetic dermatologist and cosmetologist.",
+    desc: "Botox (botulinum toxin) for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).",
     eyebrow: 'Botox · Yelahanka New Town',
     h1: 'Botox in Yelahanka, <em>by your dermatologist.</em>',
     img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room',
@@ -829,15 +840,8 @@ ${footer({ home: false, extraLegal: t.extraLegal || '' })}
 ${dock()}
 
 ${ld([
-    {
-      '@type': 'MedicalWebPage',
-      '@id': `${SITE}${t.path}#page`,
-      url: `${SITE}${t.path}`,
-      name: strip(t.h1),
-      inLanguage: 'en-IN',
-      about: { '@type': 'MedicalProcedure', name: t.procedure.name, ...(t.procedure.alt ? { alternateName: t.procedure.alt } : {}), procedureType: `https://schema.org/${t.procedure.type}`, bodyLocation: t.procedure.body },
-      isPartOf: { '@id': CLINIC['@id'] },
-    },
+    webPage({ path: t.path, name: strip(t.h1), about: { '@type': 'MedicalProcedure', name: t.procedure.name, ...(t.procedure.alt ? { alternateName: t.procedure.alt } : {}), procedureType: `https://schema.org/${t.procedure.type}`, bodyLocation: t.procedure.body } }),
+    WEBSITE,
     CLINIC,
     PHYSICIAN,
     faqSchema(t.faqs),
@@ -946,16 +950,9 @@ ${pagePaths.map((p) => `${p}\n  Cache-Control: public, max-age=0, must-revalidat
   Cache-Control: public, max-age=3600
 /robots.txt
   Cache-Control: public, max-age=3600
-
-# Reference pages that ship with the repo but aren't part of the site.
-/type.html
-  X-Robots-Tag: noindex
-/mochi.html
-  X-Robots-Tag: noindex
-/type
-  X-Robots-Tag: noindex
-/mochi
-  X-Robots-Tag: noindex
+/llms.txt
+  Cache-Control: public, max-age=3600
+  Content-Type: text/markdown; charset=utf-8
 
 /api/*
   Cache-Control: no-store
@@ -967,4 +964,42 @@ ${pagePaths.map((p) => `${p}\n  Cache-Control: public, max-age=0, must-revalidat
 const paths = ['/', ...TREATMENTS.map((t) => t.path), '/privacy'];
 await writeFile(resolve(ROOT, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${paths.map((p) => `  <url><loc>${SITE}${p}</loc></url>`).join('\n')}\n</urlset>\n`);
 
-console.log(`${out.length} pages written: ${out.map(([f]) => f).join(', ')}, plus sitemap.xml`);
+/* llms.txt (llmstxt.org): a plain Markdown summary for AI assistants and
+   agents, from the same facts as the pages, with links to each page. */
+const page = (p) => `${SITE}${p}`;
+await writeFile(resolve(ROOT, 'llms.txt'), `# Chitra's Lifeline Clinic
+
+> A doctor-led dermatology, cosmetology, skin and laser clinic in Yelahanka New Town, Bengaluru, India, led by Dr. Bindiya G P (MBBS, DDVL), an aesthetic dermatologist and cosmetologist. The clinic has its own laboratory and pharmacy.
+
+## The doctor
+
+- Dr. Bindiya G P, aesthetic dermatologist and cosmetologist, leads the clinic.
+- Qualifications: ${DEGREES}.
+- Registration: ${KMC}.
+- More than seven years in dermatology and cosmetology. Trained at Command Hospital Air Force, Bangalore.
+- Member of ${MEMBERSHIPS.join(', ')}.
+
+## Visiting and booking
+
+- Address: Ward No. 4, LMN Arcade, 17-B/4, 1169, Opposite Rail Wheel Factory, Yelahanka New Town, Bengaluru, Karnataka 560064 ([Google Maps](${MAPS})).
+- Hours: Monday to Saturday, 11:00 AM to 8:00 PM.
+- Phone: +91 81975 16940 or +91 99860 86610. WhatsApp: +91 81975 16940.
+- Book by phone, by WhatsApp, or with the form on any page. Online consultations are available.
+- Whether a treatment suits someone is decided by the doctor at a consultation. Prices, session counts and expected results are not published on the website; ask the clinic.
+
+## Treatments
+
+${TREATMENTS.map((t) => `- [${strip(t.h1).replace(/ in Yelahanka.*$/, '')}](${page(t.path)}): ${t.desc}`).join('\n')}
+- [All treatments](${page('/#treatments')}): also chemical peels, PRP therapy, acne and acne scars, hair fall, dermal fillers, laser skin treatments, and skin, nail and fungal infections.
+
+## About this site
+
+- [Home](${page('/')}): the clinic, the doctor, how a visit works, and booking.
+- [Privacy notice](${page('/privacy')}): how details sent through the booking form are used.
+
+## Optional
+
+- [Instagram](https://www.instagram.com/chitraslifelineclinic/): short videos from Dr. Bindiya.
+`);
+
+console.log(`${out.length} pages written: ${out.map(([f]) => f).join(', ')}, plus sitemap.xml and llms.txt`);

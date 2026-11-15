@@ -11,8 +11,12 @@
  *   node scripts/build-images.mjs          # only rebuilds stale variants
  *   node scripts/build-images.mjs --force  # rebuilds everything
  *
- * Run it after replacing or adding any photo. The site itself stays static:
- * the generated files are committed, and Cloudflare Pages needs no build step.
+ * It also writes the small brand files: the logo mark as WebP at 2x and 3x of
+ * the 30px it is drawn at, a 48px favicon, a 180px apple-touch-icon, and a
+ * 1200x630 share image (og-NAME.jpg) for every og:image the pages name.
+ *
+ * Run it after replacing or adding any photo. The generated files are
+ * committed, so the Cloudflare build (scripts/dist.mjs) needs no packages.
  */
 import sharp from 'sharp';
 import { readdir, readFile, stat, writeFile } from 'node:fs/promises';
@@ -33,7 +37,8 @@ const QUALITY = 70;
 
 const mtime = async (f) => { try { return (await stat(f)).mtimeMs; } catch { return 0; } };
 
-const jpgs = (await readdir(IMG)).filter((f) => /\.jpe?g$/i.test(f));
+// Share images (og-*.jpg) are outputs of this script, not photos to ladder.
+const jpgs = (await readdir(IMG)).filter((f) => /\.jpe?g$/i.test(f) && !f.startsWith('og-'));
 const manifest = {};
 let built = 0;
 
@@ -80,4 +85,38 @@ for (const page of PAGES) {
   await writeFile(file, html);
 }
 await writeFile(resolve(IMG, 'srcset.json'), JSON.stringify(manifest, null, 2) + '\n');
+
+/* ── Brand files ── */
+const fresh = async (out, src) => !FORCE && (await mtime(out)) > (await mtime(src));
+const MARK = resolve(IMG, 'logo-mark.png');
+for (const w of [64, 96]) {
+  const out = resolve(IMG, `logo-mark-${w}.webp`);
+  if (await fresh(out, MARK)) continue;
+  await sharp(MARK).resize({ width: w }).webp({ quality: 90, alphaQuality: 100, effort: 6 }).toFile(out);
+  built++;
+}
+// Icons sit on white: a transparent mark vanishes on dark tab strips, and iOS fills alpha with black.
+const square = (size, pad) => sharp(MARK)
+  .resize({ width: size - pad * 2, height: size - pad * 2, fit: 'contain', background: '#ffffff' })
+  .extend({ top: pad, bottom: pad, left: pad, right: pad, background: '#ffffff' })
+  .flatten({ background: '#ffffff' });
+for (const [name, size, pad] of [['icon-48.png', 48, 3], ['apple-touch-icon.png', 180, 22]]) {
+  const out = resolve(IMG, name);
+  if (await fresh(out, MARK)) continue;
+  await square(size, pad).png({ compressionLevel: 9 }).toFile(out);
+  built++;
+}
+// One share image per og:image named in the pages, cropped from the photo of the same name.
+const ogNames = new Set();
+for (const page of PAGES) {
+  for (const m of (await readFile(resolve(ROOT, page), 'utf8')).matchAll(/assets\/img\/og-([\w-]+)\.jpg/g)) ogNames.add(m[1]);
+}
+for (const name of ogNames) {
+  const src = resolve(IMG, `${name}.jpg`);
+  if (!(await mtime(src))) throw new Error(`og:image og-${name}.jpg has no source photo ${name}.jpg`);
+  const out = resolve(IMG, `og-${name}.jpg`);
+  if (await fresh(out, src)) continue;
+  await sharp(src).resize({ width: 1200, height: 630, fit: 'cover', position: sharp.strategy.attention }).jpeg({ quality: 80, mozjpeg: true }).toFile(out);
+  built++;
+}
 console.log(`${jpgs.length} sources, ${built} variants written, ${tagged} <img> tags across ${PAGES.length} pages given a srcset.`);

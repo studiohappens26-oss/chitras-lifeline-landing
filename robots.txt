@@ -1,6 +1,5 @@
 User-agent: *
 Allow: /
 Disallow: /api/
-Disallow: /design-preview/
 
 Sitemap: https://skin.chitraslifelineclinic.com/sitemap.xml

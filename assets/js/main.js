@@ -10,38 +10,6 @@
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
   const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ── Ad-group variants ────────────────────────────────────────────────
-     The home page can take an ad group's face from ?s=, but the preferred
-     ad final URLs are the dedicated treatment pages (BRIEF.md, top).
-     Wording avoids prescription drug names, which Google Ads does not
-     allow on landing pages in India. */
-  const SUB = "With <strong>Dr. Bindiya G P</strong>, aesthetic dermatologist and cosmetologist, at Chitra's Lifeline Clinic in Yelahanka New Town.";
-  const VARIANTS = {
-    wrinkle: {
-      title: 'Anti-wrinkle injections in Yelahanka, <em>by your dermatologist.</em>',
-      tab: 'wrinkle', service: 'Anti-wrinkle injections',
-    },
-    laser: {
-      title: 'Laser hair reduction in Yelahanka, <em>by your dermatologist.</em>',
-      tab: 'laser', service: 'Laser hair reduction',
-    },
-    facial: {
-      title: 'Medi-facials in Yelahanka, <em>by your dermatologist.</em>',
-      tab: 'facial', service: 'Medi-facial',
-    },
-  };
-  const VARIANT_KEY = new URLSearchParams(location.search).get('s');
-  const VARIANT = VARIANTS[VARIANT_KEY];
-
-  function applyVariant() {
-    if (!VARIANT) return;
-    const title = $('[data-variant-title]');
-    if (title) title.innerHTML = VARIANT.title;
-    $$('[data-variant-sub]').forEach((el) => { el.innerHTML = SUB; });
-    const select = $('#f-service');
-    if (select) select.value = VARIANT.service;
-  }
-
   /* Treatment pages name their treatment on <body data-service>, so the
      booking form arrives with it already chosen. */
   function presetService() {
@@ -89,7 +57,7 @@
     });
 
     // Without JS every panel shows; with it, only the chosen one (no opening animation at load)
-    selectTab(VARIANT ? VARIANT.tab : btns[0].dataset.tab, false, false);
+    selectTab(btns[0].dataset.tab, false, false);
 
     // Footer links jump to the section with the right tab open.
     $$('[data-goto-tab]').forEach((a) => a.addEventListener('click', () => selectTab(a.dataset.gotoTab)));
@@ -156,6 +124,10 @@
     addEventListener('scroll', onScroll, { passive: true });
   }
 
+  /* An .embed shows its loader (build-pages.mjs, loading()) until the iframe
+     inside reports load; then the iframe fades in over it. */
+  const whenLoaded = (frame) => frame.addEventListener('load', () => frame.closest('.embed')?.classList.add('is-ready'), { once: true });
+
   /* ── Instagram reels ──────────────────────────────────────────────────
      Each .reel ships with its post id and a "Watch on Instagram" link
      (build-pages.mjs). The embeds are created only when the rail comes
@@ -172,6 +144,7 @@
       f.loading = 'lazy';
       f.referrerPolicy = 'strict-origin-when-cross-origin';
       f.setAttribute('scrolling', 'no');
+      whenLoaded(f);
       c.append(f);
     });
     const io = new IntersectionObserver((es) => {
@@ -280,7 +253,7 @@
 
       const data = Object.fromEntries(new FormData(form).entries());
       data.page = location.pathname + location.search;
-      data.variant = document.body.dataset.page || (VARIANT_KEY && VARIANT ? VARIANT_KEY : 'generic');
+      data.variant = document.body.dataset.page || 'generic';   // which page (ad group) the lead came from
 
       const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMessage(data))}`;
       const win = window.open(url, '_blank');
@@ -318,7 +291,7 @@
      its src is held back until it is within roughly a screen of the view. */
   function lazyFrames() {
     const frames = $$('iframe[data-src]').filter((f) => !f.closest('[data-reels-rail]'));
-    const load = (f) => { f.src = f.dataset.src; f.removeAttribute('data-src'); };
+    const load = (f) => { whenLoaded(f); f.src = f.dataset.src; f.removeAttribute('data-src'); };
     if (!('IntersectionObserver' in window)) { frames.forEach(load); return; }
     const io = new IntersectionObserver((entries) => entries.forEach((e) => {
       if (!e.isIntersecting) return;
@@ -344,7 +317,6 @@
   const year = $('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
 
-  applyVariant();
   presetService();
   tabs();
   reveals();

@@ -397,9 +397,6 @@ address { font-style: normal; }
 .reels__rail { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin: clamp(28px, 4vw, 44px) calc(var(--pad) * -1) 0; padding: 4px var(--pad) 18px; scrollbar-width: thin; scrollbar-color: var(--peri-soft) transparent; overscroll-behavior-x: contain; }
 .reel { flex: none; width: 326px; height: 580px; scroll-snap-align: start; border-radius: 22px; overflow: hidden; background: var(--paper-2); position: relative; isolation: isolate; box-shadow: 0 20px 50px -40px rgba(43,36,71,.5); }
 .reel iframe { width: 100%; height: 100%; border: 0; }
-.reel__wait { position: absolute; inset: 0; z-index: -1; display: grid; place-content: center; gap: 12px; justify-items: center; color: var(--ink-3); font-size: .84rem; text-align: center; padding: 20px; }
-.reel__wait .mesh i { filter: blur(24px); }
-.reel__wait a { color: var(--pink); font-weight: 600; }
 .reels__nav { display: flex; gap: 8px; }
 .reels__nav button { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line); background: #fff; display: grid; place-items: center; cursor: pointer; transition: background .3s, color .3s, border-color .3s; }
 .reels__nav button:hover { background: var(--ink); color: #fff; border-color: var(--ink); }
@@ -433,6 +430,25 @@ address { font-style: normal; }
 .loc .btn-row { margin-top: 24px; }
 .loc__map { position: relative; min-height: 380px; border-radius: var(--r-lg); overflow: hidden; background: var(--mist); }
 .loc__map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; filter: saturate(.75) hue-rotate(-8deg); }
+
+/* ── Embed loading state (reels, map) ─────────────────────────────────────
+   A native indeterminate <progress> drawn as a ring (Modern Web Guidance,
+   "spinner"): screen readers announce it as busy, and its aria-label names
+   what is loading. The iframe sits on top, transparent, and fades in once
+   main.js marks the .embed ready; the direct link stays usable meanwhile. */
+.loading { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 14px; padding: 24px; text-align: center; color: var(--ink-3); font-size: .86rem; background: radial-gradient(120% 80% at 50% 30%, var(--white), var(--paper-2)); }
+.loading a { color: var(--pink); font-weight: 600; text-underline-offset: 3px; }
+progress.spinner { appearance: none; width: 40px; height: 40px; border: 0; border-radius: 50%; padding: 0; color: var(--pink); background: conic-gradient(currentColor 0 28%, var(--line) 0); -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px)); mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 4px)); animation: spin .9s linear infinite; }
+progress.spinner::-webkit-progress-bar { background: transparent; }
+progress.spinner::-webkit-progress-value { background: transparent; }
+progress.spinner::-moz-progress-bar { background: transparent; }
+@media (forced-colors: active) {
+  progress.spinner { forced-color-adjust: none; background: conic-gradient(CanvasText 0 28%, Canvas 0); }
+}
+.js .embed iframe { position: relative; z-index: 1; opacity: 0; transition: opacity .4s var(--ease); }
+.loc__map.embed iframe { position: absolute; }
+.embed.is-ready iframe { opacity: 1; }
+.embed.is-ready .loading { visibility: hidden; }
 
 /* ── Booking ────────────────────────────────────────────────────────── */
 .book { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(24px, 5vw, 70px); align-items: center; }
@@ -550,6 +566,7 @@ address { font-style: normal; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
+  progress.spinner { animation: spin 6s linear infinite !important; }
   .js [data-reveal] { opacity: 1; transform: none; }
   .js .fill .w { color: var(--ink); }
   .js .fill .pk .w { color: var(--pink); }

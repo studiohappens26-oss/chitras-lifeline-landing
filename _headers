@@ -12,25 +12,25 @@
 # changed), with Early Hints for the font and stylesheets.
 /
   Cache-Control: public, max-age=0, must-revalidate
-  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=ef5789b0e4>; rel=preload; as=style
+  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=735a15961a>; rel=preload; as=style
 /index.html
   Cache-Control: public, max-age=0, must-revalidate
-  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=ef5789b0e4>; rel=preload; as=style
+  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=735a15961a>; rel=preload; as=style
 /anti-wrinkle-injections
   Cache-Control: public, max-age=0, must-revalidate
-  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=ef5789b0e4>; rel=preload; as=style
+  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=735a15961a>; rel=preload; as=style
 /laser-hair-reduction
   Cache-Control: public, max-age=0, must-revalidate
-  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=ef5789b0e4>; rel=preload; as=style
+  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=735a15961a>; rel=preload; as=style
 /medi-facials
   Cache-Control: public, max-age=0, must-revalidate
-  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=ef5789b0e4>; rel=preload; as=style
+  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=735a15961a>; rel=preload; as=style
 /botox
   Cache-Control: public, max-age=0, must-revalidate
-  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=ef5789b0e4>; rel=preload; as=style
+  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=735a15961a>; rel=preload; as=style
 /privacy
   Cache-Control: public, max-age=0, must-revalidate
-  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=ef5789b0e4>; rel=preload; as=style
+  Link: </assets/fonts/manrope-latin-normal.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin, </assets/css/fonts.css?v=41358d86bd>; rel=preload; as=style, </assets/css/styles.css?v=735a15961a>; rel=preload; as=style
 
 # CSS and JS are referenced with ?v=<content hash>, so they can be cached
 # for a year: any change produces a new URL.
@@ -53,16 +53,9 @@
   Cache-Control: public, max-age=3600
 /robots.txt
   Cache-Control: public, max-age=3600
-
-# Reference pages that ship with the repo but aren't part of the site.
-/type.html
-  X-Robots-Tag: noindex
-/mochi.html
-  X-Robots-Tag: noindex
-/type
-  X-Robots-Tag: noindex
-/mochi
-  X-Robots-Tag: noindex
+/llms.txt
+  Cache-Control: public, max-age=3600
+  Content-Type: text/markdown; charset=utf-8
 
 /api/*
   Cache-Control: no-store
