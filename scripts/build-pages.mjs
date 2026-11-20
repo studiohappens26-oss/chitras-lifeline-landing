@@ -39,13 +39,13 @@ const esc = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
 // The mark is drawn 30px wide: WebP copies at 2x and 3x (build-images.mjs), not the 56 KB PNG.
 const BRAND = '<img src="/assets/img/logo-mark-64.webp" srcset="/assets/img/logo-mark-64.webp 64w, /assets/img/logo-mark-96.webp 96w" sizes="30px" width="240" height="283" alt=""><span><b>Chitra\'s <em>Lifeline</em></b><small>Skin · Lasers · Aesthetics</small></span>';
 
-const SERVICES = ['Anti-wrinkle injections', 'Laser hair reduction', 'Medi-facial', 'Laser skin treatment', 'Chemical peels', 'Acne or acne scars', 'PRP therapy', 'Hair fall treatment', 'Dermal fillers', 'Skin, nail or fungal infection', 'Not sure yet'];
+const SERVICES = ['Anti-Wrinkle Injections', 'Laser Hair Reduction', 'Medi-Facial', 'Laser Skin Treatment', 'Chemical Peels', 'Acne or Acne Scars', 'PRP Therapy', 'Hair Fall Treatment', 'Dermal Fillers', 'Skin, Nail or Fungal Infection', 'Not sure yet'];
 
 const TREATMENT_LINKS = [
-  ['/anti-wrinkle-injections', 'Anti-wrinkle injections'],
-  ['/laser-hair-reduction', 'Laser hair reduction'],
-  ['/medi-facials', 'Medi-facials'],
-  ['/#treatments', 'All treatments'],
+  ['/anti-wrinkle-injections', 'Anti-Wrinkle Injections'],
+  ['/laser-hair-reduction', 'Laser Hair Reduction'],
+  ['/medi-facials', 'Medi-Facials'],
+  ['/#treatments', 'All Treatments'],
 ];
 
 /* Loading state for an embed (reels, map): an indeterminate <progress> drawn
@@ -153,9 +153,13 @@ function hero({ eyebrow, h1, lede, img, alt, w, h, items, pills, facts, mochi })
    Nothing else on the certificate (it holds personal details) is published. */
 const DEGREES = 'MBBS, DDVL (Dermatology, Venereology and Leprosy)';
 const KMC = 'Karnataka Medical Council, Reg. No. 86678';
+/* Experience as Dr. Bindiya gave it (voice note, 20 November 2026): counted
+   from MBBS in 2009, so about 17 years, 12 of them in dermatology. */
+const EXP = '17 years of experience, 12 in Dermatology';
+const EXP_LONG = '17 years of experience as a doctor, 12 of them in Dermatology';
 
-function doctor({ lead = 'Your doctor', short = false } = {}) {
-  return `<section class="frame pad" id="doctor" data-mochi="happy" data-mochi-say="Dr. Bindiya has more than seven years of experience in dermatology and cosmetology.">
+function doctor({ lead = 'Your Doctor', short = false } = {}) {
+  return `<section class="frame pad" id="doctor" data-mochi="happy" data-mochi-say="Dr. Bindiya has ${EXP_LONG}.">
   <div class="mesh" aria-hidden="true"><i style="--c:var(--blush);--x:-15%;--y:10%;--s:55%"></i><i style="--c:var(--mist);--x:20%;--y:50%;--s:45%"></i></div>
   <div class="doc">
     <figure class="doc__photo" data-reveal style="margin:0">
@@ -165,12 +169,12 @@ function doctor({ lead = 'Your doctor', short = false } = {}) {
       <p class="eyebrow">${lead}</p>
       <h2>Dr. Bindiya G P</h2>
       <p class="doc__role">Aesthetic Dermatologist and Cosmetologist</p>
-      <p class="doc__bio">Dr. Bindiya has more than seven years of experience in dermatology and cosmetology. She trained at Command Hospital Air Force, Bangalore.</p>
+      <p class="doc__bio">Dr. Bindiya has ${EXP_LONG}. She trained at Command Hospital Air Force, Bangalore.</p>
       <dl class="creds">
         <div><dt>Qualifications</dt><dd>${DEGREES}</dd></div>
         <div><dt>Registration</dt><dd>${KMC}</dd></div>
         <div><dt>Trained at</dt><dd>Command Hospital Air Force, Bangalore</dd></div>
-        <div><dt>Experience</dt><dd>7+ years in dermatology and cosmetology</dd></div>
+        <div><dt>Experience</dt><dd>17 years since MBBS, 12 in Dermatology</dd></div>
         <div><dt>Member</dt><dd>IADVL · IMA · CDSI · ACSI · Bangalore Dermatological Society</dd></div>
       </dl>${short ? '' : `
       <p class="doc__also">The clinic is also home to Dr. Akshay Hari, MBBS, DNB (Neurosurgery), Consultant Neurosurgeon and Spine Surgeon at Aster CMI Hospital, Hebbal.</p>`}
@@ -185,16 +189,16 @@ function labPharmacy() {
   <div class="mesh" aria-hidden="true"><i style="--c:var(--peri);--x:50%;--y:-20%;--s:70%"></i><i style="--c:rgba(243,190,219,.55);--x:70%;--y:40%;--s:60%"></i><i style="--c:#4A5AAE;--x:-20%;--y:30%;--s:70%"></i></div>
   <span data-ribbon="swoop"></span>
   <div data-reveal>
-    <p class="eyebrow">Under one roof</p>
-    <h2>Lab and pharmacy, <em>in the clinic.</em></h2>
+    <p class="eyebrow">Under One Roof</p>
+    <h2>Lab and Pharmacy, <em>in the Clinic.</em></h2>
     <p>Blood tests are done in the clinic's own laboratory, and the clinic has its own pharmacy, so you don't need to go elsewhere for either.</p>
     <a class="btn btn--white" href="#book" data-track="book-feature">Book a consultation ${ARROW}</a>
   </div>
   <div class="feat__art" aria-hidden="true">
     <div class="feat__img"><img src="/assets/img/cl-pharmacy.jpg" sizes="(max-width: 860px) 82vw, 440px" width="2400" height="1350" loading="lazy" decoding="async" alt=""><span data-lens></span></div>
-    <span class="pill" style="left:2%;top:18%"><i></i>In-clinic blood tests</span>
-    <span class="pill" style="left:8%;bottom:14%;animation-delay:-3s"><i></i>Own pharmacy</span>
-    <span class="pill" style="right:0;top:4%;animation-delay:-5s"><i></i>E-prescriptions</span>
+    <span class="pill" style="left:2%;top:18%"><i></i>In-Clinic Blood Tests</span>
+    <span class="pill" style="left:8%;bottom:14%;animation-delay:-3s"><i></i>Own Pharmacy</span>
+    <span class="pill" style="right:0;top:4%;animation-delay:-5s"><i></i>E-Prescriptions</span>
   </div>
 </section>`;
 }
@@ -219,7 +223,7 @@ function location() {
   return `<section class="frame pad" id="location" data-mochi="idle" data-mochi-say="We're opposite Rail Wheel Factory, near Cafe Coffee Day.">
   <div class="loc">
     <div data-reveal>
-      <p class="eyebrow">Find us</p>
+      <p class="eyebrow">Find Us</p>
       <h2 class="h2">Yelahanka <span class="pk">New Town</span></h2>
       <p class="lede">Opposite Rail Wheel Factory, near Cafe Coffee Day.</p>
       <address>Ward No. 4, LMN Arcade, 17-B/4, 1169,<br>Opposite Rail Wheel Factory,<br>Yelahanka New Town, Bengaluru,<br>Karnataka 560064</address>
@@ -241,7 +245,7 @@ function location() {
 </section>`;
 }
 
-function book({ h2 = 'Start with a <em>consultation.</em>', lede = "Tell us what you'd like help with. The form opens WhatsApp with your details filled in, ready to send to the clinic." } = {}) {
+function book({ h2 = 'Start with a <em>Consultation.</em>', lede = "Tell us what you'd like help with. The form opens WhatsApp with your details filled in, ready to send to the clinic." } = {}) {
   return `<section class="frame pad" id="book" data-mochi="dock" data-mochi-say="Fill this in and WhatsApp opens with it all written out.">
   <div class="mesh" aria-hidden="true"><i style="--c:var(--pink-soft);--x:45%;--y:-20%;--s:60%"></i><i style="--c:var(--peri-soft);--x:60%;--y:35%;--s:65%"></i><i style="--c:var(--mist);--x:-10%;--y:50%;--s:50%"></i></div>
   <span data-ribbon="wave"></span>
@@ -304,11 +308,11 @@ function adHero(t) {
       <div>
         <p class="ah__name">Dr. Bindiya G P</p>
         <p class="doc__role">Aesthetic Dermatologist and Cosmetologist</p>
-        <ul class="hx__facts"><li>7+ years in dermatology and cosmetology</li><li>Monday to Saturday, 11am to 8pm</li></ul>
+        <ul class="hx__facts"><li>${EXP}</li><li>Monday to Saturday, 11am to 8pm</li></ul>
       </div>
     </div>
     <div class="btn-row">
-      <a class="btn btn--wa" href="${wa(`Hi, I'd like to book a consultation for ${t.service.toLowerCase()} at Chitra's Lifeline Clinic.`)}" target="_blank" rel="noopener" data-track="whatsapp-hero">WhatsApp us <span class="ic">${WA_SVG}</span></a>
+      <a class="btn btn--wa" href="${wa(`Hi, I'd like to book a consultation for ${t.service} at Chitra's Lifeline Clinic.`)}" target="_blank" rel="noopener" data-track="whatsapp-hero">WhatsApp us <span class="ic">${WA_SVG}</span></a>
       <a class="btn btn--ghost" href="tel:+918197516940" data-track="call-hero">${PHONE_SVG}Call +91 81975 16940</a>
     </div>
   </div>
@@ -323,7 +327,7 @@ function trust() {
     ['Qualifications', 'MBBS, DDVL. Trained at Command Hospital Air Force, Bangalore'],
     ['Registration', KMC],
     ['Member of', 'IADVL · IMA · CDSI · ACSI · Bangalore Dermatological Society'],
-    ['In the clinic', 'Its own laboratory and pharmacy'],
+    ['In the clinic', 'Its own Laboratory and Pharmacy'],
     ['Find us', `Opposite Rail Wheel Factory, Yelahanka New Town. <a href="https://share.google/BwcyCo6wf4YwJIIGE" target="_blank" rel="noopener" data-track="directions-trust">See on Google Maps</a>`],
   ];
   return `<ul class="frame trust" aria-label="About the doctor and the clinic">
@@ -338,7 +342,7 @@ function closing() {
   <span data-ribbon="wave"></span>
   <div data-reveal>
     <p class="eyebrow">Book</p>
-    <h2 class="h2">Start with a <span class="pk">consultation.</span></h2>
+    <h2 class="h2">Start with a <span class="pk">Consultation.</span></h2>
     <p class="lede">Whether a treatment suits you is decided by Dr. Bindiya G P at a consultation. Monday to Saturday, 11:00 AM to 8:00 PM.</p>
     <div class="btn-row">
       <a class="btn" href="#book" data-track="book-closing">Book a consultation ${ARROW}</a>
@@ -355,7 +359,7 @@ function footer({ home, extraLegal = '' }) {
   <span data-ribbon="high"></span>
   <a class="brand" href="${top}" aria-label="Chitra's Lifeline Clinic, ${home ? 'back to top' : 'home'}">${BRAND.replace('alt="">', 'alt="" loading="lazy">')}</a>
   <div class="foot__grid">
-    <div><h2>Clinic</h2><p>Dermatology, cosmetology, skin and laser · Neurosurgery and spine surgery · In-house laboratory and pharmacy</p></div>
+    <div><h2>Clinic</h2><p>Dermatology, Cosmetology, Skin and Laser · Neurosurgery and Spine Surgery · In-House Laboratory and Pharmacy</p></div>
     <div><h2>Treatments</h2>${TREATMENT_LINKS.map(([h, t]) => `<a href="${h}">${t}</a>`).join('')}</div>
     <div><h2>Visit</h2><a href="${home ? '' : '/'}#doctor">Dr. Bindiya G P</a><a href="${home ? '' : '/'}#faq">Questions</a><a href="${home ? '' : '/'}#location">Location</a></div>
     <div><h2>Contact</h2><a href="tel:+918197516940">+91 81975 16940</a><a href="tel:+919986086610">+91 99860 86610</a><a href="${WA}" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener">@chitraslifelineclinic</a></div>
@@ -411,7 +415,7 @@ const PHYSICIAN = {
   '@type': 'IndividualPhysician',
   '@id': `${SITE}/#dr-bindiya`,
   name: 'Dr. Bindiya G P',
-  description: 'Aesthetic dermatologist and cosmetologist who leads Chitra\'s Lifeline Clinic. More than seven years in dermatology and cosmetology; trained at Command Hospital Air Force, Bangalore.',
+  description: 'Aesthetic dermatologist and cosmetologist who leads Chitra\'s Lifeline Clinic. 17 years of experience as a doctor, 12 of them in dermatology; trained at Command Hospital Air Force, Bangalore.',
   image: `${SITE}/assets/img/dr-bindiya-800.webp`,
   medicalSpecialty: 'Dermatology',
   hasCredential: [
@@ -420,7 +424,7 @@ const PHYSICIAN = {
   ],
   identifier: { '@type': 'PropertyValue', name: 'Karnataka Medical Council registration number', value: '86678' },
   memberOf: MEMBERSHIPS.map((name) => ({ '@type': 'Organization', name })),
-  knowsAbout: ['Dermatology', 'Cosmetology', 'Anti-wrinkle injections', 'Laser hair reduction', 'Medi-facials', 'Chemical peels', 'Acne and acne scars', 'PRP therapy', 'Hair fall', 'Dermal fillers'],
+  knowsAbout: ['Dermatology', 'Cosmetology', 'Anti-Wrinkle Injections', 'Laser Hair Reduction', 'Medi-Facials', 'Chemical Peels', 'Acne and Acne Scars', 'PRP Therapy', 'Hair Fall', 'Dermal Fillers'],
   practicesAt: { '@id': CLINIC['@id'] },
 };
 const WEBSITE = {
@@ -447,9 +451,9 @@ const ld = (graph) => `<script type="application/ld+json">\n${JSON.stringify({ '
 
 /* ── Shared FAQ answers (general information, no figures) ─────────────── */
 const FAQ = {
-  laserPermanent: ['Is laser hair reduction permanent?', "It gives long-term reduction rather than permanent removal. It is done as a course of sessions, and hair that grows back is usually finer and lighter. Hormonal conditions such as PCOS can affect hair growth and how well treatment works, so this is discussed at the consultation."],
-  laserIndian: ['Is laser treatment safe on Indian skin?', 'It can be, with settings that suit your skin type. Darker skin contains more melanin, which also absorbs laser light, so the wrong settings raise the risk of burns or patchy pigmentation. Suitability is assessed at a consultation.'],
-  wrinkleWhat: ['What do anti-wrinkle injections treat?', "Lines caused by muscle movement, such as forehead lines, frown lines between the brows and crow's feet. Lines that are visible when your face is completely still, or that come from loss of volume, may need a different treatment."],
+  laserPermanent: ['Is Laser Hair Reduction permanent?', "It gives long-term reduction rather than permanent removal. It is done as a course of sessions, and hair that grows back is usually finer and lighter. Hormonal conditions such as PCOS can affect hair growth and how well treatment works, so this is discussed at the consultation."],
+  laserIndian: ['Is Laser Treatment safe on Indian skin?', 'It can be, with settings that suit your skin type. Darker skin contains more melanin, which also absorbs laser light, so the wrong settings raise the risk of burns or patchy pigmentation. Suitability is assessed at a consultation.'],
+  wrinkleWhat: ['What do Anti-Wrinkle Injections treat?', "Lines caused by muscle movement, such as forehead lines, frown lines between the brows and crow's feet. Lines that are visible when your face is completely still, or that come from loss of volume, may need a different treatment."],
   lab: ['Does the clinic have a laboratory and pharmacy?', "Yes. Blood tests are done in the clinic's own laboratory, and the clinic has its own pharmacy."],
   online: ['Can I have an online consultation?', `Yes, the clinic offers online consultations. Call <a href="tel:+918197516940">+91 81975 16940</a> or message on WhatsApp to arrange one.`],
   timings: ['What are the clinic timings?', `Monday to Saturday, 11:00 AM to 8:00 PM. Call <a href="tel:+918197516940">+91 81975 16940</a> or message us on WhatsApp to book.`],
@@ -464,51 +468,51 @@ function homePage() {
         <div class="card__body">
           <h3>${title}</h3>
           <p>${text}</p>
-          <p style="margin-top:14px">${page ? `<a class="card__more" href="${page}">About ${title.toLowerCase()}</a>` : ''}</p>
+          <p style="margin-top:14px">${page ? `<a class="card__more" href="${page}">About ${title}</a>` : ''}</p>
           <div class="card__foot" style="margin-top:16px"><a class="btn btn--sm" href="#book" data-prefill="${prefill}" data-track="book-${key}">Book a consultation ${ARROW}</a><small>${small}</small></div>
         </div>
       </div>`;
   const TABS = [
-    { key: 'wrinkle', title: 'Anti-wrinkle injections', img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room', page: '/anti-wrinkle-injections', prefill: 'Anti-wrinkle injections', small: 'Prescription treatment. Suitability is decided in person.', text: "A prescription injection that relaxes the muscles behind expression lines, such as forehead lines, frown lines and crow's feet." },
-    { key: 'laser', title: 'Laser hair reduction', img: 'cl-laser-2', alt: 'A laser machine at the clinic', page: '/laser-hair-reduction', prefill: 'Laser hair reduction', small: 'Long-term reduction, not permanent removal.', text: 'Laser treatment that reduces unwanted hair over a course of sessions. The settings have to suit your skin and hair type, which is assessed at a consultation.' },
-    { key: 'facial', title: 'Medi-facials', img: 'cl-hydra', alt: 'The medi-facial machine at the clinic', page: '/medi-facials', prefill: 'Medi-facial', small: 'Matched to your skin concern.', text: 'A facial done in a medical clinic, matched to a skin concern such as acne, dullness or pigmentation, using medical-grade products.' },
-    { key: 'skinlaser', title: 'Laser skin treatments', img: 'cl-laser', alt: 'Laser equipment at the clinic', page: '', prefill: 'Laser skin treatment', small: 'The right laser depends on your skin.', text: 'Laser treatments for concerns such as acne scarring, fine lines and wrinkles, sun spots, tattoos and loose skin.' },
+    { key: 'wrinkle', title: 'Anti-Wrinkle Injections', img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room', page: '/anti-wrinkle-injections', prefill: 'Anti-Wrinkle Injections', small: 'Prescription treatment. Suitability is decided in person.', text: "A prescription injection that relaxes the muscles behind expression lines, such as forehead lines, frown lines and crow's feet." },
+    { key: 'laser', title: 'Laser Hair Reduction', img: 'cl-laser-2', alt: 'A laser machine at the clinic', page: '/laser-hair-reduction', prefill: 'Laser Hair Reduction', small: 'Long-term reduction, not permanent removal.', text: 'Laser Treatment that reduces unwanted hair over a course of sessions. The settings have to suit your skin and hair type, which is assessed at a consultation.' },
+    { key: 'facial', title: 'Medi-Facials', img: 'cl-hydra', alt: 'The medi-facial machine at the clinic', page: '/medi-facials', prefill: 'Medi-Facial', small: 'Matched to your skin concern.', text: 'A facial done in a medical clinic, matched to a skin concern such as acne, dullness or pigmentation, using medical-grade products.' },
+    { key: 'skinlaser', title: 'Laser Skin Treatments', img: 'cl-laser', alt: 'Laser equipment at the clinic', page: '', prefill: 'Laser Skin Treatment', small: 'The right laser depends on your skin.', text: 'Laser Treatments for concerns such as acne scarring, fine lines and wrinkles, sun spots, tattoos and loose skin.' },
   ];
   const tab = (t, i) => `<li role="presentation"><button class="sel__tab" role="tab" id="t-${t.key}" aria-controls="p-${t.key}" aria-selected="${i ? 'false' : 'true'}" data-tab="${t.key}"${i ? ' tabindex="-1"' : ''}>${t.title}<span class="ar">${ARROW_SM}</span></button></li>`;
   const ALSO = [
-    ['Chemical peels', 'Offered in three strengths: mild, medium and deep.'],
-    ['PRP therapy', 'Platelet-rich plasma, including cosmetic uses.'],
-    ['Acne and acne scars', 'Treatment for active acne and the scarring it leaves.'],
-    ['Hair fall treatment', 'For sudden hair loss, patchy loss or overall thinning.'],
-    ['Dermal fillers', 'One of the cosmetic procedures at the clinic.'],
-    ['Skin, nail and fungal infections', 'Including skin biopsies examined in a laboratory.'],
+    ['Chemical Peels', 'Offered in three strengths: mild, medium and deep.'],
+    ['PRP Therapy', 'Platelet-rich plasma, including cosmetic uses.'],
+    ['Acne and Acne Scars', 'Treatment for active acne and the scarring it leaves.'],
+    ['Hair Fall Treatment', 'For sudden hair loss, patchy loss or overall thinning.'],
+    ['Dermal Fillers', 'One of the cosmetic procedures at the clinic.'],
+    ['Skin, Nail and Fungal Infections', 'Including skin biopsies examined in a laboratory.'],
   ];
   const IG = ['DYw1-rZTaoq', 'DZCyS_ezZAc', 'DaK2jUPvYm4', 'Dakn0D6v86f', 'Dau67jHoVNN', 'DbVetyGTO6g', 'Dbf5DPKzdZ9', 'Db3JjUFzdRq', 'DcTDE_bxWgh', 'DdGLg5_tAjT', 'Dd1ZbdATo5r'];
 
-  return `${head({ title: "Doctor-led Skin Clinic in Yelahanka | Chitra's Lifeline Clinic", desc: "A doctor-led skin and laser clinic in Yelahanka New Town, Bengaluru, led by dermatologist Dr. Bindiya G P (MBBS, DDVL). Own laboratory and pharmacy. Mon to Sat, 11am to 8pm.", path: '/', og: 'cl-sign' })}
+  return `${head({ title: "Doctor-Led Skin Clinic in Yelahanka | Chitra's Lifeline Clinic", desc: "A doctor-led skin and laser clinic in Yelahanka New Town, Bengaluru, led by dermatologist Dr. Bindiya G P (MBBS, DDVL). Own laboratory and pharmacy. Mon to Sat, 11am to 8pm.", path: '/', og: 'cl-sign' })}
 <body data-page="home">
 
-${nav({ home: true, links: [['#treatments', 'Treatments'], ['#doctor', 'Doctor'], ['#visit', 'Your visit'], ['#faq', 'FAQ']] })}
+${nav({ home: true, links: [['#treatments', 'Treatments'], ['#doctor', 'Doctor'], ['#visit', 'Your Visit'], ['#faq', 'FAQ']] })}
 
 <main id="top" class="wrap page">
 
 <!-- ══ HERO ══════════════════════════════════════════════════════════════
      Ads point at the treatment pages; this is the brand and organic face. -->
 ${hero({
-    eyebrow: '<p class="eyebrow">Doctor-led dermatology clinic · Yelahanka New Town</p>',
-    h1: 'Skin and laser treatments, <em>by your dermatologist.</em>',
-    lede: 'Led by <strong>Dr. Bindiya G P</strong> (MBBS, DDVL), an aesthetic dermatologist and cosmetologist with more than seven years of experience. The clinic has its own laboratory and pharmacy.',
+    eyebrow: '<p class="eyebrow">Doctor-Led Dermatology Clinic · Yelahanka New Town</p>',
+    h1: 'Skin and Laser Treatments, <em>by your Dermatologist.</em>',
+    lede: 'Led by <strong>Dr. Bindiya G P</strong> (MBBS, DDVL), an Aesthetic Dermatologist and Cosmetologist with 17 years of experience, 12 of them in Dermatology. The clinic has its own Laboratory and Pharmacy.',
     img: 'cl-sign', w: 2160, h: 3840, alt: "The Chitra's Lifeline Clinic sign at reception",
-    items: ['Anti-wrinkle injections', 'Laser hair reduction', 'Medi-facials', 'Chemical peels', 'Acne and scars'],
-    pills: ['Doctor-led clinic', 'In-house laboratory', 'Own pharmacy'],
-    facts: ['Mon to Sat, 11am to 8pm', '7+ years in dermatology and cosmetology'],
+    items: ['Anti-Wrinkle Injections', 'Laser Hair Reduction', 'Medi-Facials', 'Chemical Peels', 'Acne and Scars'],
+    pills: ['Doctor-Led Clinic', 'In-House Laboratory', 'Own Pharmacy'],
+    facts: ['Mon to Sat, 11am to 8pm', EXP],
     mochi: "I'm Mochi. I'll keep you company while you look around.",
   })}
 
 <!-- ══ MISSION ═══════════════════════════════════════════════════════════ -->
 <section class="frame mission" aria-labelledby="mission-h">
-  <p class="eyebrow" id="mission-h">About the clinic</p>
-  <p class="fill" data-fill>Chitra's Lifeline is a doctor-led dermatology and cosmetology clinic in Yelahanka New Town <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-desk.jpg" sizes="120px" width="2400" height="1351" alt="" loading="lazy" decoding="async"></span> with its own <span class="pk">laboratory and pharmacy,</span> <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-decal.jpg" sizes="120px" width="2400" height="1350" alt="" loading="lazy" decoding="async"></span> where Dr. Bindiya G P sees patients for <span class="pk">skin, hair and laser treatments.</span> <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-hourglass.jpg" sizes="120px" width="2400" height="1350" alt="" loading="lazy" decoding="async"></span></p>
+  <p class="eyebrow" id="mission-h">About the Clinic</p>
+  <p class="fill" data-fill>Chitra's Lifeline is a doctor-led Dermatology and Cosmetology clinic in Yelahanka New Town <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-desk.jpg" sizes="120px" width="2400" height="1351" alt="" loading="lazy" decoding="async"></span> with its own <span class="pk">Laboratory and Pharmacy,</span> <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-decal.jpg" sizes="120px" width="2400" height="1350" alt="" loading="lazy" decoding="async"></span> where Dr. Bindiya G P sees patients for <span class="pk">Skin, Hair and Laser Treatments.</span> <span class="chip-img" aria-hidden="true"><img src="/assets/img/cl-hourglass.jpg" sizes="120px" width="2400" height="1350" alt="" loading="lazy" decoding="async"></span></p>
 </section>
 
 <!-- ══ TREATMENTS ════════════════════════════════════════════════════════
@@ -518,7 +522,7 @@ ${hero({
   <div class="sel">
     <div data-reveal>
       <p class="eyebrow">Treatments</p>
-      <h2 class="h2">Find your <span class="pk">treatment</span></h2>
+      <h2 class="h2">Find Your <span class="pk">Treatment</span></h2>
       <p class="lede">Pick what you'd like help with, then book a consultation to find out what suits you.</p>
       <ul class="sel__list" role="tablist" aria-label="Treatments" data-tabs>
         ${TABS.map(tab).join('\n        ')}
@@ -531,7 +535,7 @@ ${hero({
   </div>
 
   <div class="also">
-    <p class="eyebrow">Also at the clinic</p>
+    <p class="eyebrow">Also at the Clinic</p>
     <ul>
       ${ALSO.map(([h, p], i) => `<li data-reveal${i ? ` data-reveal-delay="${i}"` : ''}><h3>${h}</h3><p>${p}</p></li>`).join('\n      ')}
     </ul>
@@ -550,9 +554,9 @@ ${labPharmacy()}
 <section class="frame frame--soft pad" id="visit" data-mochi="idle" data-mochi-say="You can also ask about an online consultation.">
   <div class="steps">
     <div class="steps__head">
-      <p class="eyebrow">What to expect</p>
-      <h2 class="h2">How a visit <span class="pk">works</span></h2>
-      <p class="lede">Consultation, laboratory and pharmacy are all at the same clinic.</p>
+      <p class="eyebrow">What to Expect</p>
+      <h2 class="h2">How a Visit <span class="pk">Works</span></h2>
+      <p class="lede">Consultation, Laboratory and Pharmacy are all at the same clinic.</p>
       <div class="dots" data-dots aria-hidden="true"><span>Book</span><span>Consultation</span><span>Tests, if needed</span><span>Prescription</span></div>
     </div>
     <ol class="steps__cards">
@@ -572,7 +576,7 @@ ${labPharmacy()}
   <div class="reels__head">
     <div data-reveal>
       <p class="eyebrow">On Instagram</p>
-      <h2 class="h2">Dr. Bindiya, <span class="pk">on video</span></h2>
+      <h2 class="h2">Dr. Bindiya, <span class="pk">on Video</span></h2>
       <p class="lede">Short videos from Dr. Bindiya on the clinic's Instagram account.</p>
     </div>
     <div class="btn-row" data-reveal data-reveal-delay="2">
@@ -587,7 +591,7 @@ ${labPharmacy()}
 </section>
 
 <!-- ══ FAQ ═══════════════════════════════════════════════════════════════ -->
-${faq({ h2: 'Before you <span class="pk">book</span>', items: faqs })}
+${faq({ h2: 'Before You <span class="pk">Book</span>', items: faqs })}
 
 <!-- ══ LOCATION ══════════════════════════════════════════════════════════ -->
 ${location()}
@@ -606,7 +610,7 @@ ${dock()}
 ${ld([
     webPage({ path: '/', name: "Chitra's Lifeline Clinic, a doctor-led skin clinic in Yelahanka", about: { '@id': CLINIC['@id'] } }),
     WEBSITE,
-    { ...CLINIC, availableService: ['Anti-wrinkle injections', 'Laser hair reduction', 'Medi-facial', 'Laser skin treatment', 'Chemical peels', 'PRP therapy', 'Hair fall treatment', 'Dermal fillers'].map((name) => ({ '@type': 'MedicalTherapy', name })) },
+    { ...CLINIC, availableService: ['Anti-Wrinkle Injections', 'Laser Hair Reduction', 'Medi-Facial', 'Laser Skin Treatment', 'Chemical Peels', 'PRP Therapy', 'Hair Fall Treatment', 'Dermal Fillers'].map((name) => ({ '@type': 'MedicalTherapy', name })) },
     PHYSICIAN,
     faqSchema(faqs),
   ])}
@@ -622,59 +626,59 @@ ${scripts({ mochi: true })}
    engines only and is never an ad final URL. */
 const TREATMENTS = [
   {
-    file: 'anti-wrinkle-injections.html', path: '/anti-wrinkle-injections', page: 'wrinkle', service: 'Anti-wrinkle injections',
-    title: "Anti-wrinkle Injections in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
-    desc: "Anti-wrinkle injections for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).",
-    eyebrow: 'Anti-wrinkle injections · Yelahanka New Town',
-    h1: 'Anti-wrinkle injections in Yelahanka, <em>by your dermatologist.</em>',
+    file: 'anti-wrinkle-injections.html', path: '/anti-wrinkle-injections', page: 'wrinkle', service: 'Anti-Wrinkle Injections',
+    title: "Anti-Wrinkle Injections in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
+    desc: "Anti-Wrinkle Injections for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).",
+    eyebrow: 'Anti-Wrinkle Injections · Yelahanka New Town',
+    h1: 'Anti-Wrinkle Injections in Yelahanka, <em>by your Dermatologist.</em>',
     img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room',
-    procedure: { name: 'Anti-wrinkle injection', type: 'NoninvasiveProcedure', body: 'Face' },
+    procedure: { name: 'Anti-Wrinkle Injection', type: 'NoninvasiveProcedure', body: 'Face' },
     what: {
-      h2: 'What it is',
+      h2: 'What It Is',
       prose: [
-        'Anti-wrinkle injections are a prescription treatment. Small amounts of a muscle-relaxing medicine are injected into specific facial muscles, which softens the lines those muscles make when they contract.',
+        'Anti-Wrinkle Injections are a prescription treatment. Small amounts of a muscle-relaxing medicine are injected into specific facial muscles, which softens the lines those muscles make when they contract.',
         'They work on <strong>dynamic lines</strong>, the ones caused by movement such as frowning or raising your brows. Lines that are visible when your face is completely still, or that come from loss of volume or sagging skin, may need a different treatment or a combination.',
         'Whether the treatment suits you, and which areas are worth treating, is decided by the doctor at an in-person consultation.',
       ],
     },
     uses: {
-      h2: 'What it is used for',
+      h2: 'What It Is Used For',
       groups: [
-        ['Expression lines', ['<strong>Forehead lines</strong>: horizontal lines from raising the brows.', '<strong>Frown lines</strong>: the vertical lines between the brows.', "<strong>Crow's feet</strong>: lines at the outer corners of the eyes when you smile.", '<strong>Bunny lines</strong>: small lines on the sides of the nose.']],
-        ['Shaping and other uses', ['<strong>Brow lift</strong>: a small lift at the tail of the brow.', '<strong>Gummy smile</strong>: less gum showing when you smile.', '<strong>Jaw slimming</strong>: relaxing an enlarged chewing muscle (masseter).', '<strong>Excessive underarm sweating</strong> (hyperhidrosis).']],
+        ['Expression Lines', ['<strong>Forehead lines</strong>: horizontal lines from raising the brows.', '<strong>Frown lines</strong>: the vertical lines between the brows.', "<strong>Crow's feet</strong>: lines at the outer corners of the eyes when you smile.", '<strong>Bunny lines</strong>: small lines on the sides of the nose.']],
+        ['Shaping and Other Uses', ['<strong>Brow lift</strong>: a small lift at the tail of the brow.', '<strong>Gummy smile</strong>: less gum showing when you smile.', '<strong>Jaw slimming</strong>: relaxing an enlarged chewing muscle (masseter).', '<strong>Excessive underarm sweating</strong> (hyperhidrosis).']],
       ],
       note: 'Not every area suits every face. The doctor will tell you if a treatment is unlikely to give the result you are hoping for.',
     },
     safety: [
-      ['Possible side effects', 'Redness, swelling or a small bruise where the needle went in are the most common effects, and they are temporary. Less often the medicine affects a nearby muscle and causes a temporary droop of an eyelid or brow. The doctor will go through the risks with you before treatment.'],
-      ['When it may not be suitable', 'Treatment is usually avoided during pregnancy and breastfeeding, with an infection where the injection would go, with certain nerve and muscle conditions, or with a known allergy to the product. Some medicines matter too, so bring a list of what you take.'],
+      ['Possible Side Effects', 'Redness, swelling or a small bruise where the needle went in are the most common effects, and they are temporary. Less often the medicine affects a nearby muscle and causes a temporary droop of an eyelid or brow. The doctor will go through the risks with you before treatment.'],
+      ['When It May Not Be Suitable', 'Treatment is usually avoided during pregnancy and breastfeeding, with an infection where the injection would go, with certain nerve and muscle conditions, or with a known allergy to the product. Some medicines matter too, so bring a list of what you take.'],
     ],
     faqs: [
       FAQ.wrinkleWhat,
       ['Are the results permanent?', 'No. The effect wears off gradually as the muscle activity returns, so treatment is repeated if you want to keep the result. The doctor will explain what to expect in your case.'],
       ['Will my face look frozen?', 'The aim is to soften lines, not to stop all expression. Talk to the doctor about the look you want at your consultation.'],
-      ['Is it the right treatment for my lines?', 'It depends on what is causing them. Lines from movement respond best. Lines from volume loss or sagging skin may suit other treatments, such as dermal fillers, which the clinic also offers.'],
+      ['Is it the right treatment for my lines?', 'It depends on what is causing them. Lines from movement respond best. Lines from volume loss or sagging skin may suit other treatments, such as Dermal Fillers, which the clinic also offers.'],
       FAQ.timings, FAQ.where,
     ],
   },
   {
-    file: 'laser-hair-reduction.html', path: '/laser-hair-reduction', page: 'laser', service: 'Laser hair reduction',
+    file: 'laser-hair-reduction.html', path: '/laser-hair-reduction', page: 'laser', service: 'Laser Hair Reduction',
     title: "Laser Hair Reduction in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
-    desc: 'Laser hair reduction in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL). Settings suited to Indian skin types.',
-    eyebrow: 'Laser hair reduction · Yelahanka New Town',
-    h1: 'Laser hair reduction in Yelahanka, <em>by your dermatologist.</em>',
+    desc: 'Laser Hair Reduction in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL). Settings suited to Indian skin types.',
+    eyebrow: 'Laser Hair Reduction · Yelahanka New Town',
+    h1: 'Laser Hair Reduction in Yelahanka, <em>by your Dermatologist.</em>',
     img: 'cl-laser-2', alt: 'A laser machine at the clinic',
-    procedure: { name: 'Laser hair reduction', type: 'NoninvasiveProcedure', body: 'Skin' },
+    procedure: { name: 'Laser Hair Reduction', type: 'NoninvasiveProcedure', body: 'Skin' },
     what: {
-      h2: 'What it is',
+      h2: 'What It Is',
       prose: [
-        'Laser hair reduction uses light that is absorbed by the pigment in the hair. The heat damages the hair follicle and slows regrowth.',
+        'Laser Hair Reduction uses light that is absorbed by the pigment in the hair. The heat damages the hair follicle and slows regrowth.',
         'It gives <strong>long-term reduction, not permanent removal</strong>. Treatment is done as a course of sessions, because only hairs in their active growth phase respond each time. Hair that grows back is usually finer and lighter.',
         'Hormonal conditions such as PCOS can drive hair growth and affect how well treatment works. Blood tests, if needed, are done in the clinic\'s own laboratory.',
       ],
     },
     uses: {
-      h2: 'Areas commonly treated',
+      h2: 'Areas Commonly Treated',
       groups: [
         ['Face', ['Upper lip', 'Chin and jawline', 'Sideburns and cheeks', 'Beard shaping']],
         ['Body', ['Underarms', 'Arms and legs', 'Back and chest', 'Bikini line']],
@@ -682,50 +686,50 @@ const TREATMENTS = [
       note: 'Laser works best on dark hair. Very light, grey or white hair has little pigment for the laser to act on, so it responds poorly.',
     },
     safety: [
-      ['Indian skin', 'Darker skin contains more melanin, which also absorbs laser light. Settings that suit your skin type lower the risk of burns or patchy pigmentation, which is why the skin and hair are assessed before treatment.'],
-      ['Possible side effects', 'Temporary redness and slight swelling around the hair follicles are common. Burns, blistering and changes in skin colour are less common risks. The doctor will go through them with you.'],
-      ['Before your consultation', 'Tell the doctor about medicines you take, recent tanning or sun exposure, and any hormonal conditions.'],
+      ['Indian Skin', 'Darker skin contains more melanin, which also absorbs laser light. Settings that suit your skin type lower the risk of burns or patchy pigmentation, which is why the skin and hair are assessed before treatment.'],
+      ['Possible Side Effects', 'Temporary redness and slight swelling around the hair follicles are common. Burns, blistering and changes in skin colour are less common risks. The doctor will go through them with you.'],
+      ['Before Your Consultation', 'Tell the doctor about medicines you take, recent tanning or sun exposure, and any hormonal conditions.'],
     ],
     faqs: [
       FAQ.laserPermanent, FAQ.laserIndian,
       ['Does it work on all hair colours?', 'It works best on dark hair. Very light, grey or white hair has little pigment for the laser to act on, so it responds poorly.'],
-      ['Can men have laser hair reduction?', 'Yes. Beard shaping, back and chest are common areas for men.'],
+      ['Can men have Laser Hair Reduction?', 'Yes. Beard shaping, back and chest are common areas for men.'],
       FAQ.lab, FAQ.timings,
     ],
   },
   {
-    file: 'medi-facials.html', path: '/medi-facials', page: 'facial', service: 'Medi-facial',
+    file: 'medi-facials.html', path: '/medi-facials', page: 'facial', service: 'Medi-Facial',
     title: "Medi-Facials in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
-    desc: 'Medi-facials in Yelahanka New Town, Bengaluru, matched to your skin concern, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).',
-    eyebrow: 'Medi-facials · Yelahanka New Town',
-    h1: 'Medi-facials in Yelahanka, <em>by your dermatologist.</em>',
+    desc: 'Medi-Facials in Yelahanka New Town, Bengaluru, matched to your skin concern, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).',
+    eyebrow: 'Medi-Facials · Yelahanka New Town',
+    h1: 'Medi-Facials in Yelahanka, <em>by your Dermatologist.</em>',
     img: 'cl-hydra', alt: 'The medi-facial machine at the clinic',
-    procedure: { name: 'Medi-facial', type: 'NoninvasiveProcedure', body: 'Face' },
+    procedure: { name: 'Medi-Facial', type: 'NoninvasiveProcedure', body: 'Face' },
     what: {
-      h2: 'What it is',
+      h2: 'What It Is',
       prose: [
-        'A medi-facial is a facial done in a medical clinic. The type is chosen for a particular skin concern, such as acne, dullness or pigmentation, and it uses medical-grade products.',
-        'A standard salon facial is usually the same for everyone. A medi-facial is matched to your skin after it has been assessed.',
-        'Medi-facials can be combined with other treatments at the clinic, such as chemical peels or laser treatments, when the doctor thinks that will help.',
+        'A Medi-Facial is a facial done in a medical clinic. The type is chosen for a particular skin concern, such as acne, dullness or pigmentation, and it uses medical-grade products.',
+        'A standard salon facial is usually the same for everyone. A Medi-Facial is matched to your skin after it has been assessed.',
+        'Medi-Facials can be combined with other treatments at the clinic, such as Chemical Peels or Laser Treatments, when the doctor thinks that will help.',
       ],
     },
     uses: {
-      h2: 'Common types',
+      h2: 'Common Types',
       groups: [
-        ['By concern', ['<strong>Hydrating</strong>: for dry or dehydrated skin.', '<strong>Brightening</strong>: for dull or uneven tone.', '<strong>Acne-focused</strong>: for oily and acne-prone skin.', '<strong>Pigmentation-focused</strong>: for dark patches and tanning.']],
-        ['By occasion', ['<strong>Anti-ageing</strong>: for fine lines and firmness.', '<strong>Before an event</strong>: a wedding or a function.']],
+        ['By Concern', ['<strong>Hydrating</strong>: for dry or dehydrated skin.', '<strong>Brightening</strong>: for dull or uneven tone.', '<strong>Acne-focused</strong>: for oily and acne-prone skin.', '<strong>Pigmentation-focused</strong>: for dark patches and tanning.']],
+        ['By Occasion', ['<strong>Anti-ageing</strong>: for fine lines and firmness.', '<strong>Before an event</strong>: a wedding or a function.']],
       ],
-      note: 'Which type suits you depends on your skin. Choose "Medi-facial" in the form and the doctor will advise.',
+      note: 'Which type suits you depends on your skin. Choose "Medi-Facial" in the form and the doctor will advise.',
     },
     safety: [
-      ['Possible side effects', 'Some types can leave the skin a little red or sensitive for a short time afterwards. Tell the doctor about any skin conditions, allergies or treatments you are using.'],
-      ['When to see the doctor first', 'Active acne, rashes, infections and pigmentation conditions such as melasma are best assessed before a facial, since the wrong products can make them worse.'],
+      ['Possible Side Effects', 'Some types can leave the skin a little red or sensitive for a short time afterwards. Tell the doctor about any skin conditions, allergies or treatments you are using.'],
+      ['When to See the Doctor First', 'Active acne, rashes, infections and pigmentation conditions such as melasma are best assessed before a facial, since the wrong products can make them worse.'],
     ],
     faqs: [
-      ['How is a medi-facial different from a salon facial?', 'It is done in a medical clinic, matched to your skin concern after an assessment, and uses medical-grade products.'],
-      ['Which medi-facial is right for me?', 'It depends on your skin and what you want to improve. The doctor will recommend one after looking at your skin.'],
-      ['Can it be combined with other treatments?', 'Yes. Medi-facials are often combined with chemical peels or laser treatments, which the clinic also offers.'],
-      ['Is a medi-facial suitable for acne-prone skin?', 'Often, yes, with the right type. Active or severe acne is best assessed by the doctor first.'],
+      ['How is a Medi-Facial different from a salon facial?', 'It is done in a medical clinic, matched to your skin concern after an assessment, and uses medical-grade products.'],
+      ['Which Medi-Facial is right for me?', 'It depends on your skin and what you want to improve. The doctor will recommend one after looking at your skin.'],
+      ['Can it be combined with other treatments?', 'Yes. Medi-Facials are often combined with Chemical Peels or Laser Treatments, which the clinic also offers.'],
+      ['Is a Medi-Facial suitable for acne-prone skin?', 'Often, yes, with the right type. Active or severe acne is best assessed by the doctor first.'],
       FAQ.timings, FAQ.where,
     ],
   },
@@ -733,15 +737,15 @@ const TREATMENTS = [
     // ORGANIC SEARCH ONLY: never a Google Ads final URL, never linked from
     // the ad pages. Listed in sitemap.xml so search engines can find it.
     organic: true,
-    file: 'botox.html', path: '/botox', page: 'botox', service: 'Anti-wrinkle injections',
+    file: 'botox.html', path: '/botox', page: 'botox', service: 'Anti-Wrinkle Injections',
     title: "Botox in Yelahanka, Bengaluru | Dr. Bindiya G P · Chitra's Lifeline Clinic",
     desc: "Botox (botulinum toxin) for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).",
     eyebrow: 'Botox · Yelahanka New Town',
-    h1: 'Botox in Yelahanka, <em>by your dermatologist.</em>',
+    h1: 'Botox in Yelahanka, <em>by your Dermatologist.</em>',
     img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room',
-    procedure: { name: 'Botulinum toxin injection', alt: ['Botox', 'Anti-wrinkle injection'], type: 'NoninvasiveProcedure', body: 'Face' },
+    procedure: { name: 'Botulinum Toxin Injection', alt: ['Botox', 'Anti-Wrinkle Injection'], type: 'NoninvasiveProcedure', body: 'Face' },
     what: {
-      h2: 'What it is',
+      h2: 'What It Is',
       prose: [
         'Botulinum toxin type A is a prescription medicine. Injected in very small doses into specific facial muscles, it relaxes them, and the lines those muscles make when they contract soften.',
         'It works on <strong>dynamic lines</strong>, the ones caused by movement. Lines that are visible when your face is completely still, or that come from loss of volume or sagging skin, may need a different treatment or a combination.',
@@ -778,7 +782,7 @@ ${trust()}
 <section class="frame pad" id="what" data-mochi="think" data-mochi-say="Whether it suits you is decided at a consultation.">
   <div class="art">
     <div data-reveal>
-      <p class="eyebrow">The treatment</p>
+      <p class="eyebrow">The Treatment</p>
       <h2>${t.what.h2}</h2>
       <div class="card" style="margin-top:24px"><div class="card__media"><img src="/assets/img/${t.img}.jpg" sizes="(max-width: 860px) 92vw, 38vw" width="2400" height="1350" loading="lazy" decoding="async" alt="${esc(t.alt)}"><span data-lens></span></div></div>
     </div>
@@ -806,7 +810,7 @@ ${trust()}
   <div class="art">
     <div data-reveal>
       <p class="eyebrow">Safety</p>
-      <h2>Before you decide</h2>
+      <h2>Before You Decide</h2>
     </div>
     <div class="prose" data-reveal data-reveal-delay="2">
       ${t.safety.map(([h, p]) => `<h3>${h}</h3>\n      <p>${p}</p>`).join('\n      ')}
@@ -814,15 +818,15 @@ ${trust()}
   </div>
 </section>
 
-${doctor({ lead: 'Your doctor', short: true })}
+${doctor({ lead: 'Your Doctor', short: true })}
 
 ${labPharmacy()}
 
-${faq({ h2: 'Common <span class="pk">questions</span>', items: t.faqs })}
+${faq({ h2: 'Common <span class="pk">Questions</span>', items: t.faqs })}
 
 ${t.organic ? `<section class="frame frame--soft pad" id="more">
   <div class="also" style="margin:0;padding:0;border:0">
-    <p class="eyebrow">Other treatments</p>
+    <p class="eyebrow">Other Treatments</p>
     <ul>
       ${others.map(([h, n]) => `<li><h3><a class="card__more" href="${h}">${n}</a></h3><p>${h === '/#treatments' ? 'Peels, PRP, acne care, hair fall, fillers and more.' : 'At Chitra\'s Lifeline Clinic, Yelahanka New Town.'}</p></li>`).join('\n      ')}
     </ul>
@@ -976,7 +980,7 @@ await writeFile(resolve(ROOT, 'llms.txt'), `# Chitra's Lifeline Clinic
 - Dr. Bindiya G P, aesthetic dermatologist and cosmetologist, leads the clinic.
 - Qualifications: ${DEGREES}.
 - Registration: ${KMC}.
-- More than seven years in dermatology and cosmetology. Trained at Command Hospital Air Force, Bangalore.
+- 17 years of experience as a doctor (counted from MBBS), 12 of them in dermatology. Trained at Command Hospital Air Force, Bangalore.
 - Member of ${MEMBERSHIPS.join(', ')}.
 
 ## Visiting and booking
@@ -990,7 +994,7 @@ await writeFile(resolve(ROOT, 'llms.txt'), `# Chitra's Lifeline Clinic
 ## Treatments
 
 ${TREATMENTS.map((t) => `- [${strip(t.h1).replace(/ in Yelahanka.*$/, '')}](${page(t.path)}): ${t.desc}`).join('\n')}
-- [All treatments](${page('/#treatments')}): also chemical peels, PRP therapy, acne and acne scars, hair fall, dermal fillers, laser skin treatments, and skin, nail and fungal infections.
+- [All treatments](${page('/#treatments')}): also Chemical Peels, PRP Therapy, Acne and Acne Scars, Hair Fall Treatment, Dermal Fillers, Laser Skin Treatments, and Skin, Nail and Fungal Infections.
 
 ## About this site
 
