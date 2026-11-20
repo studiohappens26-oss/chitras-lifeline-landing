@@ -154,7 +154,7 @@ function hero({ eyebrow, h1, lede, img, alt, w, h, items, pills, facts, mochi })
 const DEGREES = 'MBBS, DDVL (Dermatology, Venereology and Leprosy)';
 const KMC = 'Karnataka Medical Council, Reg. No. 86678';
 /* Experience as Dr. Bindiya gave it (voice note, 20 November 2026): counted
-   from MBBS in 2009, so about 17 years, 12 of them in dermatology. */
+   from MBBS in 2009, so about 17 years, 12 of them in Dermatology. */
 const EXP = '17 years of experience, 12 in Dermatology';
 const EXP_LONG = '17 years of experience as a doctor, 12 of them in Dermatology';
 
@@ -229,7 +229,7 @@ function location() {
       <address>Ward No. 4, LMN Arcade, 17-B/4, 1169,<br>Opposite Rail Wheel Factory,<br>Yelahanka New Town, Bengaluru,<br>Karnataka 560064</address>
       <dl class="contact">
         <div><dt>Phone</dt><dd><a href="tel:+918197516940">+91 81975 16940</a> · <a href="tel:+919986086610">+91 99860 86610</a></dd></div>
-        <div><dt>Hours</dt><dd>Monday to Saturday, 11:00 AM to 8:00 PM</dd></div>
+        <div><dt>Hours</dt><dd>Monday to Saturday, 11 AM to 8 PM</dd></div>
       </dl>
       <div class="btn-row">
         <a class="btn" href="https://share.google/BwcyCo6wf4YwJIIGE" target="_blank" rel="noopener" data-track="directions">Get directions ${ARROW}</a>
@@ -254,7 +254,7 @@ function book({ h2 = 'Start with a <em>Consultation.</em>', lede = "Tell us what
       <p class="eyebrow">Book</p>
       <h2 class="h2">${h2}</h2>
       <p class="lede">${lede}</p>
-      <ul class="book__points"><li>Consultation with Dr. Bindiya G P</li><li>Monday to Saturday, 11:00 AM to 8:00 PM</li><li>Online consultations available</li></ul>
+      <ul class="book__points"><li>Consultation with Dr. Bindiya G P</li><li>Monday to Saturday, 11 AM to 8 PM</li><li>Online consultations available</li></ul>
       <a class="book__wa" href="${wa("Hi, I'd like to book a consultation at Chitra's Lifeline Clinic.")}" target="_blank" rel="noopener" data-track="whatsapp-book">
         ${WA_SVG}
         <span><strong>Prefer WhatsApp?</strong>Message us on +91 80 3168 7353</span>
@@ -277,7 +277,7 @@ function leadForm({ short = false } = {}) {
       ${short ? '' : field('', '<label for="f-when">Best time to call</label>\n        <select id="f-when" name="preferred" required><option value="" selected disabled>Choose a time</option><option>Morning (11 AM to 1 PM)</option><option>Afternoon (1 PM to 4 PM)</option><option>Evening (4 PM to 8 PM)</option><option>Any time works</option></select>')}
       ${field(' field--full', `<label for="f-service">${short ? 'What would you like help with?' : 'Interested in'}</label>\n        <select id="f-service" name="service" required><option value="" selected disabled>Choose one</option>${SERVICES.map((s) => `<option>${s}</option>`).join('')}</select>`)}
       ${short ? '' : '<div class="field field--full"><label for="f-msg">Anything you\'d like the doctor to know? (optional)</label><textarea id="f-msg" name="message" rows="3"></textarea></div>'}
-      <label class="consent"><input type="checkbox" name="consent" required><span>I agree that Chitra's Lifeline Clinic may call or WhatsApp me about this enquiry. I understand this form is not a medical consultation. <a href="/privacy">Privacy notice</a><small class="err" data-err></small></span></label>
+      <label class="consent"><input type="checkbox" name="consent" required><span>I agree that Chitra's Lifeline Clinic may call or WhatsApp me about this enquiry. I understand this form is not a medical consultation. <a href="/privacy">Privacy Notice</a><small class="err" data-err></small></span></label>
       <input type="text" name="company" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
       <button type="submit" class="btn" data-track="lead-submit"><span class="btn__label">Send on WhatsApp</span>${ARROW}</button>
       <p class="form__foot">The button opens WhatsApp with your details filled in. Nothing is sent until you press send.</p>
@@ -308,7 +308,7 @@ function adHero(t) {
       <div>
         <p class="ah__name">Dr. Bindiya G P</p>
         <p class="doc__role">Aesthetic Dermatologist and Cosmetologist</p>
-        <ul class="hx__facts"><li>${EXP}</li><li>Monday to Saturday, 11am to 8pm</li></ul>
+        <ul class="hx__facts"><li>${EXP}</li><li>Monday to Saturday, 11 AM to 8 PM</li></ul>
       </div>
     </div>
     <div class="btn-row">
@@ -324,11 +324,11 @@ function adHero(t) {
    before/after photos, so trust rests on facts the clinic publishes. */
 function trust() {
   const items = [
-    ['Qualifications', 'MBBS, DDVL. Trained at Command Hospital Air Force, Bangalore'],
+    ['Qualifications', 'MBBS, DDVL. Trained at Command Hospital Air Force, Bangalore.'],
     ['Registration', KMC],
     ['Member of', 'IADVL · IMA · CDSI · ACSI · Bangalore Dermatological Society'],
-    ['In the clinic', 'Its own Laboratory and Pharmacy'],
-    ['Find us', `Opposite Rail Wheel Factory, Yelahanka New Town. <a href="https://share.google/BwcyCo6wf4YwJIIGE" target="_blank" rel="noopener" data-track="directions-trust">See on Google Maps</a>`],
+    ['In the Clinic', 'Its own Laboratory and Pharmacy'],
+    ['Find Us', `Opposite Rail Wheel Factory, Yelahanka New Town. <a href="https://share.google/BwcyCo6wf4YwJIIGE" target="_blank" rel="noopener" data-track="directions-trust">See on Google Maps</a>`],
   ];
   return `<ul class="frame trust" aria-label="About the doctor and the clinic">
   ${items.map(([k, v]) => `<li><b>${k}</b><span>${v}</span></li>`).join('\n  ')}
@@ -343,7 +343,7 @@ function closing() {
   <div data-reveal>
     <p class="eyebrow">Book</p>
     <h2 class="h2">Start with a <span class="pk">Consultation.</span></h2>
-    <p class="lede">Whether a treatment suits you is decided by Dr. Bindiya G P at a consultation. Monday to Saturday, 11:00 AM to 8:00 PM.</p>
+    <p class="lede">Whether a treatment suits you is decided by Dr. Bindiya G P at a consultation. Monday to Saturday, 11 AM to 8 PM.</p>
     <div class="btn-row">
       <a class="btn" href="#book" data-track="book-closing">Book a consultation ${ARROW}</a>
       <a class="btn btn--ghost" href="${wa("Hi, I'd like to book a consultation at Chitra's Lifeline Clinic.")}" target="_blank" rel="noopener" data-track="whatsapp-closing">${WA_SVG}WhatsApp us</a>
@@ -367,7 +367,7 @@ function footer({ home, extraLegal = '' }) {
   <p class="foot__mega" aria-hidden="true">Chitra's <em>Lifeline</em></p>
   <div class="foot__legal">
     <p>The information on this page is general and is not medical advice. Prescription treatments are offered only after an in-person consultation with a registered medical practitioner, who decides whether a treatment is suitable. Individual results vary and no outcome is guaranteed.${extraLegal}</p>
-    <div class="foot__base"><span>© <span data-year>2026</span> Chitra's Lifeline Clinic · Ward No. 4, LMN Arcade, 17-B/4, Yelahanka New Town, Bengaluru 560064</span><a href="/privacy">Privacy notice</a></div>
+    <div class="foot__base"><span>© <span data-year>2026</span> Chitra's Lifeline Clinic · Ward No. 4, LMN Arcade, 17-B/4, Yelahanka New Town, Bengaluru 560064</span><a href="/privacy">Privacy Notice</a></div>
   </div>
 </footer>`;
 }
@@ -415,7 +415,7 @@ const PHYSICIAN = {
   '@type': 'IndividualPhysician',
   '@id': `${SITE}/#dr-bindiya`,
   name: 'Dr. Bindiya G P',
-  description: 'Aesthetic dermatologist and cosmetologist who leads Chitra\'s Lifeline Clinic. 17 years of experience as a doctor, 12 of them in dermatology; trained at Command Hospital Air Force, Bangalore.',
+  description: 'Aesthetic dermatologist and cosmetologist who leads Chitra\'s Lifeline Clinic. 17 years of experience as a doctor, 12 of them in Dermatology; trained at Command Hospital Air Force, Bangalore.',
   image: `${SITE}/assets/img/dr-bindiya-800.webp`,
   medicalSpecialty: 'Dermatology',
   hasCredential: [
@@ -456,7 +456,7 @@ const FAQ = {
   wrinkleWhat: ['What do Anti-Wrinkle Injections treat?', "Lines caused by muscle movement, such as forehead lines, frown lines between the brows and crow's feet. Lines that are visible when your face is completely still, or that come from loss of volume, may need a different treatment."],
   lab: ['Does the clinic have a laboratory and pharmacy?', "Yes. Blood tests are done in the clinic's own laboratory, and the clinic has its own pharmacy."],
   online: ['Can I have an online consultation?', `Yes, the clinic offers online consultations. Call <a href="tel:+918197516940">+91 81975 16940</a> or message on WhatsApp to arrange one.`],
-  timings: ['What are the clinic timings?', `Monday to Saturday, 11:00 AM to 8:00 PM. Call <a href="tel:+918197516940">+91 81975 16940</a> or message us on WhatsApp to book.`],
+  timings: ['What are the clinic timings?', `Monday to Saturday, 11 AM to 8 PM. Call <a href="tel:+918197516940">+91 81975 16940</a> or message us on WhatsApp to book.`],
   where: ['Where is the clinic?', 'Ward No. 4, LMN Arcade, 17-B/4, 1169, Opposite Rail Wheel Factory, Yelahanka New Town, Bengaluru 560064, near Cafe Coffee Day.'],
 };
 
@@ -489,7 +489,7 @@ function homePage() {
   ];
   const IG = ['DYw1-rZTaoq', 'DZCyS_ezZAc', 'DaK2jUPvYm4', 'Dakn0D6v86f', 'Dau67jHoVNN', 'DbVetyGTO6g', 'Dbf5DPKzdZ9', 'Db3JjUFzdRq', 'DcTDE_bxWgh', 'DdGLg5_tAjT', 'Dd1ZbdATo5r'];
 
-  return `${head({ title: "Doctor-Led Skin Clinic in Yelahanka | Chitra's Lifeline Clinic", desc: "A doctor-led skin and laser clinic in Yelahanka New Town, Bengaluru, led by dermatologist Dr. Bindiya G P (MBBS, DDVL). Own laboratory and pharmacy. Mon to Sat, 11am to 8pm.", path: '/', og: 'cl-sign' })}
+  return `${head({ title: "Doctor-Led Skin Clinic in Yelahanka | Chitra's Lifeline Clinic", desc: "A doctor-led skin and laser clinic in Yelahanka New Town, Bengaluru, led by dermatologist Dr. Bindiya G P (MBBS, DDVL). Own laboratory and pharmacy. Mon to Sat, 11 AM to 8 PM.", path: '/', og: 'cl-sign' })}
 <body data-page="home">
 
 ${nav({ home: true, links: [['#treatments', 'Treatments'], ['#doctor', 'Doctor'], ['#visit', 'Your Visit'], ['#faq', 'FAQ']] })}
@@ -500,12 +500,12 @@ ${nav({ home: true, links: [['#treatments', 'Treatments'], ['#doctor', 'Doctor']
      Ads point at the treatment pages; this is the brand and organic face. -->
 ${hero({
     eyebrow: '<p class="eyebrow">Doctor-Led Dermatology Clinic · Yelahanka New Town</p>',
-    h1: 'Skin and Laser Treatments, <em>by your Dermatologist.</em>',
+    h1: 'Skin and Laser Treatments, <em>by Your Dermatologist.</em>',
     lede: 'Led by <strong>Dr. Bindiya G P</strong> (MBBS, DDVL), an Aesthetic Dermatologist and Cosmetologist with 17 years of experience, 12 of them in Dermatology. The clinic has its own Laboratory and Pharmacy.',
     img: 'cl-sign', w: 2160, h: 3840, alt: "The Chitra's Lifeline Clinic sign at reception",
     items: ['Anti-Wrinkle Injections', 'Laser Hair Reduction', 'Medi-Facials', 'Chemical Peels', 'Acne and Scars'],
     pills: ['Doctor-Led Clinic', 'In-House Laboratory', 'Own Pharmacy'],
-    facts: ['Mon to Sat, 11am to 8pm', EXP],
+    facts: ['Mon to Sat, 11 AM to 8 PM', EXP],
     mochi: "I'm Mochi. I'll keep you company while you look around.",
   })}
 
@@ -557,12 +557,12 @@ ${labPharmacy()}
       <p class="eyebrow">What to Expect</p>
       <h2 class="h2">How a Visit <span class="pk">Works</span></h2>
       <p class="lede">Consultation, Laboratory and Pharmacy are all at the same clinic.</p>
-      <div class="dots" data-dots aria-hidden="true"><span>Book</span><span>Consultation</span><span>Tests, if needed</span><span>Prescription</span></div>
+      <div class="dots" data-dots aria-hidden="true"><span>Book</span><span>Consultation</span><span>Tests, If Needed</span><span>Prescription</span></div>
     </div>
     <ol class="steps__cards">
-      <li class="step"><span data-ribbon="corner"></span><b>01</b><div><h3>Book</h3><p>Call, message on WhatsApp or use the form on this page. The clinic is open Monday to Saturday, 11am to 8pm.</p></div></li>
+      <li class="step"><span data-ribbon="corner"></span><b>01</b><div><h3>Book</h3><p>Call, message on WhatsApp or use the form on this page. The clinic is open Monday to Saturday, 11 AM to 8 PM.</p></div></li>
       <li class="step"><span data-ribbon="corner"></span><b>02</b><div><h3>Consultation</h3><p>You see Dr. Bindiya G P at the clinic. Online consultations are also available.</p></div></li>
-      <li class="step"><span data-ribbon="corner"></span><b>03</b><div><h3>Tests, if needed</h3><p>Blood tests are done in the clinic's own laboratory.</p></div></li>
+      <li class="step"><span data-ribbon="corner"></span><b>03</b><div><h3>Tests, If Needed</h3><p>Blood tests are done in the clinic's own laboratory.</p></div></li>
       <li class="step"><span data-ribbon="corner"></span><b>04</b><div><h3>Prescription</h3><p>Prescriptions are issued electronically, and the clinic has its own pharmacy.</p></div></li>
     </ol>
   </div>
@@ -630,14 +630,14 @@ const TREATMENTS = [
     title: "Anti-Wrinkle Injections in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
     desc: "Anti-Wrinkle Injections for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).",
     eyebrow: 'Anti-Wrinkle Injections · Yelahanka New Town',
-    h1: 'Anti-Wrinkle Injections in Yelahanka, <em>by your Dermatologist.</em>',
+    h1: 'Anti-Wrinkle Injections in Yelahanka, <em>by Your Dermatologist.</em>',
     img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room',
     procedure: { name: 'Anti-Wrinkle Injection', type: 'NoninvasiveProcedure', body: 'Face' },
     what: {
       h2: 'What It Is',
       prose: [
         'Anti-Wrinkle Injections are a prescription treatment. Small amounts of a muscle-relaxing medicine are injected into specific facial muscles, which softens the lines those muscles make when they contract.',
-        'They work on <strong>dynamic lines</strong>, the ones caused by movement such as frowning or raising your brows. Lines that are visible when your face is completely still, or that come from loss of volume or sagging skin, may need a different treatment or a combination.',
+        'They work on <strong>dynamic lines</strong>, the ones caused by movement, such as frowning or raising your brows. Lines that are visible when your face is completely still, or that come from loss of volume or sagging skin, may need a different treatment or a combination.',
         'Whether the treatment suits you, and which areas are worth treating, is decided by the doctor at an in-person consultation.',
       ],
     },
@@ -650,7 +650,7 @@ const TREATMENTS = [
       note: 'Not every area suits every face. The doctor will tell you if a treatment is unlikely to give the result you are hoping for.',
     },
     safety: [
-      ['Possible Side Effects', 'Redness, swelling or a small bruise where the needle went in are the most common effects, and they are temporary. Less often the medicine affects a nearby muscle and causes a temporary droop of an eyelid or brow. The doctor will go through the risks with you before treatment.'],
+      ['Possible Side Effects', 'Redness, swelling or a small bruise where the needle went in are the most common effects, and they are temporary. Less often, the medicine affects a nearby muscle and causes a temporary droop of an eyelid or brow. The doctor will go through the risks with you before treatment.'],
       ['When It May Not Be Suitable', 'Treatment is usually avoided during pregnancy and breastfeeding, with an infection where the injection would go, with certain nerve and muscle conditions, or with a known allergy to the product. Some medicines matter too, so bring a list of what you take.'],
     ],
     faqs: [
@@ -666,7 +666,7 @@ const TREATMENTS = [
     title: "Laser Hair Reduction in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
     desc: 'Laser Hair Reduction in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL). Settings suited to Indian skin types.',
     eyebrow: 'Laser Hair Reduction · Yelahanka New Town',
-    h1: 'Laser Hair Reduction in Yelahanka, <em>by your Dermatologist.</em>',
+    h1: 'Laser Hair Reduction in Yelahanka, <em>by Your Dermatologist.</em>',
     img: 'cl-laser-2', alt: 'A laser machine at the clinic',
     procedure: { name: 'Laser Hair Reduction', type: 'NoninvasiveProcedure', body: 'Skin' },
     what: {
@@ -702,7 +702,7 @@ const TREATMENTS = [
     title: "Medi-Facials in Yelahanka, Bengaluru | Chitra's Lifeline Clinic",
     desc: 'Medi-Facials in Yelahanka New Town, Bengaluru, matched to your skin concern, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).',
     eyebrow: 'Medi-Facials · Yelahanka New Town',
-    h1: 'Medi-Facials in Yelahanka, <em>by your Dermatologist.</em>',
+    h1: 'Medi-Facials in Yelahanka, <em>by Your Dermatologist.</em>',
     img: 'cl-hydra', alt: 'The medi-facial machine at the clinic',
     procedure: { name: 'Medi-Facial', type: 'NoninvasiveProcedure', body: 'Face' },
     what: {
@@ -741,7 +741,7 @@ const TREATMENTS = [
     title: "Botox in Yelahanka, Bengaluru | Dr. Bindiya G P · Chitra's Lifeline Clinic",
     desc: "Botox (botulinum toxin) for forehead lines, frown lines and crow's feet in Yelahanka New Town, Bengaluru, at a doctor-led clinic with dermatologist Dr. Bindiya G P (MBBS, DDVL).",
     eyebrow: 'Botox · Yelahanka New Town',
-    h1: 'Botox in Yelahanka, <em>by your Dermatologist.</em>',
+    h1: 'Botox in Yelahanka, <em>by Your Dermatologist.</em>',
     img: 'cl-anatomy', alt: 'Facial anatomy models in the consultation room',
     procedure: { name: 'Botulinum Toxin Injection', alt: ['Botox', 'Anti-Wrinkle Injection'], type: 'NoninvasiveProcedure', body: 'Face' },
     what: {
@@ -828,7 +828,7 @@ ${t.organic ? `<section class="frame frame--soft pad" id="more">
   <div class="also" style="margin:0;padding:0;border:0">
     <p class="eyebrow">Other Treatments</p>
     <ul>
-      ${others.map(([h, n]) => `<li><h3><a class="card__more" href="${h}">${n}</a></h3><p>${h === '/#treatments' ? 'Peels, PRP, acne care, hair fall, fillers and more.' : 'At Chitra\'s Lifeline Clinic, Yelahanka New Town.'}</p></li>`).join('\n      ')}
+      ${others.map(([h, n]) => `<li><h3><a class="card__more" href="${h}">${n}</a></h3><p>${h === '/#treatments' ? 'Chemical Peels, PRP Therapy, Acne Care, Hair Fall, Dermal Fillers and more.' : 'At Chitra\'s Lifeline Clinic, Yelahanka New Town.'}</p></li>`).join('\n      ')}
     </ul>
   </div>
 </section>` : ''}
@@ -876,7 +876,7 @@ ${nav({ home: false, links: [['/#treatments', 'Treatments'], ['/#doctor', 'Docto
   <h1>This page <em>doesn't exist.</em></h1>
   <p class="lede">The link may be old or mistyped. These will get you where you were going:</p>
   <div class="btn-row">
-    <a class="btn" href="/">Home page ${ARROW}</a>
+    <a class="btn" href="/">Home Page ${ARROW}</a>
     ${TREATMENT_LINKS.slice(0, 3).map(([h, t]) => `<a class="btn btn--ghost" href="${h}">${t}</a>`).join('\n    ')}
   </div>
 </section>
@@ -980,13 +980,13 @@ await writeFile(resolve(ROOT, 'llms.txt'), `# Chitra's Lifeline Clinic
 - Dr. Bindiya G P, aesthetic dermatologist and cosmetologist, leads the clinic.
 - Qualifications: ${DEGREES}.
 - Registration: ${KMC}.
-- 17 years of experience as a doctor (counted from MBBS), 12 of them in dermatology. Trained at Command Hospital Air Force, Bangalore.
+- 17 years of experience as a doctor (counted from MBBS), 12 of them in Dermatology. Trained at Command Hospital Air Force, Bangalore.
 - Member of ${MEMBERSHIPS.join(', ')}.
 
 ## Visiting and booking
 
 - Address: Ward No. 4, LMN Arcade, 17-B/4, 1169, Opposite Rail Wheel Factory, Yelahanka New Town, Bengaluru, Karnataka 560064 ([Google Maps](${MAPS})).
-- Hours: Monday to Saturday, 11:00 AM to 8:00 PM.
+- Hours: Monday to Saturday, 11 AM to 8 PM.
 - Phone: +91 81975 16940 or +91 99860 86610. WhatsApp (Dr. Bindiya): +91 80 3168 7353.
 - Book by phone, by WhatsApp, or with the form on any page. Online consultations are available.
 - Whether a treatment suits someone is decided by the doctor at a consultation. Prices, session counts and expected results are not published on the website; ask the clinic.
@@ -999,7 +999,7 @@ ${TREATMENTS.map((t) => `- [${strip(t.h1).replace(/ in Yelahanka.*$/, '')}](${pa
 ## About this site
 
 - [Home](${page('/')}): the clinic, the doctor, how a visit works, and booking.
-- [Privacy notice](${page('/privacy')}): how details sent through the booking form are used.
+- [Privacy Notice](${page('/privacy')}): how details sent through the booking form are used.
 
 ## Optional
 
