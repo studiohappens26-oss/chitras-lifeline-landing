@@ -100,7 +100,7 @@ function nav({ home, links, skip = true }) {
     <div class="nav__cta">
       <a class="btn btn--ghost btn--sm nav__call" href="tel:+918197516940" data-track="call-nav">
         ${PHONE_SVG}
-        +91 81975 16940
+        +918197516940
       </a>
       <a class="btn btn--sm" href="#book" data-track="book-nav">Book ${ARROW}</a>
     </div>
@@ -228,7 +228,7 @@ function location() {
       <p class="lede">Opposite Rail Wheel Factory, near Cafe Coffee Day.</p>
       <address>Ward No. 4, LMN Arcade, 17-B/4, 1169,<br>Opposite Rail Wheel Factory,<br>Yelahanka New Town, Bengaluru,<br>Karnataka 560064</address>
       <dl class="contact">
-        <div><dt>Phone</dt><dd><a href="tel:+918197516940">+91 81975 16940</a> · <a href="tel:+919986086610">+91 99860 86610</a></dd></div>
+        <div><dt>Phone</dt><dd><a href="tel:+918197516940">+918197516940</a> · <a href="tel:+919986086610">+919986086610</a></dd></div>
         <div><dt>Hours</dt><dd>Monday to Saturday, 11 AM to 8 PM</dd></div>
       </dl>
       <div class="btn-row">
@@ -313,7 +313,7 @@ function adHero(t) {
     </div>
     <div class="btn-row">
       <a class="btn btn--wa" href="${wa(`Hi, I'd like to book a consultation for ${t.service} at Chitra's Lifeline Clinic.`)}" target="_blank" rel="noopener" data-track="whatsapp-hero">WhatsApp us <span class="ic">${WA_SVG}</span></a>
-      <a class="btn btn--ghost" href="tel:+918197516940" data-track="call-hero">${PHONE_SVG}Call +91 81975 16940</a>
+      <a class="btn btn--ghost" href="tel:+918197516940" data-track="call-hero">${PHONE_SVG}Call +918197516940</a>
     </div>
   </div>
   <div id="book">${leadForm({ short: true })}</div>
@@ -362,7 +362,7 @@ function footer({ home, extraLegal = '' }) {
     <div><h2>Clinic</h2><p>Dermatology, Cosmetology, Skin and Laser · Neurosurgery and Spine Surgery · In-House Laboratory and Pharmacy</p></div>
     <div><h2>Treatments</h2>${TREATMENT_LINKS.map(([h, t]) => `<a href="${h}">${t}</a>`).join('')}</div>
     <div><h2>Visit</h2><a href="${home ? '' : '/'}#doctor">Dr. Bindiya G P</a><a href="${home ? '' : '/'}#faq">Questions</a><a href="${home ? '' : '/'}#location">Location</a></div>
-    <div><h2>Contact</h2><a href="tel:+918197516940">+91 81975 16940</a><a href="tel:+919986086610">+91 99860 86610</a><a href="${WA}" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener">@chitraslifelineclinic</a></div>
+    <div><h2>Contact</h2><a href="tel:+918197516940">+918197516940</a><a href="tel:+919986086610">+919986086610</a><a href="${WA}" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/chitraslifelineclinic/" target="_blank" rel="noopener">@chitraslifelineclinic</a></div>
   </div>
   <p class="foot__mega" aria-hidden="true">Chitra's <em>Lifeline</em></p>
   <div class="foot__legal">
@@ -455,8 +455,8 @@ const FAQ = {
   laserIndian: ['Is Laser Treatment safe on Indian skin?', 'It can be, with settings that suit your skin type. Darker skin contains more melanin, which also absorbs laser light, so the wrong settings raise the risk of burns or patchy pigmentation. Suitability is assessed at a consultation.'],
   wrinkleWhat: ['What do Anti-Wrinkle Injections treat?', "Lines caused by muscle movement, such as forehead lines, frown lines between the brows and crow's feet. Lines that are visible when your face is completely still, or that come from loss of volume, may need a different treatment."],
   lab: ['Does the clinic have a laboratory and pharmacy?', "Yes. Blood tests are done in the clinic's own laboratory, and the clinic has its own pharmacy."],
-  online: ['Can I have an online consultation?', `Yes, the clinic offers online consultations. Call <a href="tel:+918197516940">+91 81975 16940</a> or message on WhatsApp to arrange one.`],
-  timings: ['What are the clinic timings?', `Monday to Saturday, 11 AM to 8 PM. Call <a href="tel:+918197516940">+91 81975 16940</a> or message us on WhatsApp to book.`],
+  online: ['Can I have an online consultation?', `Yes, the clinic offers online consultations. Call <a href="tel:+918197516940">+918197516940</a> or message on WhatsApp to arrange one.`],
+  timings: ['What are the clinic timings?', `Monday to Saturday, 11 AM to 8 PM. Call <a href="tel:+918197516940">+918197516940</a> or message us on WhatsApp to book.`],
   where: ['Where is the clinic?', 'Ward No. 4, LMN Arcade, 17-B/4, 1169, Opposite Rail Wheel Factory, Yelahanka New Town, Bengaluru 560064, near Cafe Coffee Day.'],
 };
 
@@ -987,7 +987,7 @@ await writeFile(resolve(ROOT, 'llms.txt'), `# Chitra's Lifeline Clinic
 
 - Address: Ward No. 4, LMN Arcade, 17-B/4, 1169, Opposite Rail Wheel Factory, Yelahanka New Town, Bengaluru, Karnataka 560064 ([Google Maps](${MAPS})).
 - Hours: Monday to Saturday, 11 AM to 8 PM.
-- Phone: +91 81975 16940 or +91 99860 86610. WhatsApp (Dr. Bindiya): +918031687353.
+- Phone: +918197516940 or +919986086610. WhatsApp (Dr. Bindiya): +918031687353.
 - Book by phone, by WhatsApp, or with the form on any page. Online consultations are available.
 - Whether a treatment suits someone is decided by the doctor at a consultation. Prices, session counts and expected results are not published on the website; ask the clinic.
 
