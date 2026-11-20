@@ -26,7 +26,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://skin.chitraslifelineclinic.com';
-const WA = 'https://wa.me/918197516940';
+const WA = 'https://wa.me/918031687353';   // Dr. Bindiya's WhatsApp (20 Nov 2026); calls stay on the clinic numbers
 const wa = (text) => `${WA}?text=${encodeURIComponent(text)}`;
 
 /* ── Small parts ──────────────────────────────────────────────────────── */
@@ -257,7 +257,7 @@ function book({ h2 = 'Start with a <em>Consultation.</em>', lede = "Tell us what
       <ul class="book__points"><li>Consultation with Dr. Bindiya G P</li><li>Monday to Saturday, 11:00 AM to 8:00 PM</li><li>Online consultations available</li></ul>
       <a class="book__wa" href="${wa("Hi, I'd like to book a consultation at Chitra's Lifeline Clinic.")}" target="_blank" rel="noopener" data-track="whatsapp-book">
         ${WA_SVG}
-        <span><strong>Prefer WhatsApp?</strong>Message us on +91 81975 16940</span>
+        <span><strong>Prefer WhatsApp?</strong>Message us on +91 80 3168 7353</span>
       </a>
     </div>
 
@@ -987,7 +987,7 @@ await writeFile(resolve(ROOT, 'llms.txt'), `# Chitra's Lifeline Clinic
 
 - Address: Ward No. 4, LMN Arcade, 17-B/4, 1169, Opposite Rail Wheel Factory, Yelahanka New Town, Bengaluru, Karnataka 560064 ([Google Maps](${MAPS})).
 - Hours: Monday to Saturday, 11:00 AM to 8:00 PM.
-- Phone: +91 81975 16940 or +91 99860 86610. WhatsApp: +91 81975 16940.
+- Phone: +91 81975 16940 or +91 99860 86610. WhatsApp (Dr. Bindiya): +91 80 3168 7353.
 - Book by phone, by WhatsApp, or with the form on any page. Online consultations are available.
 - Whether a treatment suits someone is decided by the doctor at a consultation. Prices, session counts and expected results are not published on the website; ask the clinic.
 

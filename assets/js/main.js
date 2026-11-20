@@ -221,7 +221,7 @@
     /* Booking goes to WhatsApp. The enquiry is written out as a formatted
        message to the clinic's number; the visitor only has to press send.
        *asterisks* render as bold there. */
-    const WA_NUMBER = '918197516940';
+    const WA_NUMBER = '918031687353';
     const waMessage = (d) => [
       "Hi, I'd like to book a consultation at Chitra's Lifeline Clinic.",
       '',

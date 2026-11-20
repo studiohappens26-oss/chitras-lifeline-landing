@@ -96,7 +96,7 @@ for the HTML itself.
 
 ### Lead capture
 
-A valid booking form opens WhatsApp (+91 81975 16940) with the enquiry written out, and posts a
+A valid booking form opens WhatsApp to Dr. Bindiya (+91 80 3168 7353) with the enquiry written out, and posts a
 copy to `/api/lead` in the background. These environment variables are optional; with none set,
 leads are still accepted and logged.
 
