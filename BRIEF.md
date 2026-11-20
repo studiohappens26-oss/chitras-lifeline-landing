@@ -279,7 +279,7 @@ These are blanks in the page that only they can fill:
 1. **Dr. Bindiya's exact degree string** — third-party listings suggest **MBBS, DDVL**, but I could not verify that against a primary source, so the page does not print it. Confirm and I'll add it. This must be verbatim and correct.
 2. **Laser machine make and model** — for LHR. Big trust signal.
 3. **Botox brand used** — Allergan Botox / Dysport / Xeomin? Also a trust signal.
-6. **Which number should leads go to**: answered 20 November 2026. WhatsApp goes to Dr. Bindiya, +91 80 3168 7353; calls stay on +91 81975 16940 and +91 99860 86610.
+6. **Which number should leads go to**: answered 20 November 2026. WhatsApp goes to Dr. Bindiya, +918031687353; calls stay on +91 81975 16940 and +91 99860 86610.
 7. **Where should form submissions land** — an email address, a Google Sheet, or straight to WhatsApp?
 8. **Preferred domain** — a subdomain like `skin.chitraslifelineclinic.com` or a fresh domain? (I'd recommend a subdomain of the existing site.)
 9. **3–5 written patient testimonials** with first name + area (e.g. "Priya S., Jakkur"). Even better: permission to quote existing Google/Justdial reviews verbatim.
